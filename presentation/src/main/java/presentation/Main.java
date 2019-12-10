@@ -64,7 +64,7 @@ public class Main {
             ws.onMessage(ctx -> {
                 Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
 
-                handleMessage(ctx, room);
+//                handleMessage(ctx, room);
             });
         });
 
@@ -72,7 +72,7 @@ public class Main {
 
     private static void handleMessage(WsMessageContext ctx, Room room) {
         var message = ctx.message(EmptyMessageModel.class);
-        String sender = room.getPlayer(ctx).getName();
+//        String sender = room.getPlayer(ctx).getName();
 
         switch (message.getType()){
             case "draw":
@@ -84,18 +84,18 @@ public class Main {
 
     // Sends a message from one user to all users
     private static void broadcastMessage(EmptyMessageModel message, Room room) {
-        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
+//        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
     }
     // Sends a message from one user to all users except the given user.
     private static void broadcastMessageExcept(EmptyMessageModel message, Room room, WsContext exclude) {
-        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
+//        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
     }
     // Sends a message to one user
     private static void broadcastMessageTo(Player receiver, EmptyMessageModel message, Room room) {
-        WsContext ctx = getContextFromName(receiver.getName(), room);
-        if(ctx != null) {
-            ctx.send(message);
-        }
+//        WsContext ctx = getContextFromName(receiver.getName(), room);
+//        if(ctx != null) {
+//            ctx.send(message);
+//        }
     }
 
     /**

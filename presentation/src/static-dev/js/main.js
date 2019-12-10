@@ -2,10 +2,7 @@ var canvas, ctx, flag = false,
     prevX = 0,
     currX = 0,
     prevY = 0,
-    currY = 0,
-    dot_flag = false,
-    x = "black",
-    brushSize = 2;
+    currY = 0;
 
 var snapshots = [];
 var undoStep = 1;
@@ -15,13 +12,6 @@ var navbar = document.getElementById("navbar");
 var navbarTitle = document.getElementById("navbarTitle");
 var body = document.getElementById("body");
 var chatList = document.getElementById("chatList");
-var dialog = document.getElementById("dialog");
-dialogPolyfill.registerDialog(dialog);
-
-var isDrawer = false;
-var freeDraw = false;
-
-var roomFull = false;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -32,7 +22,7 @@ function init() {
     w = canvas.width;
     h = canvas.height;
 
-    canvas.addEventListener("mousemove", function (e) {
+/*    canvas.addEventListener("mousemove", function (e) {
         findxy('move', e)
     }, false);
     canvas.addEventListener("mousedown", function (e) {
@@ -53,5 +43,5 @@ function init() {
     }, false);
     canvas.addEventListener("touchend", function (e) {
         findxy('up', e)
-    }, false);
+    }, false);*/
 }

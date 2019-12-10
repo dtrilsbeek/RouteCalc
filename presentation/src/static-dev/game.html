@@ -13,7 +13,6 @@
 <nav id="navbar">
     <a href="/lobby" id="btnBack" class="submit-button">back</a>
     <h1 id="navbarTitle">RouteCalc</h1>
-    <div id="timer"></div>
 </nav>
 <div class="right-bar">
     <div class="right-bar-buttons">
@@ -37,46 +36,14 @@
 </div>
 <div class="drawingField">
     <div class="drawingOptions">
-        <i class="material-icons selected">
-            brush
-        </i>
-        <div class="colorPicker" style="background:green;" id="green" onclick="color('green')"></div>
-        <div class="colorPicker" style="background:blue;" id="blue" onclick="color('blue')"></div>
-        <div class="colorPicker" style="background:red;" id="red" onclick="color('red')"></div>
-        <div class="colorPicker" style="background:yellow;" id="yellow" onclick="color('yellow')"></div>
-        <div class="colorPicker" style="background:orange;" id="orange" onclick="color('orange')"></div>
-        <div class="colorPicker selectedColor" style="background:black;" id="black" onclick="color('black')"></div>
-        <div class="colorPicker" style="background:white;" id="white" onclick="color('white')"></div>
-        <i onclick="fill()" class="material-icons drawerOnly">
-            gradient
-        </i>
-        <i onclick="erase()" class="material-icons drawerOnly">
-            delete_forever
-        </i>
-        <i onclick="redo()" class="material-icons right drawerOnly">
-            redo
-        </i>
-        <i onclick="undo()" class="material-icons right drawerOnly">
-            undo
-        </i>
-        <i onclick="biggerBrush()" class="material-icons right drawerOnly">
-            add_circle_outline
-        </i>
-        <i onclick="smallerBrush()" class="material-icons right drawerOnly">
-            remove_circle_outline
-        </i>
+
     </div>
     <div id="canvasPlaceholder">
         <canvas id="canvas"></canvas>
     </div>
 </div>
 </body>
-<script src="/js/dialog-polyfill.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/ws.js"></script>
-<script src="/js/chat.js"></script>
-<script src="/js/scoreboard.js"></script>
-<script src="/js/draw.js"></script>
-<script src="/js/timer.js"></script>
 
 </html>
