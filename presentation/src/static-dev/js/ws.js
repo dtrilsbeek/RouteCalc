@@ -25,10 +25,8 @@ socket.onclose = function (event) {
         navbarTitle.innerText = "Connection lost...";
         body.classList.add("error");
     }
-    dialog.close();
 };
 
 socket.onerror = function (error) {
     body.classList.add("error");
-    dialog.close();
 };
