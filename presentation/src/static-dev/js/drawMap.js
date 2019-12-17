@@ -1,16 +1,26 @@
-function drawIntersection(canvas, intersection) {
-    canvas.fillRect(intersection.x, intersection.y,20,20)
+function drawCircle(intersection) {
+    ctx.beginPath();
+    ctx.arc(intersection.x, intersection.y, 10, 0, 2 * Math.PI);
+    ctx.stroke();
+}
+function drawRect(intersection){
+    ctx.fillRect(intersection.x, intersection.y,5,5);
+}
+
+function drawIntersection(intersection) {
+    drawCircle(intersection);
+
 }
 
 function createIntersection(x, y) {
     return { x: x, y: y};
 }
 
-function drawRandomIntersections() {
-    const canvas = document.getElementById("route-map");
+function drawRandomIntersections(amount) {
+    for (let i = 0; i < amount; i++) {
+        let intersection = createIntersection(randomIntFromInterval(10, 790), randomIntFromInterval(10, 790));
 
-    for (let i = 0; i < 100; i++) {
-        let intersection = createIntersection(randomIntFromInterval(50, 100), randomIntFromInterval(50, 100))
+        drawIntersection(intersection);
     }
 }
 
