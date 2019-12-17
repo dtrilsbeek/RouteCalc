@@ -4,14 +4,29 @@ import java.util.Set;
 
 public class Intersection {
 
-    private final Set<Line> lines;
+    private Set<Line> lines;
+    private int x;
+    private int y;
 
-    public Intersection(Set<Line> lines) {
-        this.lines = lines;
+    public Intersection(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public Set<Line> getConnections() {
+    public void addLine(Line line) {
+        this.lines.add(line);
+    }
+
+    public Set<Line> getLines() {
         return this.lines;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
 }
