@@ -11,9 +11,6 @@ public class RouteMap {
     public RouteMap() {
         this.lines = new HashSet<>();
         this.intersections = new HashMap<>();
-
-        generateRandomIntersections(50);
-        generateRandomLines(50);
     }
 
     public Line getLine(int id) {
@@ -23,14 +20,13 @@ public class RouteMap {
                 .orElseThrow(() -> new IllegalArgumentException("No line found with ID"));
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private void generateRandomIntersections(int amount) {
+    public void generateRandomIntersections(int amount) {
         for (int i = 0; i < amount; i++) {
             this.intersections.put(i, new Intersection(Math.max(0, 790), Math.max(0, 790)));
         }
     }
 
-    private void generateRandomLines(int amount) {
+    public void generateRandomLines(int amount) {
         var iAmount = intersections.size();
 
         for (int i = 0; i < amount; ) {
@@ -45,7 +41,15 @@ public class RouteMap {
                 e.printStackTrace();
             }
         }
+
+        var test = lines.size();
     }
 
+    public Set<Line> getLines() {
+        return lines;
+    }
 
+    public Map<Integer, Intersection> getIntersections() {
+        return intersections;
+    }
 }
