@@ -6,5 +6,6 @@ function init() {
     canvas.width = 800;
     canvas.height = 800;
 
-    drawRandomIntersections(70);
+    drawRandomIntersections(50);
+    drawRandomLines(99);
 }
