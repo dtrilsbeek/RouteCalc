@@ -1,6 +1,10 @@
 let intersections = [];
 let lines = [];
 
+function isIntersect(point, intersection) {
+    return Math.sqrt((point.x-intersection.x)** 2 + (point.y - intersection.y) ** 2) < 10;
+}
+
 function drawCircle(intersection) {
     ctx.beginPath();
     ctx.arc(intersection.x, intersection.y, 10, 0, 2 * Math.PI);

@@ -1,7 +1,6 @@
 package route;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class RouteMap {
 
@@ -41,8 +40,6 @@ public class RouteMap {
                 e.printStackTrace();
             }
         }
-
-        var test = lines.size();
     }
 
     public Set<Line> getLines() {
