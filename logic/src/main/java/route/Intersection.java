@@ -1,5 +1,6 @@
 package route;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Intersection {
@@ -9,6 +10,7 @@ public class Intersection {
     private int y;
 
     public Intersection(int x, int y) {
+        lines = new HashSet<>();
         this.x = x;
         this.y = y;
     }

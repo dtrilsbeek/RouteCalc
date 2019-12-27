@@ -9,6 +9,9 @@ public class Line {
         this.id = id;
         this.from = from;
         this.to = to;
+
+        from.addLine(this);
+        to.addLine(this);
     }
 
     public int getId() {
