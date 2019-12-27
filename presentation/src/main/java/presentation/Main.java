@@ -6,34 +6,32 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
-import logic.Player;
-import logic.room.Room;
-import presentation.models.messages.DrawMessageModel;
+import presentation.models.Room;
+import presentation.models.User;
 import presentation.models.messages.EmptyMessageModel;
-import presentation.models.messages.FillMessageModel;
-import presentation.models.messages.UserMessageModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.HashMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Main {
 
+    private static HashMap<Integer, Room> rooms;
+
     public static void main(String[] args) {
 
-//        String homeHtml = getResourceFileAsString("/web/home.html");
-        Room room = new Room(1);
+        rooms = new HashMap<>();
+        rooms.put(1, new Room(1));
 
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("presentation/src/static-dev", Location.EXTERNAL);
         }).start(80);
-
 
         app.ws("/travel/:id", ws -> {
             ws.onConnect(ctx -> {
@@ -75,7 +73,7 @@ public class Main {
         var message = ctx.message(EmptyMessageModel.class);
 //        String sender = room.getPlayer(ctx).getName();
 
-        switch (message.getType()){
+        switch (message.getType()) {
             case "draw":
                 break;
 
@@ -84,16 +82,22 @@ public class Main {
 
 
     // Sends a message from one user to all users
-    private static void broadcastMessage(EmptyMessageModel message, Room room) {
-        var users =
-        room.(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
+    private static void broadcastMessage(EmptyMessageModel message) {
+        rooms.forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
+                    ctx.send(message);
+                }
+                )
+        );
+        /// room.(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
     }
+
     // Sends a message from one user to all users except the given user.
     private static void broadcastMessageExcept(EmptyMessageModel message, Room room, WsContext exclude) {
 //        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
     }
+
     // Sends a message to one user
-    private static void broadcastMessageTo(Player receiver, EmptyMessageModel message, Room room) {
+    private static void broadcastMessageTo(User receiver, EmptyMessageModel message, Room room) {
 //        WsContext ctx = getContextFromName(receiver.getName(), room);
 //        if(ctx != null) {
 //            ctx.send(message);
@@ -120,14 +124,13 @@ public class Main {
     /**
      * wraps a method that can throw an exception
      *
-     * @param  method method that will be wrapped
+     * @param method method that will be wrapped
      * @return the result of the wrapped value or null if it failed
      */
     private static <T> T wrapException(Supplier<T> method) {
         try {
-            return  method.get();
-        }
-        catch (Exception e) {
+            return method.get();
+        } catch (Exception e) {
             return null;
         }
     }
