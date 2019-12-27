@@ -1,4 +1,5 @@
-let socket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/" +  window.location.pathname.split("/").pop());
+let socket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/travel/"+"1");
+// let socket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/travel/" +  window.location.pathname.split("/").pop());
 
 socket.onopen = function (e) {
     body.classList.remove("error");

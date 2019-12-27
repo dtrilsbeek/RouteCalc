@@ -23,9 +23,10 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 //        String homeHtml = getResourceFileAsString("/web/home.html");
+        Room room = new Room(1);
 
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
@@ -34,7 +35,7 @@ public class Main {
         }).start(80);
 
 
-        app.ws("/chat/:id", ws -> {
+        app.ws("/travel/:id", ws -> {
             ws.onConnect(ctx -> {
                 //https://github.com/eclipse/jetty.project/issues/865
 
@@ -45,7 +46,6 @@ public class Main {
                 the method will throw exception that is subject to be ignored in case you are calling it in a scope of websocket hooks,
                 for example onWebSocketConnect. In this case close frame will not be sent and socket will stay open.
                  */
-
                 /*
                 Per RFC6455, you can only use those status codes that are allowed to be used over the protocol.
                 https://tools.ietf.org/html/rfc6455#section-7.4.2
@@ -53,6 +53,7 @@ public class Main {
                  */
 
                 Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
+
 
             });
 
@@ -84,7 +85,8 @@ public class Main {
 
     // Sends a message from one user to all users
     private static void broadcastMessage(EmptyMessageModel message, Room room) {
-//        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
+        var users =
+        room.(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
     }
     // Sends a message from one user to all users except the given user.
     private static void broadcastMessageExcept(EmptyMessageModel message, Room room, WsContext exclude) {

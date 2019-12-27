@@ -4,8 +4,6 @@ import java.util.List;
 
 public class RouteFinder {
     private final RouteMap routeMap;
-//    private final Scorer nextNodeScorer;
-//    private final Scorer targetScorer;
 
     public RouteFinder(RouteMap routeMap) {
         this.routeMap = routeMap;
