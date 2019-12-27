@@ -11,11 +11,10 @@ function init() {
 
     canvas.addEventListener('click', (e) => {
         const pos = {
-            x: e.clientX,
-            y: e.clientY
+            x: e.pageX - canvas.getBoundingClientRect().left,
+            y: e.pageY - canvas.getBoundingClientRect().top
         };
-        console.log("position");
-        console.log(pos);
+
         for (var key in intersections){
             if (intersections.hasOwnProperty(key)) {
                 if (isIntersect(pos, intersections[key])) {
