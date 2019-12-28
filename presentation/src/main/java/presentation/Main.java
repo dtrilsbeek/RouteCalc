@@ -101,6 +101,8 @@ public class Main {
         var message = ctx.message(EmptyMessageModel.class);
 //        String sender = room.getPlayer(ctx).getName();
 
+        var stringMessage = ctx.message();
+        System.out.println(stringMessage);
         System.out.println(message.getType());
 
         switch (message.getType()) {

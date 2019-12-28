@@ -18,13 +18,16 @@ function init() {
         for (var key in intersections) {
             if (intersections.hasOwnProperty(key)) {
                 if (isIntersect(pos, intersections[key])) {
-                    alert('click on intersection: ' + key);
+                    sendIntersection(intersections[key]);
                 }
             }
         }
     });
 }
 
-function sendIntersection(key, intersection) {
+function sendIntersection(intersection) {
+    console.log("Intersection Send: " + intersection.id + ", " +intersection.x + ", " + intersection.y  );
+
+    socket.send(JSON.stringify(intersection));
 
 }
