@@ -24,8 +24,8 @@ function drawLine(line) {
     ctx.stroke();
 }
 
-function createIntersection(x, y) {
-    return { x: x, y: y};
+function createIntersection(id, x, y) {
+    return {id: id, x: x, y: y};
 }
 function createLine(intersection1, intersection2) {
     return { from: intersection1, to: intersection2 }
@@ -33,7 +33,7 @@ function createLine(intersection1, intersection2) {
 
 function drawRandomIntersections(amount) {
     for (let i = 0; i < amount; i++) {
-        intersections[i] = createIntersection(randomIntFromInterval(10, 790), randomIntFromInterval(10, 790));
+        intersections[i] = createIntersection(i, randomIntFromInterval(10, 790), randomIntFromInterval(10, 790));
         drawIntersection(intersections[i]);
     }
 }

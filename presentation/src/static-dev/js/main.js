@@ -15,7 +15,7 @@ function init() {
             y: e.pageY - canvas.getBoundingClientRect().top
         };
 
-        for (var key in intersections){
+        for (var key in intersections) {
             if (intersections.hasOwnProperty(key)) {
                 if (isIntersect(pos, intersections[key])) {
                     alert('click on intersection: ' + key);
@@ -23,4 +23,8 @@ function init() {
             }
         }
     });
+}
+
+function sendIntersection(key, intersection) {
+
 }

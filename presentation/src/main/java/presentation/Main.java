@@ -9,6 +9,8 @@ import io.javalin.websocket.WsMessageContext;
 import presentation.models.Room;
 import presentation.models.User;
 import presentation.models.messages.EmptyMessageModel;
+import presentation.models.messages.HostMessageModel;
+import presentation.models.messages.SystemMessageModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +23,20 @@ import java.util.stream.Collectors;
 public class Main {
 
     private static HashMap<Integer, Room> rooms;
+    private static int userCount = 0;
+
+/*
+ Road
+ Ways
+ Route
+ Direction
+ Track
+ Path
+ In transit
+ Together
+ In Sync
+ Connected
+ */
 
     public static void main(String[] args) {
 
@@ -51,8 +67,20 @@ public class Main {
                  */
 
                 Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
+                var room = rooms.get(roomId);
+                if (room == null) {
+                    ctx.send(new EmptyMessageModel("no_room"));
+                    ctx.session.close(4000, "No room found");
+                    return;
+                }
 
+                var username = "User " + userCount;
+                var user = new User(userCount, username);
+                userCount++;
+                System.out.println(username);
 
+                room.join(ctx, user);
+                broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
             });
 
             ws.onClose(ctx -> {
@@ -63,7 +91,7 @@ public class Main {
             ws.onMessage(ctx -> {
                 Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
 
-//                handleMessage(ctx, room);
+                handleMessage(ctx, rooms.get(roomId));
             });
         });
 
@@ -73,6 +101,8 @@ public class Main {
         var message = ctx.message(EmptyMessageModel.class);
 //        String sender = room.getPlayer(ctx).getName();
 
+        System.out.println(message.getType());
+
         switch (message.getType()) {
             case "draw":
                 break;
@@ -81,14 +111,24 @@ public class Main {
     }
 
 
-    // Sends a message from one user to all users
+    // Sends a message to all users
     private static void broadcastMessage(EmptyMessageModel message) {
         rooms.forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
-                    ctx.send(message);
+                    if (ctx.session.isOpen()) {
+                        ctx.send(message);
+                    }
                 }
                 )
         );
-        /// room.(ctx -> ctx.session.isOpen()).forEach(session -> session.send(message));
+    }
+
+    private static void broadcastMessage(EmptyMessageModel message, Room room) {
+        room.getUserMap().forEach((ctx, user) -> {
+                    if (ctx.session.isOpen()) {
+                        ctx.send(message);
+                    }
+                }
+        );
     }
 
     // Sends a message from one user to all users except the given user.

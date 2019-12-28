@@ -1,9 +1,11 @@
 package presentation.models;
 
+import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
 
@@ -12,7 +14,7 @@ public class Room {
 
     public Room(int id) {
         this.id = id;
-        this.userMap = new HashMap<>();
+        this.userMap = new ConcurrentHashMap<>();
     }
 
     public int getId() {
@@ -23,4 +25,7 @@ public class Room {
         return userMap;
     }
 
+    public void join(WsConnectContext ctx, User user) {
+        userMap.put(ctx, user);
+    }
 }

@@ -8,6 +8,7 @@ socket.onopen = function (e) {
 
 socket.onmessage = function (event) {
     var received = JSON.parse(event.data);
+    console.log(received);
     if (received.type === "system" || received.isSystem === true) {
         showChat(received.message, true);
     }
