@@ -30,7 +30,11 @@ public class Room {
         userMap.put(ctx, user);
     }
 
-    public User getUser(WsMessageContext ctx) {
+    public void leave(WsContext ctx){
+        userMap.remove(ctx);
+    }
+
+    public User getUser(WsContext ctx) {
         return userMap.get(ctx);
     }
 }

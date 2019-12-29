@@ -9,9 +9,7 @@ import io.javalin.websocket.WsMessageContext;
 import logic.Player;
 import presentation.models.Room;
 import presentation.models.User;
-import presentation.models.messages.EmptyMessageModel;
-import presentation.models.messages.SystemMessageModel;
-import presentation.models.messages.UserMessageModel;
+import presentation.models.messages.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,8 +52,16 @@ public class Main {
         return room;
     }
 
-    public static void main(String[] args) {
+    private static void deleteRoom(WsContext ctx) {
+        Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
+        var room = getRoom(ctx);
+        assert room != null;
 
+        System.out.println("room removed");
+        rooms.remove(roomId);
+    }
+
+    public static void main(String[] args) {
         rooms = new HashMap<>();
         rooms.put(1, new Room(1));
 
@@ -82,30 +88,37 @@ public class Main {
                 If you want to use custom close codes (not the standard ones), you are restricted to the 4000-4999 range.
                  */
                 var room = getRoom(ctx);
+                if (room == null) return;
 
-                if(room != null){
-                    var username = "User " + userCount;
-                    var user = new User(userCount, username);
-                    userCount++;
-                    System.out.println(username);
+                var username = "User " + userCount;
+                var user = new User(userCount, username);
+                userCount++;
+                System.out.println(username);
 
-                    room.join(ctx, user);
-                    broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
-                }
+                room.join(ctx, user);
+                broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
+
             });
 
             ws.onClose(ctx -> {
-                Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
+                var room = getRoom(ctx);
+                if (room == null) return;
+                var user = room.getUser(ctx);
+                if (user == null) return;
+
+                broadcastMessage(new SystemMessageModel(user.getName() + " left the chat"), room);
+                room.leave(ctx);
+
+                if (room.getUserMap().size() < 1) {
+                    deleteRoom(ctx);
+                }
             });
 
             ws.onMessage(ctx -> {
                 var room = getRoom(ctx);
-                if(room != null) {
-                    handleMessage(ctx, room);
-                }
-                else {
-                    System.out.println("Room is null");
-                }
+                if (room == null) return;
+
+                handleMessage(ctx, room);
             });
         });
 
@@ -113,11 +126,6 @@ public class Main {
 
     private static void handleMessage(WsMessageContext ctx, Room room) {
         var message = ctx.message(EmptyMessageModel.class);
-//        String sender = room.getPlayer(ctx).getName();
-
-        var stringMessage = ctx.message();
-//        System.out.println(stringMessage);
-        System.out.println(message.getType());
 
         switch (message.getType()) {
             case "draw":
@@ -126,12 +134,11 @@ public class Main {
             case "chat":
                 var chatMessage = ctx.message(UserMessageModel.class);
                 int chatLength = chatMessage.getMessage().length();
-                System.out.println(chatMessage.getMessage());
 
                 if (chatLength >= MIN_MESSAGE_LENGTH && chatLength <= MAX_MESSAGE_LENGTH) {
                     User user = room.getUser(ctx);
                     chatMessage.setSender(user.getName());
-                    broadcastMessage(message, room);
+                    broadcastMessage(chatMessage, room);
                 }
 
                 break;
@@ -144,19 +151,16 @@ public class Main {
     private static void broadcastMessage(EmptyMessageModel message) {
         rooms.forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
-                        System.out.println(message);
                         ctx.send(message);
-
                     }
                 }
                 )
         );
     }
 
-    private static void broadcastMessage(EmptyMessageModel message, Room room) {
+    private static void broadcastMessage(MessageModel message, Room room) {
         room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
-
                         ctx.send(message);
                     }
                 }
