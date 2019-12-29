@@ -6,11 +6,12 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
+import logic.Player;
 import presentation.models.Room;
 import presentation.models.User;
 import presentation.models.messages.EmptyMessageModel;
-import presentation.models.messages.HostMessageModel;
 import presentation.models.messages.SystemMessageModel;
+import presentation.models.messages.UserMessageModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +22,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Main {
+
+    private static final int MAX_MESSAGE_LENGTH = 200;
+    private static final int MIN_MESSAGE_LENGTH = 2;
 
     private static HashMap<Integer, Room> rooms;
     private static int userCount = 0;
@@ -37,6 +41,18 @@ public class Main {
  In Sync
  Connected
  */
+
+    private static Room getRoom(WsContext ctx) {
+        Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
+        var room = rooms.get(roomId);
+        if (room == null) {
+            ctx.send(new EmptyMessageModel("no_room"));
+            ctx.session.close(4000, "No room found");
+            return null;
+        }
+
+        return room;
+    }
 
     public static void main(String[] args) {
 
@@ -65,33 +81,31 @@ public class Main {
                 https://tools.ietf.org/html/rfc6455#section-7.4.2
                 If you want to use custom close codes (not the standard ones), you are restricted to the 4000-4999 range.
                  */
+                var room = getRoom(ctx);
 
-                Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
-                var room = rooms.get(roomId);
-                if (room == null) {
-                    ctx.send(new EmptyMessageModel("no_room"));
-                    ctx.session.close(4000, "No room found");
-                    return;
+                if(room != null){
+                    var username = "User " + userCount;
+                    var user = new User(userCount, username);
+                    userCount++;
+                    System.out.println(username);
+
+                    room.join(ctx, user);
+                    broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
                 }
-
-                var username = "User " + userCount;
-                var user = new User(userCount, username);
-                userCount++;
-                System.out.println(username);
-
-                room.join(ctx, user);
-                broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
             });
 
             ws.onClose(ctx -> {
                 Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
-
             });
 
             ws.onMessage(ctx -> {
-                Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
-
-                handleMessage(ctx, rooms.get(roomId));
+                var room = getRoom(ctx);
+                if(room != null) {
+                    handleMessage(ctx, room);
+                }
+                else {
+                    System.out.println("Room is null");
+                }
             });
         });
 
@@ -102,11 +116,24 @@ public class Main {
 //        String sender = room.getPlayer(ctx).getName();
 
         var stringMessage = ctx.message();
-        System.out.println(stringMessage);
+//        System.out.println(stringMessage);
         System.out.println(message.getType());
 
         switch (message.getType()) {
             case "draw":
+                break;
+
+            case "chat":
+                var chatMessage = ctx.message(UserMessageModel.class);
+                int chatLength = chatMessage.getMessage().length();
+                System.out.println(chatMessage.getMessage());
+
+                if (chatLength >= MIN_MESSAGE_LENGTH && chatLength <= MAX_MESSAGE_LENGTH) {
+                    User user = room.getUser(ctx);
+                    chatMessage.setSender(user.getName());
+                    broadcastMessage(message, room);
+                }
+
                 break;
 
         }
@@ -117,7 +144,9 @@ public class Main {
     private static void broadcastMessage(EmptyMessageModel message) {
         rooms.forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
+                        System.out.println(message);
                         ctx.send(message);
+
                     }
                 }
                 )
@@ -127,6 +156,7 @@ public class Main {
     private static void broadcastMessage(EmptyMessageModel message, Room room) {
         room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
+
                         ctx.send(message);
                     }
                 }

@@ -2,6 +2,7 @@ package presentation.models;
 
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
+import io.javalin.websocket.WsMessageContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,5 +28,9 @@ public class Room {
 
     public void join(WsConnectContext ctx, User user) {
         userMap.put(ctx, user);
+    }
+
+    public User getUser(WsMessageContext ctx) {
+        return userMap.get(ctx);
     }
 }

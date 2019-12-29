@@ -71,7 +71,7 @@ nav h2 {
 }
 
 .add-gradient {
-    background: linear-gradient(214deg, #3d3d3d, #167452, #353535, #29083c);
+    background: linear-gradient(214deg, #204a5f, #434174, rgba(0, 86, 96, 0.85), #29083c);
     background-size: 400% 400%;
     -webkit-animation: AnimationName 44s ease infinite;
     -moz-animation: AnimationName 44s ease infinite;
