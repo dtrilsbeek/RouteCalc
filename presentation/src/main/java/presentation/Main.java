@@ -45,8 +45,8 @@ public class Main {
         Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
         var room = rooms.get(roomId);
         if (room == null) {
-            ctx.send(new EmptyMessageModel("no_room"));
-            ctx.session.close(4000, "No room found");
+            /*ctx.send(new EmptyMessageModel("no_room"));
+            ctx.session.close(4000, "No room found");*/
             return null;
         }
 

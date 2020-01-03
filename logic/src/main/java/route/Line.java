@@ -2,27 +2,24 @@ package route;
 
 public class Line {
     private int id;
-    private Intersection from;
-    private Intersection to;
+    private int from;
+    private int to;
 
     public Line(int id, Intersection from, Intersection to) {
         this.id = id;
-        this.from = from;
-        this.to = to;
-
-        from.addLine(this);
-        to.addLine(this);
+        this.from = from.getId();
+        this.to = to.getId();
     }
 
     public int getId() {
         return id;
     }
 
-    public Intersection getFrom() {
+    public int getFrom() {
         return from;
     }
 
-    public Intersection getTo() {
+    public int getTo() {
         return to;
     }
 }

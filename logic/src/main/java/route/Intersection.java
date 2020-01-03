@@ -5,12 +5,14 @@ import java.util.Set;
 
 public class Intersection {
 
+    private int id;
     private Set<Line> lines;
     private int x;
     private int y;
 
-    public Intersection(int x, int y) {
+    public Intersection(int id, int x, int y) {
         lines = new HashSet<>();
+        this.id = id;
         this.x = x;
         this.y = y;
     }
@@ -31,4 +33,7 @@ public class Intersection {
         return y;
     }
 
+    public int getId() {
+        return id;
+    }
 }

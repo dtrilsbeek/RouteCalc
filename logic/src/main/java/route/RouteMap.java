@@ -32,7 +32,7 @@ public class RouteMap {
         for (int i = 0; i < amount; i++) {
             int random1 = random.nextInt(radius, boundX - radius);
             int random2 = random.nextInt(radius, boundY - radius);
-            this.intersections.put(i, new Intersection(random1, random2));
+            this.intersections.put(i, new Intersection(i, random1, random2));
         }
     }
 
