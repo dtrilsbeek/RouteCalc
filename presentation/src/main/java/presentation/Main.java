@@ -103,11 +103,12 @@ public class Main {
                 System.out.println(username);
 
                 room.join(ctx, user);
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
+                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections(), room.getLines()));
 
                 var message = "Welcome "+username+". Send the following url to your friends to " +
                         "join you: http://"+ ctx.host()+"/travel/"+roomId;
-                broadcastMessage(new SystemMessageModel(message), room);
+                broadcastMessageTo(ctx, new SystemMessageModel(message));
+                broadcastMessageExcept(ctx, new SystemMessageModel(username+" joined the room"), room);
             });
 
             ws.onClose(ctx -> {
@@ -214,16 +215,17 @@ public class Main {
     }
 
     // Sends a message from one user to all users except the given user.
-    private static void broadcastMessageExcept(EmptyMessageModel message, Room room, WsContext exclude) {
-//        room.getUsernameMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
+    private static void broadcastMessageExcept(WsContext exclude, EmptyMessageModel message, Room room) {
+        room.getUserMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
     }
 
     // Sends a message to one user
-    private static void broadcastMessageTo(User receiver, EmptyMessageModel message, Room room) {
-//        WsContext ctx = getContextFromName(receiver.getName(), room);
-//        if(ctx != null) {
-//            ctx.send(message);
-//        }
+    private static void broadcastMessageTo(WsContext ctx, EmptyMessageModel message) {
+        if(ctx != null) {
+            if (ctx.session.isOpen()) {
+                ctx.send(message);
+            }
+        }
     }
 
     /**
