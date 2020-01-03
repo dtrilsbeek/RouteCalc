@@ -120,9 +120,9 @@ public class Main {
                 broadcastMessage(new SystemMessageModel(user.getName() + " left the chat"), room);
                 room.leave(ctx);
 
-//                if (room.getUserMap().size() < 1) {
-//                    deleteRoom(ctx);
-//                }
+                if (room.getUserMap().size() < 1) {
+                    deleteRoom(roomId);
+                }
             });
 
             ws.onMessage(ctx -> {
