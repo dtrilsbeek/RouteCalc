@@ -7,60 +7,17 @@
     <link href="./css/theme.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body class="add-gradient">
-    <nav>
-        <div class="logo-wrapper">
-            <h2>RouteCalc</h2>
-        </div>
-        <button onclick="load()" class="submit-button" style="float: left">Refresh</button>
-        <a href="/create-room"><button id="btnCreateRoom" class="submit-button">Create room</button></a>
-    </nav>
-    <div id="content"></div>
-        
-    <script>
-
-        const makeCard = card => `
-        <div id="room${card.id}" class="room">
-                <div class="title">
-                    <h3 class="roomTitle"></h3>
-                </div>
-
-                <div class="content">
-                    <b>users:</b>
-                    <p class="users"></p>
-                </div>
-
-                <div class="bottom">
-                    ${card.users.length < card.maxusers ?
-            `<a href="join/${card.id}"><button class="btnJoin submit-button">Join</button></a>` :
-            '<button disabled class="btnJoin">Room is full...</button>'}
-                </div>
-
-            </div>   
-        `;
-
-        const load = async () => {
-
-            const rooms = await (await fetch(window.location.origin + "/rooms")).json();
-            console.log(rooms);
-            const content = document.querySelector("#content");
-            content.innerHTML = "";
-
-            if (rooms.length > 0) {
-                for(let room of rooms) {
-                    content.innerHTML += makeCard(room);
-                    const name = `${room.name} (${room.users.length}/${room.maxusers})`;
-                    const users = room.users.join(",");
-
-                    document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
-                    document.querySelector(`#room${room.id} .users`).textContent = users;
-                }
-            }
-        };
-
-
-        load();
-
-    </script>
+<body class="add-gradient" onload="load();">
+<nav>
+    <div class="logo-wrapper">
+        <h2>RouteCalc</h2>
+    </div>
+    <button onclick="load()" class="submit-button" style="float: left">Refresh</button>
+    <a href="#">
+        <button id="btnCreateRoom" onclick="createRoom()" class="submit-button">Create room</button>
+    </a>
+</nav>
+<div id="content"></div>
 </body>
+<script src="./js/lobby.js"></script>
 </html>

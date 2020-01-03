@@ -15,11 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
 
-    private int id;
+    private String id;
     private Map<WsContext, User> userMap;
     private RouteMap routeMap;
 
-    public Room(int id) {
+    public Room(String id) {
         this.id = id;
         this.userMap = new ConcurrentHashMap<>();
         this.routeMap = new RouteMap(800, 800, 20);
@@ -36,7 +36,7 @@ public class Room {
         return routeMap.getLines();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

@@ -2,6 +2,8 @@ package presentation;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import io.javalin.Javalin;
+import io.javalin.http.BadRequestResponse;
+import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
@@ -16,55 +18,56 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Main {
 
+    private static final int MAX_ROOM_NAME_LENGTH = 20;
+    private static final int MIN_ROOM_NAME_LENGTH = 2;
     private static final int MAX_MESSAGE_LENGTH = 200;
     private static final int MIN_MESSAGE_LENGTH = 2;
 
-    private static HashMap<Integer, Room> rooms;
+    private static HashMap<String, Room> rooms;
     private static int roomCount = 1;
     private static int userCount = 1;
 
-/*
- Road
- Ways
- Route
- Direction
- Track
- Path
- In transit
- Together
- In Sync
- Connected
- */
-
-    private static Room getRoom(WsContext ctx) {
-        Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
-        var room = rooms.get(roomId);
-        if (room == null) {
-            /*ctx.send(new EmptyMessageModel("no_room"));
-            ctx.session.close(4000, "No room found");*/
-            return null;
-        }
-
+    /*
+     Road
+     Ways
+     Route
+     Direction
+     Track
+     Path
+     In transit
+     Together
+     In Sync
+     Connected
+     */
+    private static Room createRoom(String roomId) {
+        var room = new Room(roomId);
+        rooms.put(roomId, room);
         return room;
     }
 
-    private static void deleteRoom(WsContext ctx) {
-        Integer roomId = wrapException(() -> ctx.pathParam("id", Integer.class).getOrNull());
-        var room = getRoom(ctx);
-        assert room != null;
-
-        System.out.println("room removed");
-        rooms.remove(roomId);
+    private static Room getRoom(String id) {
+        return rooms.get(id);
     }
 
-    public static void main(String[] args) {
-        rooms = new HashMap<>();
+    private static void deleteRoom(String id) {
+        var room = getRoom(id);
 
+        if (room != null) {
+            rooms.remove(id);
+            System.out.println("room removed");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        var travelHtml = getResourceFileAsString("/web/travel.html");
+        var errorHtml =  getResourceFileAsString("/web/error.html");
+        rooms = new HashMap<>();
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
         Javalin app = Javalin.create(config -> {
@@ -81,17 +84,18 @@ public class Main {
                 Calling the close (code, reason) with invalid code (For example 5xx),
                 the method will throw exception that is subject to be ignored in case you are calling it in a scope of websocket hooks,
                 for example onWebSocketConnect. In this case close frame will not be sent and socket will stay open.
-                 */
-                /*
+
                 Per RFC6455, you can only use those status codes that are allowed to be used over the protocol.
                 https://tools.ietf.org/html/rfc6455#section-7.4.2
                 If you want to use custom close codes (not the standard ones), you are restricted to the 4000-4999 range.
                  */
-                var room = getRoom(ctx);
+                String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
+
+                var room = getRoom(roomId);
                 if (room == null) {
-                    room = new Room(roomCount);
-                    rooms.put(roomCount, room);
-                    roomCount++;
+                    ctx.send(new EmptyMessageModel("no_room"));
+                    ctx.session.close(4000, "No room found");
+                    return;
                 }
 
                 var username = "User " + userCount;
@@ -105,7 +109,8 @@ public class Main {
             });
 
             ws.onClose(ctx -> {
-                var room = getRoom(ctx);
+                String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
+                var room = getRoom(roomId);
                 if (room == null) return;
                 var user = room.getUser(ctx);
                 if (user == null) return;
@@ -119,7 +124,8 @@ public class Main {
             });
 
             ws.onMessage(ctx -> {
-                var room = getRoom(ctx);
+                String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
+                var room = getRoom(roomId);
                 if (room == null) return;
 
                 handleMessage(ctx, room);
@@ -128,6 +134,33 @@ public class Main {
 
         app.get("/rooms", ctx -> {
             ctx.json(rooms);
+        });
+
+        app.get("/travel/:id", ctx -> {
+            String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
+            var room = getRoom(roomId);
+
+            ctx.contentType("text/html");
+            if (room == null) {
+                ctx.result(errorHtml);
+            }
+            else {
+                ctx.result(travelHtml);
+            }
+        });
+
+        app.post("/create-room", ctx -> {
+
+            String roomId = ctx.formParam("name");
+            if (roomId == null) throw new BadRequestResponse("Missing parameter");
+
+            roomId = roomId.trim();
+            if(roomId.length() < MIN_ROOM_NAME_LENGTH || roomId.length() > MAX_ROOM_NAME_LENGTH) {
+                throw new BadRequestResponse("Invalid room name");
+            }
+
+            var room = createRoom(roomId);
+            ctx.redirect("travel/" + room.getId());
         });
 
     }
