@@ -46,6 +46,6 @@ function createRoom() {
         body: formData,
         method: "post"
     }).then(res => {
-        console.log("Request complete! response:", res);
+        window.location.replace(res.url);
     });
 }

@@ -66,8 +66,8 @@ public class Main {
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
         Javalin app = Javalin.create(config -> {
-            config.addStaticFiles("static-dev");
             config.addStaticFiles("presentation/src/main/resources/static-dev", Location.EXTERNAL);
+            config.addStaticFiles("static-dev");
         }).start(80);
 
         var travelHtml = getResourceFileAsString("/static-dev/travel.html");
