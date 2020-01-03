@@ -104,7 +104,10 @@ public class Main {
 
                 room.join(ctx, user);
                 broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
-                broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
+
+                var message = "Welcome "+username+". Send the following url to your friends to " +
+                        "join you: http://"+ ctx.host()+"/travel/"+roomId;
+                broadcastMessage(new SystemMessageModel(message), room);
             });
 
             ws.onClose(ctx -> {
