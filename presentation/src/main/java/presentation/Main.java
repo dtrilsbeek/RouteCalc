@@ -3,7 +3,6 @@ package presentation;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
-import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -65,14 +62,16 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        var travelHtml = getResourceFileAsString("/web/travel.html");
-        var errorHtml =  getResourceFileAsString("/web/error.html");
         rooms = new HashMap<>();
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
         Javalin app = Javalin.create(config -> {
-            config.addStaticFiles("presentation/src/static-dev", Location.EXTERNAL);
+            config.addStaticFiles("static-dev");
+            config.addStaticFiles("presentation/src/main/resources/static-dev", Location.EXTERNAL);
         }).start(80);
+
+        var travelHtml = getResourceFileAsString("/static-dev/travel.html");
+        var errorHtml =  getResourceFileAsString("/static-dev/error.html");
 
         app.ws("/travel/:id", ws -> {
             ws.onConnect(ctx -> {
