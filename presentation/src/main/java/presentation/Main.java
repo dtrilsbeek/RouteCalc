@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -63,7 +64,6 @@ public class Main {
 
     public static void main(String[] args) {
         rooms = new HashMap<>();
-        rooms.put(1, new Room(1));
 
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
@@ -120,6 +120,10 @@ public class Main {
 
                 handleMessage(ctx, room);
             });
+        });
+
+        app.get("/rooms", ctx -> {
+            ctx.json(rooms);
         });
 
     }

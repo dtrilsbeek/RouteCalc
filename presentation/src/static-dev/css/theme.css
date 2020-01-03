@@ -14,12 +14,14 @@ nav h2 {
     margin-left: 10px;
     color: white;
 }
-
+.logo-wrapper {
+    display: inline;
+}
 .logo {
-    height: 50px;
-    background-color: white;
-    -webkit-mask: url('/paintbrush.svg') no-repeat center;
-    mask: url('/paintbrush.svg') no-repeat center;
+    /*height: 50px;*/
+    /*background-color: white;*/
+    /*-webkit-mask: url('/paintbrush.svg') no-repeat center;*/
+    /*mask: url('/paintbrush.svg') no-repeat center;*/
 }
 .landing-header {
     width: 40%;
@@ -44,27 +46,23 @@ nav h2 {
     line-height: 1.5rem;
 }
 .submit-button {
+    color:  #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 0px 2px 0 rgba(231, 231, 231, 0.71);
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: larger;
     cursor: pointer;
     text-decoration: none;
-    color: #dadce0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    letter-spacing: .01785714em;
-    font-family: 'Google Sans',Roboto,Arial,sans-serif;
-    font-size: .875rem;
-    font-weight: 500;
-    line-height: 1.25rem;
-    height: 36px;
-    padding: 8px 24px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
 }
 .submit-button:hover {
-    background-color: rgba(154,160,166,0.039);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 .submit-button:active {
-    background-color: rgba(154,160,166,0.161);
+    background-color: rgba(238, 249, 255, 0.2);
 }
 #btnViewRooms {
 
