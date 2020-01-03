@@ -1,6 +1,25 @@
 let intersections = [];
 let lines = [];
 
+
+function drawMap(i, l) {
+    for (var key in i) {
+        if (i.hasOwnProperty(key)){
+            intersections[i[key].id] = i[key];
+
+            drawIntersection(i[key]);
+        }
+    }
+
+    for (var key2 in l) {
+        if (l.hasOwnProperty(key2)){
+            drawLine(l[key2]);
+        }
+
+    }
+}
+
+
 function isIntersect(point, intersection) {
     return Math.sqrt((point.x-intersection.x)** 2 + (point.y - intersection.y) ** 2) < 10;
 }
@@ -18,9 +37,12 @@ function drawIntersection(intersection) {
     drawCircle(intersection);
 }
 function drawLine(line) {
+    let from = intersections[line.from];
+    let to = intersections[line.to];
+
     ctx.beginPath();
-    ctx.moveTo(line.from.x, line.from.y);
-    ctx.lineTo(line.to.x, line.to.y);
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
     ctx.stroke();
 }
 

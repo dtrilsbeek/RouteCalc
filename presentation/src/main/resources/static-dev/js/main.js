@@ -36,8 +36,8 @@ function init() {
     var dpr = window.devicePixelRatio || 1;
     ctx = setDPI(canvas, dpr * 96);
 
-    drawRandomIntersections(50);
-    drawRandomLines(99);
+    // drawRandomIntersections(50);
+    // drawRandomLines(99);
 
     canvas.addEventListener('click', (e) => {
         const pos = {
@@ -57,7 +57,7 @@ function init() {
 
 function sendIntersection(intersection) {
     console.log("Intersection Send: " + intersection.id + ", " +intersection.x + ", " + intersection.y  );
-
-    socket.send(JSON.stringify(intersection));
+    var test = {type: "selectIntersection", intersection: intersection};
+    socket.send(JSON.stringify(test));
 
 }

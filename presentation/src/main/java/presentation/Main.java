@@ -24,7 +24,7 @@ public class Main {
     private static final int MAX_ROOM_NAME_LENGTH = 20;
     private static final int MIN_ROOM_NAME_LENGTH = 2;
     private static final int MAX_MESSAGE_LENGTH = 200;
-    private static final int MIN_MESSAGE_LENGTH = 2;
+    private static final int MIN_MESSAGE_LENGTH = 1;
 
     private static HashMap<String, Room> rooms;
     private static int roomCount = 1;
@@ -168,7 +168,10 @@ public class Main {
     }
 
     private static void handleMessage(WsMessageContext ctx, Room room) {
+        var message2 = ctx.message();
+        System.out.println(message2);
         var message = ctx.message(EmptyMessageModel.class);
+        System.out.println(message.getType());
 
         switch (message.getType()) {
             case "draw":

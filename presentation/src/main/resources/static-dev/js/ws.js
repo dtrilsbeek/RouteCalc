@@ -12,6 +12,11 @@ socket.onmessage = function (event) {
     if (received.type === "system" || received.isSystem === true) {
         showChat(received.message, true);
     }
+    if (received.type === "drawMap") {
+        const {intersections} = received;
+        const {lines} = received;
+        drawMap(intersections, lines)
+    }
     if (received.type === "chat") {
         showChat(received.sender + ": " + received.message);
     }
