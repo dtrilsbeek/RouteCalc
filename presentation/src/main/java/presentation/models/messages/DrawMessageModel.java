@@ -1,39 +1,30 @@
 package presentation.models.messages;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import presentation.models.LineModel;
+import route.Intersection;
+import route.Line;
+
+import java.util.Map;
+import java.util.Set;
 
 public class DrawMessageModel extends EmptyMessageModel {
-
-    private String color;
-    private int brushSize;
-
-    @JsonUnwrapped
-    private LineModel line;
+    private Map<Integer, Intersection> intersections;
+    private Set<Line> lines;
 
     public DrawMessageModel() {
-        setType("draw");
+        setType("drawMap");
     }
 
-    public DrawMessageModel(String color, LineModel line) {
-        this.color = color;
-        this.line = line;
+    public DrawMessageModel(Map<Integer, Intersection> intersections, Set<Line> lines) {
+        this.intersections = intersections;
+        this.lines = lines;
 
-        setType("draw");
+        setType("drawMap");
     }
 
-    public String getColor() {
-        return color;
+    public Map<Integer, Intersection> getIntersections() {
+        return intersections;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setLine(LineModel line) {
-        this.line = line;
-    }
-
-    public LineModel getLine() {
-        return line;
+    public Set<Line> getLines() {
+        return lines;
     }
 }

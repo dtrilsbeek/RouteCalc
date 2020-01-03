@@ -6,7 +6,6 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
-import logic.Player;
 import presentation.models.Room;
 import presentation.models.User;
 import presentation.models.messages.*;
@@ -26,7 +25,8 @@ public class Main {
     private static final int MIN_MESSAGE_LENGTH = 2;
 
     private static HashMap<Integer, Room> rooms;
-    private static int userCount = 0;
+    private static int roomCount = 1;
+    private static int userCount = 1;
 
 /*
  Road
@@ -88,7 +88,11 @@ public class Main {
                 If you want to use custom close codes (not the standard ones), you are restricted to the 4000-4999 range.
                  */
                 var room = getRoom(ctx);
-                if (room == null) return;
+                if (room == null) {
+                    room = new Room(roomCount);
+                    rooms.put(roomCount, room);
+                    roomCount++;
+                }
 
                 var username = "User " + userCount;
                 var user = new User(userCount, username);
@@ -96,8 +100,8 @@ public class Main {
                 System.out.println(username);
 
                 room.join(ctx, user);
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
                 broadcastMessage(new SystemMessageModel(username + " joined the chat"), room);
-
             });
 
             ws.onClose(ctx -> {
@@ -109,9 +113,9 @@ public class Main {
                 broadcastMessage(new SystemMessageModel(user.getName() + " left the chat"), room);
                 room.leave(ctx);
 
-                if (room.getUserMap().size() < 1) {
-                    deleteRoom(ctx);
-                }
+//                if (room.getUserMap().size() < 1) {
+//                    deleteRoom(ctx);
+//                }
             });
 
             ws.onMessage(ctx -> {

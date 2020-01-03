@@ -45,16 +45,17 @@
             console.log(rooms);
             const content = document.querySelector("#content");
             content.innerHTML = "";
-    
-            for(let room of rooms) {
-                content.innerHTML += makeCard(room);
-                const name = `${room.name} (${room.users.length}/${room.maxusers})`;
-                const users = room.users.join(",");
 
-                document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
-                document.querySelector(`#room${room.id} .users`).textContent = users;
+            if (rooms.length > 0) {
+                for(let room of rooms) {
+                    content.innerHTML += makeCard(room);
+                    const name = `${room.name} (${room.users.length}/${room.maxusers})`;
+                    const users = room.users.join(",");
+
+                    document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
+                    document.querySelector(`#room${room.id} .users`).textContent = users;
+                }
             }
-
         };
 
 
