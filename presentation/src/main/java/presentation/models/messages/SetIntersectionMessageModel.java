@@ -12,8 +12,9 @@ public class SetIntersectionMessageModel extends EmptyMessageModel {
         setType("setIntersection");
     }
 
-    public SetIntersectionMessageModel(int intersectionId) {
-        setType("setIntersection");
+    public SetIntersectionMessageModel(String type, int intersectionId) {
+        setType(type);
+        this.intersectionId = intersectionId;
     }
 
     public int getIntersectionId() {

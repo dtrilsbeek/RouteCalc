@@ -9,16 +9,30 @@ socket.onopen = function (e) {
 socket.onmessage = function (event) {
     var received = JSON.parse(event.data);
     console.log(received);
-    if (received.type === "system" || received.isSystem === true) {
-        showChat(received.message, true);
-    }
-    if (received.type === "drawMap") {
-        const {intersections} = received;
-        const {lines} = received;
-        drawMap(intersections, lines)
-    }
-    if (received.type === "chat") {
-        showChat(received.sender + ": " + received.message);
+    switch (received.type) {
+
+        case received.isSystem === true:
+        case "system":
+            showChat(received.message, true);
+            break;
+
+        case "drawMap":
+            const {intersections} = received;
+            const {lines} = received;
+            drawMap(intersections, lines);
+            break;
+
+        case "START":
+            drawStartIntersection(received.intersectionId);
+            break;
+
+        case "DEST":
+            drawDestIntersection(received.intersectionId);
+            break;
+
+        case "chat":
+            showChat(received.sender + ": " + received.message);
+            break;
     }
 };
 

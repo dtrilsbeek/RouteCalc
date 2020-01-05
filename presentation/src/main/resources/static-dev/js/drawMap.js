@@ -24,9 +24,11 @@ function isIntersect(point, intersection) {
     return Math.sqrt((point.x-intersection.x)** 2 + (point.y - intersection.y) ** 2) < 10;
 }
 
-function drawCircle(intersection) {
+function drawCircle(x, y, color, size) {
     ctx.beginPath();
-    ctx.arc(intersection.x, intersection.y, 10, 0, 2 * Math.PI);
+    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size;
     ctx.stroke();
 }
 function drawRect(intersection){
@@ -34,7 +36,15 @@ function drawRect(intersection){
 }
 
 function drawIntersection(intersection) {
-    drawCircle(intersection);
+    drawCircle(intersection.x, intersection.y, "#2e2e2e");
+}
+function drawStartIntersection(id) {
+    let startIntersection = intersections[id];
+    drawCircle(startIntersection.x, startIntersection.y, "#00568f", 5);
+}
+function drawDestIntersection(id) {
+    let destIntersection = intersections[id];
+    drawCircle(destIntersection.x, destIntersection.y, "#2d8f01", 5);
 }
 function drawLine(line) {
     let from = intersections[line.from];

@@ -43,8 +43,8 @@ public class Room {
     }
 
     public void setDestination(int intersectionId) {
-        var intersection = routeMap.getIntersection(intersectionId);
-        this.destination = intersection;
+        System.out.println(intersectionId);
+        this.destination = routeMap.getIntersection(intersectionId);
     }
 
     public Map<Integer, Intersection> getIntersections() {
