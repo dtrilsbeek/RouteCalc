@@ -18,6 +18,7 @@ public class Room {
     private String id;
     private Map<WsContext, User> userMap;
     private RouteMap routeMap;
+    private Intersection destination;
 
     public Room(String id) {
         this.id = id;
@@ -26,6 +27,22 @@ public class Room {
 
         routeMap.generateRandomIntersections(50);
         routeMap.generateRandomLines(50);
+    }
+
+    public Intersection getUserStartPoint(WsContext ctx) {
+        return getUser(ctx).getStartPoint();
+    }
+
+    public void setUserStartPoint(WsContext ctx, Intersection startPoint) {
+         getUser(ctx).setStartPoint(startPoint);
+    }
+
+    public Intersection getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Intersection destination) {
+        this.destination = destination;
     }
 
     public Map<Integer, Intersection> getIntersections() {
