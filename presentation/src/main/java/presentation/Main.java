@@ -169,13 +169,18 @@ public class Main {
     }
 
     private static void handleMessage(WsMessageContext ctx, Room room) {
-        var message2 = ctx.message();
-        System.out.println(message2);
         var message = ctx.message(EmptyMessageModel.class);
         System.out.println(message.getType());
 
         switch (message.getType()) {
-            case "draw":
+            case "setStartPoint":
+                var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
+                room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
+                break;
+
+            case "setDestination":
+                var setDestinationMessage = ctx.message(SetIntersectionMessageModel.class);
+                room.setDestination(setDestinationMessage.getIntersectionId());
                 break;
 
             case "chat":

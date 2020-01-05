@@ -21,6 +21,11 @@ public class RouteMap {
         this.random = ThreadLocalRandom.current();
     }
 
+
+    public Intersection getIntersection(int id) {
+        return intersections.get(id);
+    }
+
     public Line getLine(int id) {
         return lines.stream()
                 .filter(line -> line.getId() == id)

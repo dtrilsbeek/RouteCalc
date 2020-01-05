@@ -57,7 +57,7 @@ function init() {
 
 function sendIntersection(intersection) {
     console.log("Intersection Send: " + intersection.id + ", " +intersection.x + ", " + intersection.y  );
-    var test = {type: "selectIntersection", intersection: intersection};
+    var test = {type: "selectIntersection", intersectionId: intersection.id};
     socket.send(JSON.stringify(test));
 
 }
