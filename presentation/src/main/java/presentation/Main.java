@@ -173,17 +173,17 @@ public class Main {
         System.out.println(message.getType());
 
         switch (message.getType()) {
-            case "setStartPoint":
+            case "START":
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
                 break;
 
-            case "setDestination":
+            case "DEST":
                 var setDestinationMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setDestination(setDestinationMessage.getIntersectionId());
                 break;
 
-            case "chat":
+            case "CHAT":
                 var chatMessage = ctx.message(UserMessageModel.class);
                 int chatLength = chatMessage.getMessage().length();
 

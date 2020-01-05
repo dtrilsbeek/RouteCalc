@@ -6,7 +6,7 @@ function setType(t) {
 
 function sendIntersection(intersection) {
     console.log("Intersection Send: ", intersection );
-    const test = {type: "selectIntersection", intersectionId: intersection.id};
+    const test = {type: type, intersectionId: intersection.id};
     socket.send(JSON.stringify(test));
 }
 

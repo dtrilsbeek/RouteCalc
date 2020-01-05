@@ -2,7 +2,7 @@ function sendChat() {
     var chatBox = document.getElementById("chatBox");
     if (chatBox.value.length > 0) {
         var obj = {
-            type: "chat",
+            type: "CHAT",
             message: chatBox.value
         };
         var json = JSON.stringify(obj);
