@@ -198,8 +198,6 @@ public class Main {
         }
     }
 
-
-    // Sends a message to all users
     private static void broadcastMessage(EmptyMessageModel message) {
         rooms.forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
@@ -219,12 +217,10 @@ public class Main {
         );
     }
 
-    // Sends a message from one user to all users except the given user.
     private static void broadcastMessageExcept(WsContext exclude, EmptyMessageModel message, Room room) {
         room.getUserMap().keySet().stream().filter(ctx -> ctx.session.isOpen() && exclude.session != ctx.session).forEach(session -> session.send(message));
     }
 
-    // Sends a message to one user
     private static void broadcastMessageTo(WsContext ctx, EmptyMessageModel message) {
         if(ctx != null) {
             if (ctx.session.isOpen()) {

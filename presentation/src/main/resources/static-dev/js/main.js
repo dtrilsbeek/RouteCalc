@@ -1,5 +1,7 @@
 var canvas, ctx;
 
+
+
 function setDPI(canvas, dpi) {
     // Set up CSS size.
     canvas.style.width = canvas.style.width || canvas.width + 'px';
@@ -35,29 +37,9 @@ function init() {
     canvas.height = 800;
     var dpr = window.devicePixelRatio || 1;
     ctx = setDPI(canvas, dpr * 96);
+    initUserLogic();
 
     // drawRandomIntersections(50);
     // drawRandomLines(99);
-
-    canvas.addEventListener('click', (e) => {
-        const pos = {
-            x: e.pageX - canvas.getBoundingClientRect().left,
-            y: e.pageY - canvas.getBoundingClientRect().top
-        };
-
-        for (var key in intersections) {
-            if (intersections.hasOwnProperty(key)) {
-                if (isIntersect(pos, intersections[key])) {
-                    sendIntersection(intersections[key]);
-                }
-            }
-        }
-    });
 }
 
-function sendIntersection(intersection) {
-    console.log("Intersection Send: " + intersection.id + ", " +intersection.x + ", " + intersection.y  );
-    var test = {type: "selectIntersection", intersectionId: intersection.id};
-    socket.send(JSON.stringify(test));
-
-}

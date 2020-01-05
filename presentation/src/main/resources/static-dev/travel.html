@@ -36,7 +36,8 @@
 </div>
 <div class="drawingField">
     <div class="drawingOptions">
-
+        <button onclick="setType('START')">Set Starting Point</button>
+        <button onclick="setType('DEST')">Set Destination</button>
     </div>
     <div id="canvasPlaceholder">
         <canvas id="route-map"></canvas>
@@ -44,6 +45,7 @@
 </div>
 
 <script src="/js/drawMap.js"></script>
+<script src="/js/userLogic.js"></script>
 <script src="/js/chat.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/ws.js"></script>
