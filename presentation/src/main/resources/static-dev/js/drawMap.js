@@ -19,7 +19,6 @@ function drawMap(i, l) {
     }
 }
 
-
 function isIntersect(point, intersection) {
     return Math.sqrt((point.x-intersection.x)** 2 + (point.y - intersection.y) ** 2) < 10;
 }
@@ -70,7 +69,6 @@ function drawRandomIntersections(amount) {
     }
 }
 function drawRandomLines(amount) {
-    console.log(intersections);
     const iAmount = intersections.length;
     for (let i = 0; i < amount; i++) {
         let intersection1 = intersections[randomIntFromInterval(0, iAmount-1)];
