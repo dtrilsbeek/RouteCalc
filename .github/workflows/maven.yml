@@ -13,11 +13,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Test with Maven
-      run: mvn test
+#    - name: Build with Maven
+#      run: mvn -B package --file pom.xml
+#    - name: Test with Maven
+#      run: mvn test
     - name: Install maven
       run: mvn install
     - name: Run scanner
-      run: org.sonarsource.scanner.maven:sonar -Dsonar.login=546d21498d47d94c6f4733e3c2329a74041fecbf
+      run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
