@@ -12,8 +12,8 @@
         <sonar.coverage.exclusions>
             **/presentation/**/*,
             **/data/**/*
+            **/shared/**/*
         </sonar.coverage.exclusions>
-
 
         <sonar.projectKey>dtrilsbeek_RouteCalc</sonar.projectKey>
         <sonar.organization>dtrilsbeek</sonar.organization>

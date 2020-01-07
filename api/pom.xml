@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>api</artifactId>
+    <properties>
+        <sonar.login>d2bbf04d3d07c8072a8ef0aab2e21e4af388615e</sonar.login>
+    </properties>
 
     <dependencies>
         <dependency>

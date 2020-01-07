@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data</artifactId>
+    <properties>
+        <sonar.login>1b099dac444a5fb69bb473ebeba23459c0b1a023</sonar.login>
+    </properties>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->

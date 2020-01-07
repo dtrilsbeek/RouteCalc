@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>logic</artifactId>
+    <properties>
+        <sonar.login>98eb8b9017cee1f2a59c9d2278613d9874cc6829</sonar.login>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dtrilsbeek</groupId>
