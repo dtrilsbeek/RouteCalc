@@ -13,7 +13,7 @@ public class RouteMapTest {
 
         //Act
         //routeMap.generateRandomIntersections(50);
-        //routeMap.generateRandomLines(50);
+        //routeMap.generateRandomLines(50);vvvv
 
         var result = routeMap.getLines().size() > 0;
 
