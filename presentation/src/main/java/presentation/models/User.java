@@ -17,6 +17,7 @@ public class User {
     }
 
     public void setStartPoint(Intersection startPoint) {
+        startPoint.setStart(true);
         this.startPoint = startPoint;
     }
 

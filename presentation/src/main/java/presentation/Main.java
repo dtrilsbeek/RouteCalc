@@ -177,7 +177,7 @@ public class Main {
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
 
-                broadcastMessage(new SetIntersectionMessageModel("START", room.getUserStartPoint(ctx).getId()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
                 break;
 
             case "DEST":
@@ -187,8 +187,7 @@ public class Main {
                 var id = room.getDestination().getId();
 
                 System.out.println("Room ID:" + id);
-
-                broadcastMessage(new SetIntersectionMessageModel("DEST", room.getDestination().getId()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
                 break;
 
             case "CHAT":

@@ -22,13 +22,13 @@ socket.onmessage = function (event) {
             drawMap(intersections, lines);
             break;
 
-        case "START":
-            drawStartIntersection(received.intersectionId);
-            break;
-
-        case "DEST":
-            drawDestIntersection(received.intersectionId);
-            break;
+        // case "START":
+        //     drawStartIntersection(received.intersectionId);
+        //     break;
+        //
+        // case "DEST":
+        //     drawDestIntersection(received.intersectionId);
+        //     break;
 
         case "chat":
             showChat(received.sender + ": " + received.message);

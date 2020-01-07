@@ -6,6 +6,8 @@ import java.util.Set;
 public class Intersection {
 
     private int id;
+    private boolean start;
+    private boolean dest;
     private Set<Line> lines;
     private int x;
     private int y;
@@ -15,6 +17,24 @@ public class Intersection {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.start = false;
+        this.dest = false;
+    }
+
+    public boolean isStart() {
+        return start;
+    }
+
+    public void setStart(boolean start) {
+        this.start = start;
+    }
+
+    public boolean isDest() {
+        return dest;
+    }
+
+    public void setDest(boolean dest) {
+        this.dest = dest;
     }
 
     public void addLine(Line line) {

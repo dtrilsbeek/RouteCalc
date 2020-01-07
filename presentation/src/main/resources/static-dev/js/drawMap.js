@@ -3,6 +3,8 @@ let lines = [];
 
 
 function drawMap(i, l) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log("canvas cleared");
     for (var key in i) {
         if (i.hasOwnProperty(key)){
             intersections[i[key].id] = i[key];
@@ -23,27 +25,41 @@ function isIntersect(point, intersection) {
     return Math.sqrt((point.x-intersection.x)** 2 + (point.y - intersection.y) ** 2) < 10;
 }
 
-function drawCircle(x, y, color, size) {
+function setStrokeColorWidth(color, width) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+}
+
+function drawCircle(x, y, color, width) {
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size;
+    let prevColor = ctx.strokeStyle;
+    let prevWidth = ctx.lineWidth;
+    setStrokeColorWidth(color, width);
     ctx.stroke();
+    setStrokeColorWidth(prevColor, prevWidth);
+
 }
 function drawRect(intersection){
     ctx.fillRect(intersection.x, intersection.y,5,5);
 }
 
 function drawIntersection(intersection) {
+    if(intersection.start === true) {
+        console.log("Draw Start");
+        drawStartIntersection(intersection)
+    }
+    if(intersection.dest === true) {
+        console.log("Draw Dest");
+        drawDestIntersection(intersection)
+    }
     drawCircle(intersection.x, intersection.y, "#2e2e2e");
 }
-function drawStartIntersection(id) {
-    let startIntersection = intersections[id];
-    drawCircle(startIntersection.x, startIntersection.y, "#00568f", 5);
+function drawStartIntersection(intersection) {
+    drawCircle(intersection.x, intersection.y, "#00568f", 5);
 }
-function drawDestIntersection(id) {
-    let destIntersection = intersections[id];
-    drawCircle(destIntersection.x, destIntersection.y, "#2d8f01", 5);
+function drawDestIntersection(intersection) {
+    drawCircle(intersection.x, intersection.y, "#2d8f01", 5);
 }
 function drawLine(line) {
     let from = intersections[line.from];

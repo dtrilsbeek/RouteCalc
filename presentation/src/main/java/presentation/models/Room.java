@@ -34,6 +34,7 @@ public class Room {
     }
 
     public void setUserStartPoint(WsContext ctx, int id) {
+        getUserStartPoint(ctx).setStart(false);
         var startPoint = routeMap.getIntersection(id);
          getUser(ctx).setStartPoint(startPoint);
     }
@@ -44,7 +45,9 @@ public class Room {
 
     public void setDestination(int intersectionId) {
         System.out.println(intersectionId);
+        this.destination.setDest(false);
         this.destination = routeMap.getIntersection(intersectionId);
+        this.destination.setDest(true);
     }
 
     public Map<Integer, Intersection> getIntersections() {
