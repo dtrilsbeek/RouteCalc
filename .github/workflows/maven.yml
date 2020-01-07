@@ -17,5 +17,5 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Test with Maven
       run: mvn test
-    - name: Scan project with SonarQube Cloud
-      run: mvn verify sonar:sonar
+#    - name: Scan project with SonarQube Cloud
+#      run: mvn verify sonar:sonar
