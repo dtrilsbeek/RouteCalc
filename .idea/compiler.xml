@@ -7,15 +7,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="presentation" />
+        <module name="shared" />
         <module name="logic" />
+        <module name="api" />
         <module name="data" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="api" target="11" />
       <module name="data" target="11" />
       <module name="logic" target="11" />
       <module name="presentation" target="11" />
       <module name="routecalc" target="11" />
+      <module name="shared" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

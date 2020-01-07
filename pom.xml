@@ -13,6 +13,12 @@
             **/presentation/**/*,
             **/data/**/*
         </sonar.coverage.exclusions>
+
+
+        <sonar.projectKey>dtrilsbeek_RouteCalc</sonar.projectKey>
+        <sonar.organization>dtrilsbeek</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>0ac82ceaee9828182ce5ea0077f4169629db7cd6</sonar.login>
     </properties>
     <build>
         <plugins>
@@ -36,6 +42,8 @@
         <module>logic</module>
         <module>presentation</module>
         <module>data</module>
+        <module>api</module>
+        <module>shared</module>
     </modules>
     <dependencies>
         <dependency>
