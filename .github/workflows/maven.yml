@@ -20,4 +20,4 @@ jobs:
     - name: Install maven
       run: mvn install
     - name: Run scanner
-      run: mvn sonar:sonar -Dsonar.login=546d21498d47d94c6f4733e3c2329a74041fecbf
+      run: org.sonarsource.scanner.maven:sonar -Dsonar.login=546d21498d47d94c6f4733e3c2329a74041fecbf
