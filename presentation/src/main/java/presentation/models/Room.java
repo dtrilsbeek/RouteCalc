@@ -34,8 +34,11 @@ public class Room {
     }
 
     public void setUserStartPoint(WsContext ctx, int id) {
-        getUserStartPoint(ctx).setStart(false);
-        var startPoint = routeMap.getIntersection(id);
+        var startPoint = getUserStartPoint(ctx);
+        if (startPoint != null) {
+            startPoint.setStart(false);
+        }
+        startPoint = routeMap.getIntersection(id);
          getUser(ctx).setStartPoint(startPoint);
     }
 
@@ -45,7 +48,9 @@ public class Room {
 
     public void setDestination(int intersectionId) {
         System.out.println(intersectionId);
-        this.destination.setDest(false);
+        if (this.destination != null) {
+            this.destination.setDest(false);
+        }
         this.destination = routeMap.getIntersection(intersectionId);
         this.destination.setDest(true);
     }
