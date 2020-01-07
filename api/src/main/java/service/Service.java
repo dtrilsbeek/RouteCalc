@@ -16,11 +16,7 @@ public class Service {
         jerseyServlet.setInitOrder(0);
 
         // Tells the Jersey Servlet which REST service/class to load.
-        jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",
-                String.format("%s;%s;%s",
-                        PollenService.class.getCanonicalName(),
-                        WaggledanceService.class.getCanonicalName(),
-                        UserService.class.getCanonicalName()));
+        jerseyServlet.setInitParameter("jersey.config.server.provider.classnames", UserService.class.getCanonicalName());
 
         try {
             jettyServer.start();
