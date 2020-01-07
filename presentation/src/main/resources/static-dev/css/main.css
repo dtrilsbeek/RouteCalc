@@ -28,6 +28,20 @@ nav h1 {
     left: 35px;
     top: 20px;
 }
+#btnSetStartingPoint {
+    top: 8px;
+    background-color: #69a0f3;
+    position: relative;
+    border-top-right-radius: initial;
+    border-bottom-right-radius: initial;
+}
+#btnSetDestination {
+    top: 8px;
+    background-color: #933023;
+    position: relative;
+    border-top-left-radius: initial;
+    border-bottom-left-radius: initial;
+}
 
 dialog {
     position: absolute;
