@@ -110,7 +110,6 @@ public class Database {
         return user;
     }
 
-
     public boolean insertUser(User user) {
 
         try (
@@ -127,21 +126,6 @@ public class Database {
         }
 
         return false;
-    }
-
-    public void addScore(int userId, int score) {
-
-        try (
-                Connection conn = this.getConnection();
-                Statement stmt = conn.createStatement();
-        ) {
-            stmt.executeUpdate(String.format(" UPDATE user    SET score = score + %d, games_played = games_played + 1    WHERE id = %d", score, userId));
-            LOGGER.log( Level.FINE, "Affected rows: {0}", stmt.getUpdateCount());
-
-        } catch (SQLException ex) {
-            LOGGER.log( Level.SEVERE, ex.toString(), ex );
-        }
-
     }
 
     public User checkPassword(String name, String password) {

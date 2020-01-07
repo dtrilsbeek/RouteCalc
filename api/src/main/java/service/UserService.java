@@ -27,16 +27,15 @@ public class UserService {
 
 
     @GET
-    @Path("/{type}/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("type") String type, @PathParam("id") String id) {
+    public Response getUser(@PathParam("id") String id) {
 
         UserResponse response = new UserResponse();
         response.setOperation("getUser");
-        response.setExpression("/" + type + "/" + id);
+        response.setExpression("/" + id);
 
         try {
-            type = type.toUpperCase();
             var userId = Integer.parseInt(id);
             var user = database.getUserById(userId);
 

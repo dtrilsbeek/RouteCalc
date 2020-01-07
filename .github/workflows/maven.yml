@@ -18,4 +18,4 @@ jobs:
     - name: Test with Maven
       run: mvn test
     - name: Scan project with SonarQube Cloud
-      run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+      run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=546d21498d47d94c6f4733e3c2329a74041fecbf
