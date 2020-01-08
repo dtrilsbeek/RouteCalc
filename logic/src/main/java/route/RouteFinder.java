@@ -3,32 +3,48 @@ package route;
 import route.model.Intersection;
 import route.model.Line;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RouteFinder {
     private final RouteMap routeMap;
-    private List<Intersection> queue;
+    private final Intersection from;
+    private final Intersection destination;
+    private List<Intersection> pathToDestiny;
 
-    public RouteFinder(RouteMap routeMap) {
+    public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
         this.routeMap = routeMap;
-        this.queue = new ArrayList<>();
+        this.from = from;
+        this.destination = destination;
+        this.pathToDestiny = new ArrayList<>();
+        generateScores();
+        findRoute();
     }
 
-    public List<Intersection> findRoute(Intersection from, Intersection to) {
-        var resultList = new ArrayList<Intersection>();
-        var connections = from.getLines();
-
-        Line lowestNextLine = null;
-
-        for(Line line : connections) {
-            if (lowestNextLine != null) {
-                if (lowestNextLine.getScore() < line.getScore()) {
-                    lowestNextLine = line;
-                }
-            } else lowestNextLine = line;
+    private void generateScores() {
+        for (Map.Entry<Integer, Intersection> pair : routeMap.getIntersections().entrySet()) {
+            var currentIntersection = pair.getValue();
+            currentIntersection.setScore(destination);
         }
+    }
 
-        return resultList;
+    public void findRoute() {
+        pathToDestiny.add(from);
+        sortAndFind(from.getLines());
+    }
+
+    private void sortAndFind(List<Line> lines){
+        Collections.sort(lines);
+
+        for(Line line : lines) {
+            var intersection = routeMap.getIntersection(line.getTo());
+            pathToDestiny.add(intersection);
+            if(destination == intersection) {
+                return ;
+            }
+
+            var connections = intersection.getLines();
+
+            sortAndFind(connections);
+        }
     }
 }

@@ -1,4 +1,3 @@
-// let socket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/travel/"+"1");
 let socket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/travel/" +  window.location.pathname.split("/").pop());
 
 socket.onopen = function (e) {
@@ -8,7 +7,7 @@ socket.onopen = function (e) {
 
 socket.onmessage = function (event) {
     var received = JSON.parse(event.data);
-    // console.log(received);
+    console.log(received);
     switch (received.type) {
 
         case received.isSystem === true:
