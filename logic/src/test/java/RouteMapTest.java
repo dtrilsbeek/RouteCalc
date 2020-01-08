@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Test;
-import route.Intersection;
 import route.RouteMap;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
 package presentation.models.messages;
-import route.Intersection;
-import route.Line;
+import route.model.Intersection;
+import route.model.Line;
 
 import java.util.Map;
 import java.util.Set;

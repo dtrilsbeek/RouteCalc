@@ -1,5 +1,8 @@
 package route;
 
+import route.model.Intersection;
+import route.model.Line;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 

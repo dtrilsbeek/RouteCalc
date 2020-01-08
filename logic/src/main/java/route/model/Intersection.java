@@ -1,4 +1,6 @@
-package route;
+package route.model;
+
+import route.model.Line;
 
 import java.util.HashSet;
 import java.util.Set;

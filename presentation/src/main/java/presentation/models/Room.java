@@ -2,14 +2,12 @@ package presentation.models;
 
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
-import io.javalin.websocket.WsMessageContext;
 
-import route.Intersection;
-import route.Line;
+import route.model.Intersection;
+import route.model.Line;
 import route.RouteMap;
 import route.RouteMapExample;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,4 +1,4 @@
-package route;
+package route.model;
 
 class RouteLine implements Comparable<RouteLine> {
     private final Line current;

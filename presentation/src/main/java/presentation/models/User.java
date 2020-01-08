@@ -1,6 +1,6 @@
 package presentation.models;
 
-import route.Intersection;
+import route.model.Intersection;
 
 public class User {
     private int id;

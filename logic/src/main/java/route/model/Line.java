@@ -1,4 +1,4 @@
-package route;
+package route.model;
 
 public class Line {
     private int id;
