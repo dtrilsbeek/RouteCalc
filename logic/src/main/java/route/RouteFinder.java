@@ -12,6 +12,7 @@ public class RouteFinder {
 
 
     private List<Intersection> pathToDestiny;
+    private List<Intersection> checkedIntersections;
 
     public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
         this.routeMap = routeMap;
@@ -31,22 +32,25 @@ public class RouteFinder {
 
     public void findRoute() {
         pathToDestiny.add(from);
-        sortAndFind(from.getLines());
+        sortAndFind(from.getLines(), null);
     }
 
-    private void sortAndFind(List<Line> lines){
+    private void sortAndFind(List<Line> lines, Intersection prev){
         Collections.sort(lines);
 
         for(Line line : lines) {
-            var intersection = routeMap.getIntersection(line.getTo());
-            pathToDestiny.add(intersection);
-            if(destination == intersection) {
-                return ;
+
+            var next = routeMap.getIntersection(line.getTo());
+            if(prev != null) {
+                if (prev.getId() == next.getId()) {
+                    next = routeMap.getIntersection(line.getFrom());
+                }
             }
+            pathToDestiny.add(next);
 
-            var connections = intersection.getLines();
+            var connections = next.getLines();
 
-            sortAndFind(connections);
+            sortAndFind(connections, next);
         }
     }
 
