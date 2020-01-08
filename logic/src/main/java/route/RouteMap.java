@@ -21,7 +21,6 @@ public class RouteMap {
         this.random = ThreadLocalRandom.current();
     }
 
-
     public Intersection getIntersection(int id) {
         return intersections.get(id);
     }
@@ -37,7 +36,8 @@ public class RouteMap {
         for (int i = 0; i < amount; i++) {
             int random1 = random.nextInt(radius, boundX - radius);
             int random2 = random.nextInt(radius, boundY - radius);
-            this.intersections.put(i, new Intersection(i, random1, random2));
+            var intersection = new Intersection(random1, random2);
+            this.intersections.put(intersection.getId(), intersection);
         }
     }
 
@@ -49,7 +49,7 @@ public class RouteMap {
             var intersection2 = intersections.get(random.nextInt(0, iAmount - 1));
 
             try {
-                var line = new Line(i, intersection1, intersection2);
+                var line = new Line(intersection1, intersection2);
                 this.lines.add(line);
                 i++;
             } catch (Exception e) {
@@ -64,5 +64,15 @@ public class RouteMap {
 
     public Map<Integer, Intersection> getIntersections() {
         return intersections;
+    }
+
+    public void addIntersection(int x, int y) {
+        var intersection = new Intersection(x, y);
+        this.intersections.put(intersection.getId(), intersection);
+    }
+
+    public void addLine(Intersection intersection1, Intersection intersection2) {
+        var line = new Line(intersection1, intersection2);
+        this.lines.add(line);
     }
 }

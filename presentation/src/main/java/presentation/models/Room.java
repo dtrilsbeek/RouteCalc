@@ -7,6 +7,7 @@ import io.javalin.websocket.WsMessageContext;
 import route.Intersection;
 import route.Line;
 import route.RouteMap;
+import route.RouteMapExample;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +24,7 @@ public class Room {
     public Room(String id) {
         this.id = id;
         this.userMap = new ConcurrentHashMap<>();
-        this.routeMap = new RouteMap(800, 800, 20);
-
-        routeMap.generateRandomIntersections(50);
-        routeMap.generateRandomLines(50);
+        this.routeMap = new RouteMapExample().getRouteMap();
     }
 
     public Intersection getUserStartPoint(WsContext ctx) {

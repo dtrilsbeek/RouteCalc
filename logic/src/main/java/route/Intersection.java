@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Intersection {
 
+    private static int idCounter;
     private int id;
     private boolean start;
     private boolean dest;
@@ -12,9 +13,10 @@ public class Intersection {
     private int x;
     private int y;
 
-    public Intersection(int id, int x, int y) {
+    public Intersection(int x, int y) {
         lines = new HashSet<>();
-        this.id = id;
+        this.id = idCounter;
+        idCounter++;
         this.x = x;
         this.y = y;
         this.start = false;

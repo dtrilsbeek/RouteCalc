@@ -12,21 +12,21 @@ public class RouteMapTest {
         var routeMap = new RouteMap(800, 800, 20);
 
         //Act
-        //routeMap.generateRandomIntersections(50);
-        //routeMap.generateRandomLines(50);vvvv
+        routeMap.generateRandomIntersections(50);
+        routeMap.generateRandomLines(50);
 
         var result = routeMap.getLines().size() > 0;
 
         var intersections = routeMap.getIntersections();
 
-//        intersections.forEach((key, value) -> {
-//                if (value.getLines().size() > 0) {
-//                    var i = value;
-//                }
-//            }
-//        );
+        intersections.forEach((key, value) -> {
+                if (value.getLines().size() > 0) {
+                    var i = value;
+                }
+            }
+        );
 
         //Assert
-        assertFalse(result);
+        assertTrue(result);
     }
 }
