@@ -1,6 +1,8 @@
 package route;
 
 import route.model.Intersection;
+import route.model.Line;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +17,17 @@ public class RouteFinder {
 
     public List<Intersection> findRoute(Intersection from, Intersection to) {
         var resultList = new ArrayList<Intersection>();
-        var fromLines = from.getLines();
-        var toLines = to.getLines();
+        var connections = from.getLines();
 
-        toLines.forEach((value) -> {
+        Line lowestNextLine = null;
 
-
+        for(Line line : connections) {
+            if (lowestNextLine != null) {
+                if (lowestNextLine.getScore() < line.getScore()) {
+                    lowestNextLine = line;
                 }
-        );
+            } else lowestNextLine = line;
+        }
 
         return resultList;
     }
