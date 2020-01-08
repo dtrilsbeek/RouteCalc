@@ -71,8 +71,8 @@ public class RouteMap {
         this.intersections.put(intersection.getId(), intersection);
     }
 
-    public void addLine(Intersection intersection1, Intersection intersection2) {
-        var line = new Line(intersection1, intersection2);
+    public void addLine(int id1, int id2) {
+        var line = new Line(getIntersection(id1), getIntersection(id2));
         this.lines.add(line);
     }
 }

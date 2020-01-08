@@ -8,7 +8,7 @@ socket.onopen = function (e) {
 
 socket.onmessage = function (event) {
     var received = JSON.parse(event.data);
-    console.log(received);
+    // console.log(received);
     switch (received.type) {
 
         case received.isSystem === true:
@@ -19,16 +19,9 @@ socket.onmessage = function (event) {
         case "drawMap":
             const {intersections} = received;
             const {lines} = received;
+            console.log(received);
             drawMap(intersections, lines);
             break;
-
-        // case "START":
-        //     drawStartIntersection(received.intersectionId);
-        //     break;
-        //
-        // case "DEST":
-        //     drawDestIntersection(received.intersectionId);
-        //     break;
 
         case "chat":
             showChat(received.sender + ": " + received.message);

@@ -5,7 +5,7 @@ function setType(t) {
 }
 
 function sendIntersection(intersection) {
-    console.log("Intersection Send: ", intersection );
+    console.log(intersection );
     const test = {type: type, intersectionId: intersection.id};
     socket.send(JSON.stringify(test));
 }
@@ -16,8 +16,6 @@ function initUserLogic() {
             x: e.pageX - canvas.getBoundingClientRect().left,
             y: e.pageY - canvas.getBoundingClientRect().top
         };
-
-        console.log(pos);
 
         for (let key in intersections) {
             if (intersections.hasOwnProperty(key)) {

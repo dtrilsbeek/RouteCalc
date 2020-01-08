@@ -4,7 +4,7 @@ let lines = [];
 
 function drawMap(i, l) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log("canvas cleared");
+    //console.log("canvas cleared");
     for (var key in i) {
         if (i.hasOwnProperty(key)){
             intersections[i[key].id] = i[key];
@@ -46,11 +46,9 @@ function drawRect(intersection){
 
 function drawIntersection(intersection) {
     if(intersection.start === true) {
-        console.log("Draw Start");
         drawStartIntersection(intersection)
     }
     if(intersection.dest === true) {
-        console.log("Draw Dest");
         drawDestIntersection(intersection)
     }
     drawCircle(intersection.x, intersection.y, "#2e2e2e");
