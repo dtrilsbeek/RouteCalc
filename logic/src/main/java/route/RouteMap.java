@@ -36,8 +36,7 @@ public class RouteMap {
         for (int i = 0; i < amount; i++) {
             int random1 = random.nextInt(radius, boundX - radius);
             int random2 = random.nextInt(radius, boundY - radius);
-            var intersection = new Intersection(random1, random2);
-            this.intersections.put(intersection.getId(), intersection);
+            addIntersection(random1, random2);
         }
     }
 
@@ -67,12 +66,22 @@ public class RouteMap {
     }
 
     public void addIntersection(int x, int y) {
-        var intersection = new Intersection(x, y);
+        var intersection = getNewIntersection(x, y);
         this.intersections.put(intersection.getId(), intersection);
     }
 
     public void addLine(int id1, int id2) {
-        var line = new Line(getIntersection(id1), getIntersection(id2));
-        this.lines.add(line);
+        try {
+            var line = new Line(getIntersection(id1), getIntersection(id2));
+            this.lines.add(line);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Intersection getNewIntersection(int x, int y) {
+        var id = intersections.size();
+        return new Intersection(id, x, y);
     }
 }

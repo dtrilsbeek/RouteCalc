@@ -19,7 +19,6 @@ socket.onmessage = function (event) {
         case "drawMap":
             const {intersections} = received;
             const {lines} = received;
-            console.log(received);
             drawMap(intersections, lines);
             break;
 

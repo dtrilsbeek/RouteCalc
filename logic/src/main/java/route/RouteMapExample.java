@@ -93,7 +93,39 @@ public class RouteMapExample {
         routeMap.addLine(17 ,64);
         routeMap.addLine(64 ,26);
         routeMap.addLine(26 ,4);
+        routeMap.addLine(39, 42);
+        routeMap.addLine(42, 41);
+        routeMap.addLine(41, 13);
+        routeMap.addLine(13, 52);
+        routeMap.addLine(52, 51);
+        routeMap.addLine(51, 11);
+        routeMap.addLine(11, 58);
+        routeMap.addLine(58, 10);
+        routeMap.addLine(10, 18);
+        routeMap.addLine(18, 23);
+        routeMap.addLine(23, 19);
+        routeMap.addLine(35, 5);
+        routeMap.addLine(5, 55 );
+        routeMap.addLine(55, 8);
+        routeMap.addLine(8, 57 );
+        routeMap.addLine(57, 10 );
+        routeMap.addLine(10, 20);
+        routeMap.addLine(20, 0);
+        routeMap.addLine(0, 63 );
+        routeMap.addLine(63, 62);
+        routeMap.addLine(62, 61 );
+        routeMap.addLine(31, 6);
+        routeMap.addLine(6, 54);
+        routeMap.addLine(54, 56);
+        routeMap.addLine(56, 11 );
+        routeMap.addLine(11, 58);
+        routeMap.addLine(58, 10 );
+        routeMap.addLine(10, 59 );
+        routeMap.addLine(59, 36 );
+        routeMap.addLine(36, 37);
+
     }
+
 
     public RouteMap getRouteMap() {
         return this.routeMap;
