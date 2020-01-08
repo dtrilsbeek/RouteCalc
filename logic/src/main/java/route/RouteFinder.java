@@ -9,6 +9,8 @@ public class RouteFinder {
     private final RouteMap routeMap;
     private final Intersection from;
     private final Intersection destination;
+
+
     private List<Intersection> pathToDestiny;
 
     public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
@@ -46,5 +48,10 @@ public class RouteFinder {
 
             sortAndFind(connections);
         }
+    }
+
+
+    public List<Intersection> getPathToDestiny() {
+        return pathToDestiny;
     }
 }

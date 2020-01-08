@@ -75,8 +75,13 @@ public class RouteMap {
 
     public void addLine(int id1, int id2) {
         try {
-            var line = new Line(getIntersection(id1), getIntersection(id2));
+            var intersection1 = getIntersection(id1);
+            var intersection2 = getIntersection(id2);
+            var line = new Line(intersection1, intersection2);
+            intersection1.addLine(line);
+            intersection2.addLine(line);
             this.lines.add(line);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

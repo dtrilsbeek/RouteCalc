@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
+import route.RouteFinder;
 import route.RouteMap;
+import route.RouteMapExample;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,5 +29,15 @@ public class RouteMapTest {
 
         //Assert
         assertTrue(result);
+    }
+
+    @Test
+    void testFindRoute()
+    {
+        var routeMap = new RouteMapExample().getRouteMap();
+        var from = routeMap.getIntersection(29);
+        var to = routeMap.getIntersection(48);
+        var routeFinder = new RouteFinder(routeMap, from, to);
+        var result = routeFinder.getPathToDestiny();
     }
 }
