@@ -188,7 +188,7 @@ dialog h1{
 }
 
 .drawingField {
-    height: calc(100vh - 76px);
+    /*height: calc(100vh - 76px);*/
     background-color: white;
     width: 71%;
     margin: 0 2%;

@@ -123,7 +123,44 @@ public class RouteMapExample {
         routeMap.addLine(10, 59 );
         routeMap.addLine(59, 36 );
         routeMap.addLine(36, 37);
-
+        routeMap.addLine(45, 46);
+        routeMap.addLine(46, 27);
+        routeMap.addLine(27, 47);
+        routeMap.addLine(47, 21);
+        routeMap.addLine(21, 16);
+        routeMap.addLine(16, 48);
+        routeMap.addLine(48, 29);
+        routeMap.addLine(29, 52);
+        routeMap.addLine(52, 30);
+        routeMap.addLine(30, 53);
+        routeMap.addLine(53, 12);
+        routeMap.addLine(12, 52);
+        routeMap.addLine(52, 29);
+        routeMap.addLine(29, 15);
+        routeMap.addLine(15, 50);
+        routeMap.addLine(50, 17);
+        routeMap.addLine(17, 20);
+        routeMap.addLine(20, 2);
+        routeMap.addLine(2, 3);
+        routeMap.addLine(3, 25);
+        routeMap.addLine(25, 24);
+        routeMap.addLine(24, 25);
+        routeMap.addLine(25, 18);
+        routeMap.addLine(18, 9);
+        routeMap.addLine(9, 37);
+        routeMap.addLine(37, 7);
+        routeMap.addLine(7, 33);
+        routeMap.addLine(33, 5);
+        routeMap.addLine(5, 32);
+        routeMap.addLine(32, 5);
+        routeMap.addLine(5, 33);
+        routeMap.addLine(33, 34);
+        routeMap.addLine(34, 7);
+        routeMap.addLine(7, 60);
+        routeMap.addLine(60, 57);
+        routeMap.addLine(57, 10);
+        routeMap.addLine(14, 43);
+        routeMap.addLine(63, 1);
     }
 
 
