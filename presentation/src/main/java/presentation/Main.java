@@ -10,6 +10,7 @@ import io.javalin.websocket.WsMessageContext;
 import presentation.models.Room;
 import presentation.models.User;
 import presentation.models.messages.*;
+import presentation.models.newUser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -164,6 +165,14 @@ public class Main {
 
             var room = createRoom(roomId);
             ctx.redirect("travel/" + room.getId());
+        });
+
+        app.post("/register", ctx -> {
+            var username = ctx.formParam("username");
+            var password = ctx.formParam("password");
+            var newUser = new newUser(username, password);
+            System.out.println(newUser.getUsername());
+            ctx.json(newUser);
         });
 
     }

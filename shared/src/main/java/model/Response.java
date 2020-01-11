@@ -1,4 +1,4 @@
-package service;
+package model;
 
 /**
  * Inheritance response for every responses

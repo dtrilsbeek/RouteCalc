@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import database.Database;
 import model.*;
-import service.user.UserRequest;
-import service.user.UserResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

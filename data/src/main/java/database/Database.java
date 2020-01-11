@@ -9,7 +9,7 @@ import model.User;
 public class Database {
 
     protected static String host = "localhost";
-    protected static String dbName = "routeUsers";
+    protected static String dbName = "routeCalc";
     protected static String user = "routeCalc";
     protected static String pass = "routeCalc";
     protected static int port = 3306;

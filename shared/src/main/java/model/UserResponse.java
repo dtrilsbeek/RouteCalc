@@ -1,6 +1,4 @@
-package service.user;
-
-import model.User;
+package model;
 
 public class UserResponse {
     private String operation = "";

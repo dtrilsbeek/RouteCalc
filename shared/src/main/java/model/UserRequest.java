@@ -1,4 +1,4 @@
-package service.user;
+package model;
 
 public class UserRequest {
     private String username;
