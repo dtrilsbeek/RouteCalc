@@ -4,23 +4,33 @@
 <head>
     <title>RouteCalc - register</title>
     <link href="css/theme.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
+    <link href="css/auth.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body id="body">
 
 <div class="landing-header">
 
-    <form id="login" onsubmit="return false">
+    <form id="login" class="auth" onsubmit="return false">
         <h1>Login</h1>
-        <label>
-            <input class="register-input" type="text" name="username" maxlength="255">
-        </label>
-        <label>
-            <input class="register-input" type="password" name="password" maxlength="255">
-        </label>
 
-        <button class="register-input submit-button" onclick="loginUser();">Register</button>
+        <div class="input-group">
+            <div class="label-group">
+                <label for="username">Username</label>
+            </div>
+            <input class="register-input" type="text" name="username" id="username" maxlength="255">
+        </div>
+
+        <div class="input-group">
+            <div class="label-group">
+                <label for="password">Password</label>
+            </div>
+
+            <input class="register-input" type="password" name="password" id="password" maxlength="255">
+
+        </div>
+
+        <button class="register-input submit-button" onclick="loginUser();">Submit</button>
     </form>
 
 </div>

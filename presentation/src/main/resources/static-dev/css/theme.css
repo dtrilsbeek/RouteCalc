@@ -26,7 +26,7 @@ nav h2 {
     /*mask: url('/paintbrush.svg') no-repeat center;*/
 }
 .landing-header {
-    width: 40%;
+    width: 20%;
     margin: 15vh auto;
     padding: 15px 15px;
     color: #b3b3b3;
@@ -47,6 +47,15 @@ nav h2 {
     font-weight: 500;
     line-height: 1.5rem;
 }
+#landing-buttons {
+    width: 100%;
+    margin: 0 auto;
+}
+#landing-buttons .submit-button {
+    display: block;
+    margin-top: 15px;
+    font-family: 'Google Sans',Roboto,Arial,sans-serif;
+}
 .submit-button {
     color:  #FFFFFF;
     background-color: rgba(255, 255, 255, 0.4);
@@ -54,7 +63,6 @@ nav h2 {
     padding: 8px 10px;
     border: 0;
     border-radius: 5px;
-    font-weight: bold;
     font-size: larger;
     cursor: pointer;
     text-decoration: none;

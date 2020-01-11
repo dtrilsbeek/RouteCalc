@@ -9,6 +9,7 @@ import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import presentation.models.Room;
 import presentation.models.User;
+import presentation.models.UserModule;
 import presentation.models.messages.*;
 import presentation.models.newUser;
 
@@ -28,6 +29,7 @@ public class Main {
     private static final int MIN_MESSAGE_LENGTH = 1;
 
     private static HashMap<String, Room> rooms;
+    private static UserModule userModule;
     private static int roomCount = 1;
     private static int userCount = 1;
 
@@ -64,6 +66,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         rooms = new HashMap<>();
+        userModule = new UserModule();
         JavalinJackson.configure(JavalinJackson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
         Javalin app = Javalin.create(config -> {
@@ -164,15 +167,24 @@ public class Main {
             }
 
             var room = createRoom(roomId);
-            ctx.redirect("travel/" + room.getId());
+            ctx.redirect("/travel/" + room.getId());
         });
 
         app.post("/register", ctx -> {
             var username = ctx.formParam("username");
             var password = ctx.formParam("password");
-            var newUser = new newUser(username, password);
-            System.out.println(newUser.getUsername());
-            ctx.json(newUser);
+            if (username == null) throw new BadRequestResponse("Missing parameter");
+            if (password == null) throw new BadRequestResponse("Missing parameter");
+
+            var user = userModule.registerUser(username, password);
+
+            System.out.println(user.getName());
+            System.out.println(user.getPassword());
+
+            if (user == null) {
+                throw new BadRequestResponse("Invalid Request");
+            }
+            ctx.redirect("/login.html");
         });
 
     }

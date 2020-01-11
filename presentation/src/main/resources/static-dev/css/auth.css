@@ -1,0 +1,21 @@
+.landing-header {
+    width: 20%;
+}
+.auth input {
+    display: inline-block;
+    width: 65%;
+    margin-bottom: 10px;
+}
+.auth .input-group {
+    text-align: right;
+
+}
+.auth .label-group {
+    width: 20%;
+    display: inline-block;
+}
+.auth .submit-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
