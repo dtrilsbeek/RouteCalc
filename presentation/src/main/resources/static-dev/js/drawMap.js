@@ -4,20 +4,17 @@ let lines = [];
 
 function drawMap(i, l) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //console.log("canvas cleared");
-    for (var key in i) {
+
+    for (let key in i) {
         if (i.hasOwnProperty(key)){
             intersections[i[key].id] = i[key];
-
-            drawIntersection(i[key]);
         }
     }
 
-    for (var key2 in l) {
-        if (l.hasOwnProperty(key2)){
-            drawLine(l[key2]);
+    for (let key in intersections) {
+        if (intersections.hasOwnProperty(key)){
+            drawIntersection(intersections[key]);
         }
-
     }
 }
 
@@ -52,6 +49,20 @@ function drawIntersection(intersection) {
         drawDestIntersection(intersection)
     }
     drawCircle(intersection.x, intersection.y, "#2e2e2e");
+
+    const connections = intersection.connections;
+
+    if(connections) {
+        for (let key in connections) {
+            if (connections.hasOwnProperty(key)){
+                let id = connections[key];
+                let intersectionTo = intersections[id];
+
+                drawLine(intersection, intersectionTo);
+            }
+        }
+    }
+
 }
 function drawStartIntersection(intersection) {
     drawCircle(intersection.x, intersection.y, "#00568f", 5);
@@ -59,10 +70,7 @@ function drawStartIntersection(intersection) {
 function drawDestIntersection(intersection) {
     drawCircle(intersection.x, intersection.y, "#2d8f01", 5);
 }
-function drawLine(line) {
-    let from = intersections[line.from];
-    let to = intersections[line.to];
-
+function drawLine(from, to) {
     ctx.beginPath();
     ctx.moveTo(from.x, from.y);
     ctx.lineTo(to.x, to.y);

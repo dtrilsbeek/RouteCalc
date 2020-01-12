@@ -16,10 +16,12 @@ public class Intersection implements Comparable<Intersection>  {
     private boolean start;
     private boolean dest;
     private List<Line> lines;
-    private List<Intersection> connections;
+    private List<Integer> connections;
     private int x;
     private int y;
+    private int totalScore;
     private int lengthToDest;
+    private int score;
 
     public Intersection(int id, int x, int y) {
         lines = new ArrayList<>();
@@ -31,8 +33,21 @@ public class Intersection implements Comparable<Intersection>  {
         this.dest = false;
     }
 
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
     public void setLengthToDest(Intersection dest) {
         this.lengthToDest = calcScore(this, dest);
+    }
+
+    public int getScore(Intersection o) {
+        var length = calcScore(this, o);
+        return length + lengthToDest;
     }
 
     public boolean isStart() {
@@ -52,10 +67,10 @@ public class Intersection implements Comparable<Intersection>  {
     }
 
     public void addConnection(Intersection intersection) {
-        this.connections.add(intersection);
+        this.connections.add(intersection.getId());
     }
 
-    public List<Intersection> getConnections() {
+    public List<Integer> getConnections() {
         return connections;
     }
 

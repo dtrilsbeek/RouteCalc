@@ -38,7 +38,7 @@ public class Room {
             startPoint.setStart(false);
         }
         startPoint = routeMap.getIntersection(id);
-         getUser(ctx).setStartPoint(startPoint);
+        getUser(ctx).setStartPoint(startPoint);
     }
 
     public Intersection getDestination() {
@@ -74,7 +74,7 @@ public class Room {
         userMap.put(ctx, user);
     }
 
-    public void leave(WsContext ctx){
+    public void leave(WsContext ctx) {
         userMap.remove(ctx);
     }
 
@@ -82,9 +82,13 @@ public class Room {
         return userMap.get(ctx);
     }
 
-    public void findRoute(WsContext ctx) {
+    public List<Intersection> findRoute(WsContext ctx) {
+        if (destination == null) return null;
+        if (this.getUserStartPoint(ctx) == null) return null;
+
         var finder = new RouteFinder(routeMap, this.getUserStartPoint(ctx), destination);
-        this.route = finder.getFinalRoute();
+        route = finder.getFinalRoute();
+        return route;
     }
 
     public List<Intersection> getRoute() {

@@ -134,6 +134,7 @@ public class Main {
             ws.onMessage(ctx -> {
                 String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
                 var room = getRoom(roomId);
+                System.out.println(roomId);
                 if (room == null) return;
 
                 handleMessage(ctx, room);
@@ -198,19 +199,18 @@ public class Main {
             case "START":
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
-                room.findRoute(ctx);
+                var route = room.findRoute(ctx);
 
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getRoute()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), route));
                 break;
 
             case "DEST":
                 var setDestinationMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setDestination(setDestinationMessage.getIntersectionId());
 
-                var id = room.getDestination().getId();
+                var route2 = room.findRoute(ctx);
 
-                System.out.println("Room ID:" + id);
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getRoute()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), route2));
                 break;
 
             case "CHAT":

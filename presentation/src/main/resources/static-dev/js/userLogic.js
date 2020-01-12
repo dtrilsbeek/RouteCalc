@@ -17,9 +17,11 @@ function initUserLogic() {
             y: e.pageY - canvas.getBoundingClientRect().top
         };
 
+        console.log(intersections);
         for (let key in intersections) {
             if (intersections.hasOwnProperty(key)) {
                 if (isIntersect(pos, intersections[key])) {
+                    console.log("is intersect");
                     sendIntersection(intersections[key]);
                 }
             }

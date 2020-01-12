@@ -1,8 +1,6 @@
 package route;
 
 import route.model.Intersection;
-import route.model.Line;
-
 import java.util.*;
 
 public class RouteFinder {
@@ -10,9 +8,23 @@ public class RouteFinder {
     private final Intersection from;
     private final Intersection destination;
     private List<Intersection> finalRoute;
-    private List<Intersection> checkedIntersections;
+    Set<Intersection> explored = new HashSet<>();
 
-    // maybe use PriorityQueue;
+    PriorityQueue<Intersection> queue = new PriorityQueue<>(20,
+            new Comparator<Intersection>() {
+                //override compare method
+                public int compare(Intersection i, Intersection j) {
+                    if (i.getScore(j) > j.getScore(i)) {
+                        return 1;
+                    } else if (i.getScore(j) < j.getScore(i)) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+
+            }
+    );
 
     public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
         this.routeMap = routeMap;
@@ -31,27 +43,35 @@ public class RouteFinder {
     }
 
     public void findRoute() {
-        finalRoute.add(from);
-        sortAndFind(from.getConnections(), null);
-    }
+        from.setTotalScore(0);
+        queue.add(from);
 
-    private void sortAndFind(List<Intersection> connections, Intersection prev){
-        Collections.sort(connections);
+        boolean found = false;
 
-        for(Intersection connection : connections) {
-            if(prev != null) {
-                if (prev == connection) {
+        while ((!queue.isEmpty()) && (!found)) {
+
+            Intersection current = queue.poll();
+            explored.add(current);
+
+            if (current.getId() == destination.getId()) {
+                found = true;
+            }
+
+            for (Integer id : current.getConnections()) {
+
+                Intersection adjacent = routeMap.getIntersection(id);
+                var tempTotal = from.getTotalScore() + adjacent.getScore(current);
+
+                if (explored.contains(adjacent)) {
                     continue;
                 }
-            }
-            finalRoute.add(connection);
 
-            if(connection == destination) {
-                return ;
+                queue.remove(current);
+                queue.add(adjacent);
             }
 
-            sortAndFind(connection.getConnections(), connection);
         }
+        var result = explored;
     }
 
 
