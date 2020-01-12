@@ -2,20 +2,21 @@ package presentation.models.messages;
 import route.model.Intersection;
 import route.model.Line;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class DrawMessageModel extends EmptyMessageModel {
     private Map<Integer, Intersection> intersections;
-    private Set<Line> lines;
+    private List<Intersection> route;
 
     public DrawMessageModel() {
         setType("drawMap");
     }
 
-    public DrawMessageModel(Map<Integer, Intersection> intersections, Set<Line> lines) {
+    public DrawMessageModel(Map<Integer, Intersection> intersections, List<Intersection> route) {
         this.intersections = intersections;
-        this.lines = lines;
+        this.route = route;
 
         setType("drawMap");
     }
@@ -24,7 +25,7 @@ public class DrawMessageModel extends EmptyMessageModel {
         return intersections;
     }
 
-    public Set<Line> getLines() {
-        return lines;
+    public List<Intersection> getRoute() {
+        return route;
     }
 }

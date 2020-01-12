@@ -3,11 +3,13 @@ package presentation.models;
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
 
+import route.RouteFinder;
 import route.model.Intersection;
 import route.model.Line;
 import route.RouteMap;
 import route.RouteMapExample;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,7 @@ public class Room {
     private Map<WsContext, User> userMap;
     private RouteMap routeMap;
     private Intersection destination;
+    private List<Intersection> route;
 
     public Room(String id) {
         this.id = id;
@@ -77,5 +80,14 @@ public class Room {
 
     public User getUser(WsContext ctx) {
         return userMap.get(ctx);
+    }
+
+    public void findRoute(WsContext ctx) {
+        var finder = new RouteFinder(routeMap, this.getUserStartPoint(ctx), destination);
+        this.route = finder.getFinalRoute();
+    }
+
+    public List<Intersection> getRoute() {
+        return route;
     }
 }

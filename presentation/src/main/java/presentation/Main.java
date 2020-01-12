@@ -12,6 +12,7 @@ import presentation.models.User;
 import presentation.models.UserModule;
 import presentation.models.messages.*;
 import presentation.models.newUser;
+import route.RouteFinder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -107,7 +108,7 @@ public class Main {
                 System.out.println(username);
 
                 room.join(ctx, user);
-                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections(), room.getLines()));
+                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections(), room.getRoute()));
 
                 var message = "Welcome "+username+". Send the following url to your friends to " +
                         "join you: http://"+ ctx.host()+"/travel/"+roomId;
@@ -197,8 +198,9 @@ public class Main {
             case "START":
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
+                room.findRoute(ctx);
 
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getRoute()));
                 break;
 
             case "DEST":
@@ -208,7 +210,7 @@ public class Main {
                 var id = room.getDestination().getId();
 
                 System.out.println("Room ID:" + id);
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getLines()));
+                broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getRoute()));
                 break;
 
             case "CHAT":

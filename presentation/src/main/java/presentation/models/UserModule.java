@@ -96,7 +96,7 @@ public class UserModule {
             e.printStackTrace();
         }
 
-        return new User();
+        return null;
     }
 
     private String urlEncode(Map<String, String> arguments) throws UnsupportedEncodingException {

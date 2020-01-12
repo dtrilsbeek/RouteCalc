@@ -46,6 +46,10 @@ public class RouteFinder {
             }
             finalRoute.add(connection);
 
+            if(connection == destination) {
+                return ;
+            }
+
             sortAndFind(connection.getConnections(), connection);
         }
     }
