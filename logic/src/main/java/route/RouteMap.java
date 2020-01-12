@@ -73,6 +73,20 @@ public class RouteMap {
         this.intersections.put(intersection.getId(), intersection);
     }
 
+    public void addConnection(int id1, int id2) {
+        try {
+            var intersection1 = getIntersection(id1);
+            var intersection2 = getIntersection(id2);
+
+            intersection1.addConnection(intersection2);
+            intersection2.addConnection(intersection1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void addLine(int id1, int id2) {
         try {
             var intersection1 = getIntersection(id1);

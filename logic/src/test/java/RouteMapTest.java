@@ -38,6 +38,6 @@ public class RouteMapTest {
         var from = routeMap.getIntersection(29);
         var to = routeMap.getIntersection(48);
         var routeFinder = new RouteFinder(routeMap, from, to);
-        var result = routeFinder.getPathToDestiny();
+        var result = routeFinder.getFinalRoute();
     }
 }

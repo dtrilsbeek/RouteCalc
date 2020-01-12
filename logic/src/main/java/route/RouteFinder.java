@@ -9,16 +9,16 @@ public class RouteFinder {
     private final RouteMap routeMap;
     private final Intersection from;
     private final Intersection destination;
-
-
-    private List<Intersection> pathToDestiny;
+    private List<Intersection> finalRoute;
     private List<Intersection> checkedIntersections;
+
+    // maybe use PriorityQueue;
 
     public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
         this.routeMap = routeMap;
         this.from = from;
         this.destination = destination;
-        this.pathToDestiny = new ArrayList<>();
+        this.finalRoute = new ArrayList<>();
         generateScores();
         findRoute();
     }
@@ -26,36 +26,32 @@ public class RouteFinder {
     private void generateScores() {
         for (Map.Entry<Integer, Intersection> pair : routeMap.getIntersections().entrySet()) {
             var currentIntersection = pair.getValue();
-            currentIntersection.setScore(destination);
+            currentIntersection.setLengthToDest(destination);
         }
     }
 
     public void findRoute() {
-        pathToDestiny.add(from);
-        sortAndFind(from.getLines(), null);
+        finalRoute.add(from);
+        sortAndFind(from.getConnections(), null);
     }
 
-    private void sortAndFind(List<Line> lines, Intersection prev){
-        Collections.sort(lines);
+    private void sortAndFind(List<Intersection> connections, Intersection prev){
+        Collections.sort(connections);
 
-        for(Line line : lines) {
-
-            var next = routeMap.getIntersection(line.getTo());
+        for(Intersection connection : connections) {
             if(prev != null) {
-                if (prev.getId() == next.getId()) {
-                    next = routeMap.getIntersection(line.getFrom());
+                if (prev == connection) {
+                    continue;
                 }
             }
-            pathToDestiny.add(next);
+            finalRoute.add(connection);
 
-            var connections = next.getLines();
-
-            sortAndFind(connections, next);
+            sortAndFind(connection.getConnections(), connection);
         }
     }
 
 
-    public List<Intersection> getPathToDestiny() {
-        return pathToDestiny;
+    public List<Intersection> getFinalRoute() {
+        return finalRoute;
     }
 }
