@@ -1,8 +1,8 @@
 let intersections = [];
-let lines = [];
+let route = [];
 
 
-function drawMap(i, route) {
+function drawMap(i, r) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let key in i) {
@@ -17,7 +17,7 @@ function drawMap(i, route) {
         }
     }
 
-    drawRoute(route);
+    drawRoute(r);
 }
 
 function isIntersect(point, intersection) {
@@ -30,15 +30,28 @@ function drawRect(intersection) {
 
 function drawRoute(route) {
 
-    let prev = null;
+    console.log(route);
+
     for (let key in route) {
         if (route.hasOwnProperty(key)) {
-            let id = route[key].id;
-            let intersectionFrom = intersections[id];
-            if (prev != null) {
-                drawLine(intersectionFrom, prev, "#23a576", 5);
+            let fromId = route[key].id;
+
+            if (intersections.hasOwnProperty(fromId)) {
+                let next = parseInt(key) +1;
+                if (route.hasOwnProperty(next)) {
+
+                    let toId = route[next].id;
+                    if (intersections.hasOwnProperty(toId)) {
+                        let intersectionFrom = intersections[fromId];
+                        let intersectionTo = intersections[toId];
+
+                        console.log("From", intersectionFrom);
+                        console.log("To", intersectionTo);
+
+                        drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
+                    }
+                }
             }
-            prev = intersectionFrom;
         }
     }
 
