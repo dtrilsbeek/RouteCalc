@@ -1,7 +1,6 @@
 package route;
 
 import route.model.Intersection;
-import route.model.Line;
 
 public class Scorer {
     public static int calcScore(Intersection intersection1, Intersection intersection2) {
