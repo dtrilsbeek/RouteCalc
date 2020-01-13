@@ -75,7 +75,7 @@ public class RouteFinder {
     }
 
 
-    public List<Intersection> getFinalRoute() {
-        return finalRoute;
+    public Set<Intersection> getFinalRoute() {
+        return this.explored;
     }
 }

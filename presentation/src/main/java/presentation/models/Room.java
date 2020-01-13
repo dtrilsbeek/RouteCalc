@@ -9,7 +9,6 @@ import route.model.Line;
 import route.RouteMap;
 import route.RouteMapExample;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,7 +19,7 @@ public class Room {
     private Map<WsContext, User> userMap;
     private RouteMap routeMap;
     private Intersection destination;
-    private List<Intersection> route;
+    private Set<Intersection> route;
 
     public Room(String id) {
         this.id = id;
@@ -82,7 +81,7 @@ public class Room {
         return userMap.get(ctx);
     }
 
-    public List<Intersection> findRoute(WsContext ctx) {
+    public Set<Intersection> findRoute(WsContext ctx) {
         if (destination == null) return null;
         if (this.getUserStartPoint(ctx) == null) return null;
 
@@ -91,7 +90,7 @@ public class Room {
         return route;
     }
 
-    public List<Intersection> getRoute() {
+    public Set<Intersection> getRoute() {
         return route;
     }
 }

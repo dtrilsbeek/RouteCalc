@@ -17,8 +17,8 @@ socket.onmessage = function (event) {
 
         case "drawMap":
             const {intersections} = received;
-            const {lines} = received;
-            drawMap(intersections, lines);
+            const {route} = received;
+            drawMap(intersections, route);
             break;
 
         case "chat":
