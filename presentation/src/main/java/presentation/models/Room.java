@@ -5,7 +5,6 @@ import io.javalin.websocket.WsContext;
 
 import route.RouteFinder;
 import route.model.Intersection;
-import route.model.Line;
 import route.RouteMap;
 import route.RouteMapExample;
 
@@ -55,10 +54,6 @@ public class Room {
 
     public Map<Integer, Intersection> getIntersections() {
         return routeMap.getIntersections();
-    }
-
-    public Set<Line> getLines() {
-        return routeMap.getLines();
     }
 
     public String getId() {

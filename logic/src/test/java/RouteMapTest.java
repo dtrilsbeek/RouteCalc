@@ -15,18 +15,8 @@ public class RouteMapTest {
 
         //Act
         routeMap.generateRandomIntersections(50);
-        routeMap.generateRandomLines(50);
 
-        var result = routeMap.getLines().size() > 0;
-
-        var intersections = routeMap.getIntersections();
-
-        intersections.forEach((key, value) -> {
-                if (value.getLines().size() > 0) {
-                    var i = value;
-                }
-            }
-        );
+        var result = routeMap.getIntersections().size() > 0;
 
         //Assert
         assertTrue(result);

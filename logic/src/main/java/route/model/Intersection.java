@@ -1,12 +1,9 @@
 package route.model;
 
 import org.jetbrains.annotations.NotNull;
-import route.model.Line;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static route.Scorer.calcScore;
 
@@ -15,7 +12,6 @@ public class Intersection implements Comparable<Intersection>  {
     private int id;
     private boolean start;
     private boolean dest;
-    private List<Line> lines;
     private List<Integer> connections;
     private int x;
     private int y;
@@ -24,7 +20,6 @@ public class Intersection implements Comparable<Intersection>  {
     private int score;
 
     public Intersection(int id, int x, int y) {
-        lines = new ArrayList<>();
         connections = new ArrayList<>();
         this.id = id;
         this.x = x;
@@ -72,14 +67,6 @@ public class Intersection implements Comparable<Intersection>  {
 
     public List<Integer> getConnections() {
         return connections;
-    }
-
-    public void addLine(Line line) {
-        this.lines.add(line);
-    }
-
-    public List<Line> getLines() {
-        return this.lines;
     }
 
     public int getX() {
