@@ -71,7 +71,6 @@ public class RouteFinder {
             }
 
         }
-        var result = explored;
     }
 
 

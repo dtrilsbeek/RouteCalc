@@ -33,26 +33,22 @@ function drawRoute(route) {
     console.log(route);
 
     for (let key in route) {
-        if (route.hasOwnProperty(key)) {
-            let fromId = route[key].id;
+        if (!route.hasOwnProperty(key)) continue;
+        if (!intersections.hasOwnProperty(route[key].id)) continue;
+        if (!route.hasOwnProperty(parseInt(key) + 1)) continue;
+        if (!intersections.hasOwnProperty(route[parseInt(key) + 1].id)) continue;
 
-            if (intersections.hasOwnProperty(fromId)) {
-                let next = parseInt(key) +1;
-                if (route.hasOwnProperty(next)) {
+        let fromId = route[key].id;
+        let next = parseInt(key) + 1;
+        let toId = route[next].id;
 
-                    let toId = route[next].id;
-                    if (intersections.hasOwnProperty(toId)) {
-                        let intersectionFrom = intersections[fromId];
-                        let intersectionTo = intersections[toId];
+        let intersectionFrom = intersections[fromId];
+        let intersectionTo = intersections[toId];
 
-                        console.log("From", intersectionFrom);
-                        console.log("To", intersectionTo);
+        console.log("From", intersectionFrom);
+        console.log("To", intersectionTo);
 
-                        drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
-                    }
-                }
-            }
-        }
+        drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
     }
 
 }
