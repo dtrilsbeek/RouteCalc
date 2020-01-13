@@ -10,9 +10,7 @@ const makeCard = card => `
                 </div>
 
                 <div class="bottom">
-                    ${card.users.length < card.maxusers ?
-    `<a href="join/${card.id}"><button class="btnJoin submit-button">Join</button></a>` :
-    '<button disabled class="btnJoin">Room is full...</button>'}
+                    <a href="join/${card.id}"><button class="btnJoin submit-button">Join</button></a>
                 </div>
 
             </div>   
@@ -25,16 +23,18 @@ const load = async () => {
     const content = document.querySelector("#content");
     content.innerHTML = "";
 
-    if (rooms.length > 0) {
-        for(let room of rooms) {
-            content.innerHTML += makeCard(room);
-            const name = `${room.name} (${room.users.length}/${room.maxusers})`;
-            const users = room.users.join(",");
+        for (let key in rooms) {
+            if (rooms.hasOwnProperty(key)) {
+                let room = rooms[key];
 
-            document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
-            document.querySelector(`#room${room.id} .users`).textContent = users;
+                content.innerHTML += makeCard(room);
+
+                console.log(room);
+
+                // document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
+                // document.querySelector(`#room${room.id} .users`).textContent = users;
+            }
         }
-    }
 };
 
 function createRoom() {

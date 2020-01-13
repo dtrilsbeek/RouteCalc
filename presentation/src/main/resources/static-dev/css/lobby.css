@@ -21,18 +21,19 @@ body {
     width: 300px;
     height: 200px;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(145, 145, 145, 0.2);
     font-family: verdana, serif;
     color: white;
-    border: 1px solid white;
-    border-radius: 5px;
-
+    padding: 10px 8px;
     display: flex;
     flex-direction: column;
     align-content: space-between;
-
     margin-left: auto;
     margin-right: auto;
+    border-radius: 15px;
+    text-align: center;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px 0 rgba(224, 224, 224, 0.6), 0 2px 6px 2px rgba(61, 61, 61, 0.302);
     margin-top: 10px;
 }
 
