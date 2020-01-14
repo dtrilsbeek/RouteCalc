@@ -15,9 +15,10 @@ public class Intersection implements Comparable<Intersection>  {
     private List<Integer> connections;
     private int x;
     private int y;
-    private int totalScore;
+    private Integer totalScore;
     private int lengthToDest;
     private int score;
+    private Integer nth;
 
     public Intersection(int id, int x, int y) {
         connections = new ArrayList<>();
@@ -26,6 +27,16 @@ public class Intersection implements Comparable<Intersection>  {
         this.y = y;
         this.start = false;
         this.dest = false;
+        nth = 999999;
+        totalScore = 0;
+    }
+
+    public int getNth() {
+        return nth;
+    }
+
+    public void setNth(int nth) {
+        this.nth = nth;
     }
 
     public int getTotalScore() {
@@ -91,7 +102,6 @@ public class Intersection implements Comparable<Intersection>  {
 
     @Override
     public int compareTo(@NotNull Intersection o) {
-        var length = calcScore(this, o);
-        return Integer.compare(length + lengthToDest, o.getLength(this) + o.getLengthToDest());
+        return this.nth.compareTo(o.getNth());
     }
 }
