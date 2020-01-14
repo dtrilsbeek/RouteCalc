@@ -83,11 +83,42 @@ public class RouteFinder {
 
 
     public Set<Intersection> getFinalRoute() {
-//        return getFinalShortestRoute();
-        return explored;
+        return getFinalShortestRoute();
+//        return explored;
     }
 
     public Set<Intersection> getFinalShortestRoute() {
+        ArrayList<Intersection> list = new ArrayList<>(explored);
+        Collections.sort(list);
+        list.sort(Collections.reverseOrder());
+
+        Integer prev = null;
+        for (Intersection intersection: list) {
+
+            if (prev == null) {
+                finalRoute.add(intersection);
+                prev = intersection.getNth();
+            }
+
+            var connections = intersection.getConnections();
+            for(Integer i : connections) {
+                var current = routeMap.getIntersection(i);
+                if(explored.contains(current)) {
+                    var nth = current.getNth();
+                    if(nth < prev) {
+                        finalRoute.add(intersection);
+                        prev = nth;
+                    }
+                }
+            }
+
+            if(intersection == from) finalRoute.add(intersection);
+        }
+
+        return finalRoute;
+    }
+
+    /* public Set<Intersection> getFinalShortestRoute() {
         ArrayList<Intersection> list = new ArrayList<>(explored);
         Collections.sort(list);
         list.sort(Collections.reverseOrder());
@@ -117,5 +148,5 @@ public class RouteFinder {
         }
 
         return finalRoute;
-    }
+    }*/
 }
