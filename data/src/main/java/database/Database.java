@@ -9,7 +9,7 @@ import model.User;
 public class Database {
 
     protected static String host = "localhost";
-    protected static String dbName = "routeCalc";
+    protected static String dbName = "routeUsers";
     protected static String user = "routeCalc";
     protected static String pass = "routeCalc";
     protected static int port = 3306;
@@ -116,7 +116,7 @@ public class Database {
                 Connection conn = this.getConnection();
                 Statement stmt = conn.createStatement();
         ) {
-            var result = stmt.executeUpdate(String.format("INSERT INTO user (name) VALUES ('%s')", user.getName()));
+            var result = stmt.executeUpdate(String.format("INSERT INTO user (name, password) VALUES ('%s', '%s')", user.getName(), user.getPassword()));
             LOGGER.log( Level.FINE, "Affected rows: {0}", stmt.getUpdateCount());
 
             if (result == 1) return true;
@@ -128,7 +128,8 @@ public class Database {
         return false;
     }
 
-    public boolean checkPassword(String name, String password) {
+    public User checkPassword(String name, String password) {
+        User user = null;
         ResultSet rset = null;
         try (
                 Connection conn = this.getConnection();
@@ -137,14 +138,14 @@ public class Database {
             String strSelect = String.format("select * from user WHERE name = %s AND password=%s;", name, password);
             rset = stmt.executeQuery(strSelect);
 
-            while (rset.next()) {
+            if(rset.next()) {
                 User p = new User(
                         rset.getInt(userId),
                         rset.getString(userName),
                         rset.getString(userPass)
                 );
                 System.out.println("User CheckPassword: true");
-                return true;
+                user = p;
             }
 
         } catch (SQLException ex) {
@@ -159,6 +160,10 @@ public class Database {
             }
         }
 
-        return false;
+        return user;
+    }
+
+    public void getUserByName(String name) {
+
     }
 }

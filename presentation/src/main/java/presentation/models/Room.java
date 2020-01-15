@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Room {
 
     private String id;
-    private Map<WsContext, User> userMap;
+    private Map<WsContext, UserViewModel> userMap;
     private RouteMap routeMap;
     private Intersection destination;
     private Map<Integer, Intersection> finalRoute;
@@ -59,11 +59,11 @@ public class Room {
         return id;
     }
 
-    public Map<WsContext, User> getUserMap() {
+    public Map<WsContext, UserViewModel> getUserMap() {
         return userMap;
     }
 
-    public void join(WsConnectContext ctx, User user) {
+    public void join(WsConnectContext ctx, UserViewModel user) {
         userMap.put(ctx, user);
     }
 
@@ -71,7 +71,7 @@ public class Room {
         userMap.remove(ctx);
     }
 
-    public User getUser(WsContext ctx) {
+    public UserViewModel getUser(WsContext ctx) {
         return userMap.get(ctx);
     }
 

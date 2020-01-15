@@ -52,6 +52,6 @@ function sendHeartbeat() {
 function heartbeat() {
     if (!socket) return;
     if (socket.readyState !== 1) return;
-    sendHeartbeat()
-    setTimeout(heartbeat, 30000);
+    sendHeartbeat();
+    setTimeout(heartbeat,  30000);
 }

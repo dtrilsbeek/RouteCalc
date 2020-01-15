@@ -57,34 +57,72 @@ public class UserModule {
         return new ArrayList<>();
     }
 
-    public User registerUser(String username, String password) {
-
-        URL url = null;
+    public User loginUser(String username, String password) {
         try {
-            url = new URL(host + "/user");
-
             var json = new JsonObject();
             json.addProperty("username", username);
             json.addProperty("password", password);
 
-            System.out.println(gson.toJson(json));
-
             HttpClient client = HttpClient.newBuilder().build();
             HttpRequest request = HttpRequest.newBuilder()
                     .header("Content-Type", "application/json")
-                    .uri(URI.create(host + "/user"))
+                    .uri(URI.create(host + "/users/login"))
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(json)))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response.statusCode());
+            if (response.statusCode() == 200) {
+                Type type = new TypeToken<UserResponse>() {}.getType();
+                UserResponse userResponse = gson.fromJson(String.valueOf(response.body()), type);
 
-            Type type = new TypeToken<UserResponse>() {}.getType();
-            UserResponse userResponse = gson.fromJson(String.valueOf(response.body()), type);
+                if (userResponse != null) {
+                    return userResponse.getUser();
+                }
+            }
+            else {
+                System.out.println(response.statusCode());
+            }
 
-            if (userResponse != null) {
-                return userResponse.getUser();
+            System.out.println(response);
+
+            throw new Exception("User API Unavailable");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public User registerUser(String username, String password) {
+        try {
+
+            var json = new JsonObject();
+            json.addProperty("username", username);
+            json.addProperty("password", password);
+
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .header("Content-Type", "application/json")
+                    .uri(URI.create(host + "/users/register"))
+                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(json)))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+            if (response.statusCode() == 200) {
+                Type type = new TypeToken<UserResponse>() {}.getType();
+                UserResponse userResponse = gson.fromJson(String.valueOf(response.body()), type);
+
+                if (userResponse != null) {
+                    return userResponse.getUser();
+                }
+            }
+            else {
+                System.out.println(response.statusCode());
             }
 
             System.out.println(response);

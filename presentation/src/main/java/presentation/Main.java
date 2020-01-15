@@ -7,8 +7,9 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.json.JavalinJackson;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
+import model.User;
 import presentation.models.Room;
-import presentation.models.User;
+import presentation.models.UserViewModel;
 import presentation.models.UserModule;
 import presentation.models.messages.*;
 
@@ -28,6 +29,7 @@ public class Main {
     private static final int MIN_MESSAGE_LENGTH = 1;
 
     private static HashMap<String, Room> rooms;
+    private static HashMap<Integer, User> users;
     private static UserModule userModule;
     private static int roomCount = 1;
     private static int userCount = 1;
@@ -101,7 +103,7 @@ public class Main {
                 }
 
                 var username = "User " + userCount;
-                var user = new User(userCount, username);
+                var user = new UserViewModel(userCount, username);
                 userCount++;
                 System.out.println(username);
 
@@ -218,7 +220,7 @@ public class Main {
                 int chatLength = chatMessage.getMessage().length();
 
                 if (chatLength >= MIN_MESSAGE_LENGTH && chatLength <= MAX_MESSAGE_LENGTH) {
-                    User user = room.getUser(ctx);
+                    UserViewModel user = room.getUser(ctx);
                     chatMessage.setSender(user.getName());
                     broadcastMessage(chatMessage, room);
                 }

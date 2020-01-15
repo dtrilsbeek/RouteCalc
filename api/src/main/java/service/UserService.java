@@ -53,6 +53,7 @@ public class UserService {
     }
 
     @POST
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginUser(
@@ -71,13 +72,15 @@ public class UserService {
             var requestPassword = request.getPassword();
             var user = new User(requestName, requestPassword);
 
-            if (!database.checkPassword(user.getName(), user.getPassword())) {
-                response.setResult("invalid request");
+            var userResult = database.checkPassword(user.getName(), user.getPassword());
+
+            if (userResult == null) {
+                response.setResult("No user found");
                 return Response.status(400).entity(response).build();
             }
 
+            response.setUser(userResult);
             response.setResult("success");
-            response.setUser(user);
 
         } catch (NumberFormatException nfe) {
             response.setResult("invalid value");
@@ -89,6 +92,7 @@ public class UserService {
     }
 
     @POST
+    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response insertUser(

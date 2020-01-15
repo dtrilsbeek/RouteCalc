@@ -2,12 +2,12 @@ package presentation.models;
 
 import route.model.Intersection;
 
-public class User {
+public class UserViewModel {
     private int id;
     private String name;
     private Intersection startPoint;
 
-    public User(int id, String name) {
+    public UserViewModel(int id, String name) {
         this.id = id;
         this.name = name;
     }
