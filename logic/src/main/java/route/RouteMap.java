@@ -45,7 +45,7 @@ public class RouteMap {
         }
     }
 
-    private int getRandomIntersection(int intersectionId) {
+    public int getRandomIntersection(int intersectionId) {
         int number = random.nextInt(0, intersections.size() -1);
         while (number == intersectionId) {
             number = random.nextInt(0, intersections.size() -1);

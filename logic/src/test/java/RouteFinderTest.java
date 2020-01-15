@@ -100,16 +100,17 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_5000()
     {
         //Arrange
-        routeMap.generateRandomIntersections(2500);
-        routeMap.generateRandomConnections(5000);
+        routeMap.generateRandomIntersections(500);
+        routeMap.generateRandomConnections(750);
 
         //Act
         var result = false;
         long startTime = System.nanoTime();
+        System.out.println(startTime);
 
-        for (int i = 0; i < 2; i++) {
-            var from = routeMap.getIntersection(i);
-            var to = routeMap.getIntersection(50 + i);
+        for (int i = 0; i < 200000; i++) {
+            var from = routeMap.getIntersection(0);
+            var to = routeMap.getIntersection(routeMap.getRandomIntersection(0));
             var routeFinder = new RouteFinder(routeMap, from, to);
 
             var route = routeFinder.getFinalRoute();
@@ -121,9 +122,10 @@ public class RouteFinderTest {
         }
 
         long elapsedTime = System.nanoTime() - startTime;
+        long milli = (elapsedTime/1000000);
+        long avg = milli/2000;
 
-        System.out.println("Total execution time to create 1000K objects in Java in millis: "
-                + elapsedTime/1000000);
+        System.out.println("Average execution time in millis: "+ avg );
 
 
         //Assert
