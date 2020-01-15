@@ -19,6 +19,7 @@ public class Intersection implements Comparable<Intersection>  {
     private int lengthToDest;
     private int score;
     private Integer nth;
+    private int parent;
 
     public Intersection(int id, int x, int y) {
         connections = new ArrayList<>();
@@ -29,6 +30,15 @@ public class Intersection implements Comparable<Intersection>  {
         this.dest = false;
         nth = 999999;
         totalScore = 0;
+        parent = -1;
+    }
+
+    public int getParent() {
+        return parent;
+    }
+
+    public void setParent(int parent) {
+        this.parent = parent;
     }
 
     public int getNth() {

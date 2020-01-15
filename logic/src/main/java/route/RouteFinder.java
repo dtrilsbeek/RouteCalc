@@ -75,6 +75,7 @@ public class RouteFinder {
                 current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
 
                 queue.remove(current);
+                adjacent.setParent(current.getId());
                 queue.add(adjacent);
             }
 
@@ -88,6 +89,23 @@ public class RouteFinder {
     }
 
     public Set<Intersection> getFinalShortestRoute() {
+        //ArrayList<Intersection> list = new ArrayList<>(explored);
+        //list.sort(Collections.reverseOrder());
+
+        var current = destination;
+        while(current != from) {
+
+            finalRoute.add(current);
+            var parentId = current.getParent();
+
+            current = routeMap.getIntersection(parentId);
+        }
+        finalRoute.add(from);
+
+        return finalRoute;
+    }
+
+/*    public Set<Intersection> getFinalShortestRoute() {
         ArrayList<Intersection> list = new ArrayList<>(explored);
         Collections.sort(list);
         list.sort(Collections.reverseOrder());
@@ -116,7 +134,7 @@ public class RouteFinder {
         }
 
         return finalRoute;
-    }
+    }*/
 
     /* public Set<Intersection> getFinalShortestRoute() {
         ArrayList<Intersection> list = new ArrayList<>(explored);
