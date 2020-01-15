@@ -1,16 +1,10 @@
 const makeCard = card => `
         <div id="room${card.id}" class="room">
                 <div class="title">
-                    <h3 class="roomTitle"></h3>
+                    <h3 class="roomTitle">Room: /${card.id}</h3>
                 </div>
-
-                <div class="content">
-                    <b>users:</b>
-                    <p class="users"></p>
-                </div>
-
                 <div class="bottom">
-                    <a href="join/${card.id}"><button class="btnJoin submit-button">Join</button></a>
+                    <a href="travel/${card.id}"><button class="btnJoin submit-button">Join</button></a>
                 </div>
 
             </div>   

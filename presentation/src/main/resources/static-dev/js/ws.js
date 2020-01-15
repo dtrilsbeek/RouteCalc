@@ -42,3 +42,10 @@ socket.onclose = function (event) {
 socket.onerror = function (error) {
     body.classList.add("error");
 };
+
+function heartbeat() {
+    if (!socket) return;
+    if (socket.readyState !== 1) return;
+    socket.send("heartbeat");
+    setTimeout(heartbeat, 30000);
+}
