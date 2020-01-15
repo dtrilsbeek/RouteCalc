@@ -2,7 +2,7 @@ let intersections = [];
 let start = null;
 let dest = null;
 
-function drawMap(i, r) {
+function drawMap(i, r, e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let key in i) {
@@ -21,7 +21,8 @@ function drawMap(i, r) {
         }
     }
 
-    drawRoute(r);
+    drawExplored(e);
+    drawFinalRoute(r);
 }
 
 function isIntersect(point, intersection) {
@@ -32,16 +33,20 @@ function drawRect(intersection) {
     ctx.fillRect(intersection.x, intersection.y, 5, 5);
 }
 
-function drawRoute(route) {
+function drawExplored(route) {
+    drawRoute(route, "rgba(20,54,104,0.2)");
+}
+function drawFinalRoute(route) {
+    drawRoute(route, "#23a576");
+}
 
+function drawRoute(route, color) {
     let prev = null;
     for (let key in route) {
         if (route.hasOwnProperty(key)) {
-
             let current = route[key];
-
             if(prev !== null) {
-                drawRouteLine(current, prev);
+                drawRouteLine(current, prev, color);
             }
 
             prev = current;
@@ -74,8 +79,8 @@ function drawIntersection(intersection) {
 
 }
 
-function drawRouteLine(intersectionFrom, intersectionTo) {
-    drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
+function drawRouteLine(intersectionFrom, intersectionTo, color) {
+    drawLine(intersectionFrom, intersectionTo, color, 5);
 }
 
 function drawStartIntersection(intersection) {

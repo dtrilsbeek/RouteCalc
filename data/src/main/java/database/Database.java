@@ -128,8 +128,7 @@ public class Database {
         return false;
     }
 
-    public User checkPassword(String name, String password) {
-        User user = null;
+    public boolean checkPassword(String name, String password) {
         ResultSet rset = null;
         try (
                 Connection conn = this.getConnection();
@@ -144,10 +143,8 @@ public class Database {
                         rset.getString(userName),
                         rset.getString(userPass)
                 );
-
-                LOGGER.log( Level.FINE, "User CheckPassword: {0}" , p);
-
-                user = p;
+                System.out.println("User CheckPassword: true");
+                return true;
             }
 
         } catch (SQLException ex) {
@@ -162,6 +159,6 @@ public class Database {
             }
         }
 
-        return user;
+        return false;
     }
 }

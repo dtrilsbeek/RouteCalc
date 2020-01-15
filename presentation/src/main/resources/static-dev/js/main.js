@@ -39,8 +39,5 @@ function init() {
     ctx = setDPI(canvas, dpr * 96);
     initUserLogic();
     heartbeat();
-
-    // drawRandomIntersections(50);
-    // drawRandomLines(99);
 }
 

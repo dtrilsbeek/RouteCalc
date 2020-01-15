@@ -5,8 +5,8 @@ function setType(t) {
 }
 
 function sendIntersection(intersection) {
-    const test = {type: type, intersectionId: intersection.id};
-    socket.send(JSON.stringify(test));
+    const send = {type: type, intersectionId: intersection.id};
+    socket.send(JSON.stringify(send));
 }
 
 function initUserLogic() {

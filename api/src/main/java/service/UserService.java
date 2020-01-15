@@ -55,6 +55,42 @@ public class UserService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    public Response loginUser(
+            String UserInput
+    ) {
+        Type type = new TypeToken<UserRequest>() {
+        }.getType();
+        UserRequest request = gson.fromJson(UserInput, type);
+
+        UserResponse response = new UserResponse();
+        response.setOperation("loginUser");
+        response.setExpression("POST");
+
+        try {
+            var requestName = request.getUsername();
+            var requestPassword = request.getPassword();
+            var user = new User(requestName, requestPassword);
+
+            if (!database.checkPassword(user.getName(), user.getPassword())) {
+                response.setResult("invalid request");
+                return Response.status(400).entity(response).build();
+            }
+
+            response.setResult("success");
+            response.setUser(user);
+
+        } catch (NumberFormatException nfe) {
+            response.setResult("invalid value");
+            return Response.status(400).entity(response).build();
+        }
+
+        String output = gson.toJson(response);
+        return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(output).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response insertUser(
             String UserInput
     ) {

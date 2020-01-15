@@ -18,7 +18,9 @@ socket.onmessage = function (event) {
         case "drawMap":
             const {intersections} = received;
             const {route} = received;
-            drawMap(intersections, route);
+            const {explored} = received;
+
+            drawMap(intersections, route, explored);
             break;
 
         case "chat":
@@ -43,9 +45,13 @@ socket.onerror = function (error) {
     body.classList.add("error");
 };
 
+function sendHeartbeat() {
+    const pulse = {type: "PULSE"};
+    socket.send(JSON.stringify(pulse));
+}
 function heartbeat() {
     if (!socket) return;
     if (socket.readyState !== 1) return;
-    socket.send("heartbeat");
+    sendHeartbeat()
     setTimeout(heartbeat, 30000);
 }

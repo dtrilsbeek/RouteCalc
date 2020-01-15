@@ -44,7 +44,6 @@ public class Room {
     }
 
     public void setDestination(int intersectionId) {
-        System.out.println(intersectionId);
         if (this.destination != null) {
             this.destination.setDest(false);
         }

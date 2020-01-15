@@ -132,7 +132,6 @@ public class Main {
             ws.onMessage(ctx -> {
                 String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
                 var room = getRoom(roomId);
-                System.out.println(roomId);
                 if (room == null) return;
 
                 handleMessage(ctx, room);
@@ -200,7 +199,6 @@ public class Main {
 
     private static void handleMessage(WsMessageContext ctx, Room room) {
         var message = ctx.message(EmptyMessageModel.class);
-        System.out.println(message.getType());
 
         switch (message.getType()) {
             case "START":
