@@ -129,6 +129,6 @@ public class RouteFinderTest {
 
 
         //Assert
-        assertFalse(result);
+        assertTrue(result);
     }
 }
