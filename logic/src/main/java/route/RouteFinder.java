@@ -7,7 +7,7 @@ public class RouteFinder {
     private final RouteMap routeMap;
     private final Intersection from;
     private final Intersection destination;
-    private Set<Intersection> finalRoute;
+    private Map<Integer, Intersection> finalRoute;
     Set<Intersection> explored = new HashSet<>();
 
     PriorityQueue<Intersection> queue = new PriorityQueue<>(20,
@@ -30,7 +30,7 @@ public class RouteFinder {
         this.routeMap = routeMap;
         this.from = from;
         this.destination = destination;
-        this.finalRoute = new HashSet<>();
+        this.finalRoute = new HashMap<>();
         generateScores();
         findRoute();
     }
@@ -83,24 +83,22 @@ public class RouteFinder {
     }
 
 
-    public Set<Intersection> getFinalRoute() {
+    public Map<Integer, Intersection> getFinalRoute() {
         return getFinalShortestRoute();
 //        return explored;
     }
 
-    public Set<Intersection> getFinalShortestRoute() {
-        //ArrayList<Intersection> list = new ArrayList<>(explored);
-        //list.sort(Collections.reverseOrder());
-
+    public Map<Integer, Intersection> getFinalShortestRoute() {
+        var i = 0;
         var current = destination;
         while(current != from) {
-
-            finalRoute.add(current);
+            finalRoute.put(i, current);
             var parentId = current.getParent();
 
             current = routeMap.getIntersection(parentId);
+            i++;
         }
-        finalRoute.add(from);
+        finalRoute.put(i, from);
 
         return finalRoute;
     }

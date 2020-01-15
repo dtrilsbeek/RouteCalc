@@ -8,8 +8,8 @@ function drawMap(i, r) {
     for (let key in i) {
         if (i.hasOwnProperty(key)) {
             let current = i[key];
-            if(current.start) start = current;
-            if(current.dest) dest = current;
+            if (current.start) start = current;
+            if (current.dest) dest = current;
 
             intersections[current.id] = current;
         }
@@ -33,42 +33,22 @@ function drawRect(intersection) {
 }
 
 function drawRoute(route) {
+    if (dest) {
+        let current = dest.id;
+        while (current > 0) {
+            if (intersections.hasOwnProperty(current)) {
+                let intersection = intersections[current];
 
-    console.log(route);
+                if (intersection.parent > 0) {
+                    let intersectionTo = intersections[intersection.parent];
 
-    for (let key in route) {
-        if (!route.hasOwnProperty(key)) continue;
-        if (!intersections.hasOwnProperty(route[key].id)) continue;
-        if (!route.hasOwnProperty(parseInt(key) + 1)) continue;
-        if (!intersections.hasOwnProperty(route[parseInt(key) + 1].id)) continue;
-
-        let fromId = route[key].id;
-        let intersectionFrom = intersections[fromId];
-
-        const connections = intersectionFrom.connections;
-
-        if (connections) {
-            for (let key in connections) {
-                if (connections.hasOwnProperty(key)) {
-                    let id = connections[key];
-                    let connection = intersections[id];
-
-                    for (let key2 in route) {
-                        if (route.hasOwnProperty(key2)) {
-                            let check = route[key2];
-
-                            if(check.id === connection.id) {
-                                let intersectionTo = intersections[check.id];
-                                drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
-                            }
-                        }
-                    }
+                    drawLine(intersection, intersectionTo, "#23a576", 5);
                 }
+                current = intersection.parent;
             }
+
         }
-
     }
-
 }
 
 function drawIntersection(intersection) {
@@ -93,6 +73,10 @@ function drawIntersection(intersection) {
         }
     }
 
+}
+
+function drawRouteLine(intersectionFrom, intersectionTo) {
+    drawLine(intersectionFrom, intersectionTo, "#23a576", 5);
 }
 
 function drawStartIntersection(intersection) {
