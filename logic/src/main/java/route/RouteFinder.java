@@ -2,6 +2,7 @@ package route;
 
 import route.model.Intersection;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RouteFinder {
     private final RouteMap routeMap;
@@ -82,13 +83,11 @@ public class RouteFinder {
         }
     }
 
-
-    public Map<Integer, Intersection> getFinalRoute() {
-        return getFinalShortestRoute();
-//        return explored;
+    public Map<Integer, Intersection> getExplored() {
+        return explored.stream().collect(Collectors.toMap(Intersection::getNth, e -> e));
     }
 
-    public Map<Integer, Intersection> getFinalShortestRoute() {
+    public Map<Integer, Intersection> getFinalRoute() {
         var i = 0;
         var current = destination;
         while(current != from) {
@@ -102,67 +101,4 @@ public class RouteFinder {
 
         return finalRoute;
     }
-
-/*    public Set<Intersection> getFinalShortestRoute() {
-        ArrayList<Intersection> list = new ArrayList<>(explored);
-        Collections.sort(list);
-        list.sort(Collections.reverseOrder());
-
-        Integer prev = null;
-        for (Intersection intersection: list) {
-
-            if (prev == null) {
-                finalRoute.add(intersection);
-                prev = intersection.getNth();
-            }
-
-            var connections = intersection.getConnections();
-            for(Integer i : connections) {
-                var current = routeMap.getIntersection(i);
-                if(explored.contains(current)) {
-                    var nth = current.getNth();
-                    if(nth < prev) {
-                        finalRoute.add(intersection);
-                        prev = nth;
-                    }
-                }
-            }
-
-            if(intersection == from) finalRoute.add(intersection);
-        }
-
-        return finalRoute;
-    }*/
-
-    /* public Set<Intersection> getFinalShortestRoute() {
-        ArrayList<Intersection> list = new ArrayList<>(explored);
-        Collections.sort(list);
-        list.sort(Collections.reverseOrder());
-
-        Integer prevScore = null;
-        for (Intersection intersection: list) {
-
-            var score = intersection.getTotalScore();
-
-            if (intersection.isDest())
-            {
-                finalRoute.add(intersection);
-                continue;
-            }
-            if(prevScore == null) {
-                prevScore = score;
-                finalRoute.add(intersection);
-                continue;
-            }
-
-            if (score < prevScore) {
-                finalRoute.add(intersection);
-                prevScore = score;
-            }
-
-            if(intersection == from) break;
-        }
-
-        return finalRoute;
-    }*/
 }
