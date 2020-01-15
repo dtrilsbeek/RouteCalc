@@ -33,22 +33,21 @@ function drawRect(intersection) {
 }
 
 function drawRoute(route) {
-    if (dest) {
-        let current = dest.id;
-        while (current > 0) {
-            if (intersections.hasOwnProperty(current)) {
-                let intersection = intersections[current];
 
-                if (intersection.parent > 0) {
-                    let intersectionTo = intersections[intersection.parent];
+    let prev = null;
+    for (let key in route) {
+        if (route.hasOwnProperty(key)) {
 
-                    drawLine(intersection, intersectionTo, "#23a576", 5);
-                }
-                current = intersection.parent;
+            let current = route[key];
+
+            if(prev !== null) {
+                drawRouteLine(current, prev);
             }
 
+            prev = current;
         }
     }
+
 }
 
 function drawIntersection(intersection) {

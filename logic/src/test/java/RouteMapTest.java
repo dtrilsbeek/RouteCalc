@@ -31,8 +31,8 @@ public class RouteMapTest {
         var routeFinder = new RouteFinder(routeMap, from, to);
         var result = routeFinder.getFinalRoute();
 
-        for (Intersection i : result) {
-            System.out.println(i.getId());
-        }
+//        for (Intersection i : result) {
+//            System.out.println(i.getId());
+//        }
     }
 }

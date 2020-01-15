@@ -9,7 +9,6 @@ import route.RouteMap;
 import route.RouteMapExample;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
@@ -18,7 +17,7 @@ public class Room {
     private Map<WsContext, User> userMap;
     private RouteMap routeMap;
     private Intersection destination;
-    private Set<Intersection> route;
+    private Map<Integer, Intersection> route;
 
     public Room(String id) {
         this.id = id;
@@ -76,7 +75,7 @@ public class Room {
         return userMap.get(ctx);
     }
 
-    public Set<Intersection> findRoute(WsContext ctx) {
+    public Map<Integer, Intersection> findRoute(WsContext ctx) {
         if (destination == null) return null;
         if (this.getUserStartPoint(ctx) == null) return null;
 
@@ -85,7 +84,7 @@ public class Room {
         return route;
     }
 
-    public Set<Intersection> getRoute() {
+    public Map<Integer, Intersection> getRoute() {
         return route;
     }
 }
