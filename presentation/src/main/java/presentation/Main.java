@@ -11,8 +11,6 @@ import presentation.models.Room;
 import presentation.models.User;
 import presentation.models.UserModule;
 import presentation.models.messages.*;
-import presentation.models.newUser;
-import route.RouteFinder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -108,7 +106,7 @@ public class Main {
                 System.out.println(username);
 
                 room.join(ctx, user);
-                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections(), room.getRoute()));
+                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
 
                 var message = "Welcome "+username+". Send the following url to your friends to " +
                         "join you: http://"+ ctx.host()+"/travel/"+roomId;
@@ -191,6 +189,15 @@ public class Main {
 
     }
 
+    private static void broadcastRouteFinder(WsContext ctx, Room room){
+        if (room.findRoute(ctx)) {
+            broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getFinalRoute(), room.getExplored()));
+        }
+        else {
+            broadcastMessage(new DrawMessageModel(room.getIntersections()));
+        }
+    }
+
     private static void handleMessage(WsMessageContext ctx, Room room) {
         var message = ctx.message(EmptyMessageModel.class);
         System.out.println(message.getType());
@@ -199,18 +206,13 @@ public class Main {
             case "START":
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
-                var route = room.findRoute(ctx);
-
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), route));
+                broadcastRouteFinder(ctx, room);
                 break;
 
             case "DEST":
                 var setDestinationMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setDestination(setDestinationMessage.getIntersectionId());
-
-                var route2 = room.findRoute(ctx);
-
-                broadcastMessage(new DrawMessageModel(room.getIntersections(), route2));
+                broadcastRouteFinder(ctx, room);
                 break;
 
             case "CHAT":
