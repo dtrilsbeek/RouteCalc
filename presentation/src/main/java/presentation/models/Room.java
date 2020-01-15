@@ -32,7 +32,9 @@ public class Room {
     }
 
     public void setUserStartPoint(WsContext ctx, int id) {
-        startPoint.setStart(false);
+        if (startPoint != null) {
+            startPoint.setStart(false);
+        }
         startPoint = routeMap.getIntersection(id);
         startPoint.setStart(true);
     }

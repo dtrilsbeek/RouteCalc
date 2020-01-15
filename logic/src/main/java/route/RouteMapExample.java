@@ -9,6 +9,12 @@ public class RouteMapExample {
         this.addConnections();
     }
 
+    public RouteMapExample(RouteMap routeMap) {
+        this.routeMap = routeMap;
+        this.addIntersections();
+        this.addConnections();
+    }
+
     private void addIntersections() {
         routeMap.addIntersection(420, 620);
         routeMap.addIntersection(330, 620);
