@@ -33,6 +33,26 @@ public class RouteMap {
         }
     }
 
+    public void generateRandomConnections(int amount) {
+        for (int i = 0; i < amount; i++) {
+            if(i > intersections.size()-1) {
+                var randomNumber = getRandomIntersection(random.nextInt(0, intersections.size() -1));
+                addConnection(randomNumber, getRandomIntersection(i));
+            }
+            else {
+                addConnection(i, getRandomIntersection(i));
+            }
+        }
+    }
+
+    private int getRandomIntersection(int intersectionId) {
+        int number = random.nextInt(0, intersections.size() -1);
+        while (number == intersectionId) {
+            number = random.nextInt(0, intersections.size() -1);
+        }
+        return number;
+    }
+
     public Map<Integer, Intersection> getIntersections() {
         return intersections;
     }

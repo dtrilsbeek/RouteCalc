@@ -92,6 +92,8 @@ public class RouteFinder {
         var i = 0;
         var current = destination;
         while(current != from) {
+            if (current == null) break;
+
             finalRoute.put(i, current);
             var parentId = current.getParent();
 
