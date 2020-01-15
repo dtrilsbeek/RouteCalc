@@ -19,6 +19,7 @@ public class Room {
     private Intersection destination;
     private Map<Integer, Intersection> finalRoute;
     private Map<Integer, Intersection> explored;
+    private Intersection startPoint;
 
     public Room(String id) {
         this.id = id;
@@ -31,6 +32,12 @@ public class Room {
     }
 
     public void setUserStartPoint(WsContext ctx, int id) {
+        startPoint.setStart(false);
+        startPoint = routeMap.getIntersection(id);
+        startPoint.setStart(true);
+    }
+
+    public void setUserStartPointMultiple(WsContext ctx, int id) {
         var startPoint = getUserStartPoint(ctx);
         if (startPoint != null) {
             startPoint.setStart(false);
@@ -77,9 +84,9 @@ public class Room {
 
     public boolean findRoute(WsContext ctx) {
         if (destination == null) return false;
-        if (this.getUserStartPoint(ctx) == null) return false;
+        if (startPoint == null) return false;
 
-        var finder = new RouteFinder(routeMap, this.getUserStartPoint(ctx), destination);
+        var finder = new RouteFinder(routeMap, startPoint, destination);
         finalRoute = finder.getFinalRoute();
         explored = finder.getExplored();
         return true;

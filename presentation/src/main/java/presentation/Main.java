@@ -108,7 +108,13 @@ public class Main {
                 System.out.println(username);
 
                 room.join(ctx, user);
-                broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
+
+                if(room.getFinalRoute() == null) {
+                    broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
+                }
+                else {
+                    broadcastRouteFinder(ctx, room);
+                }
 
                 var message = "Welcome "+username+". Send the following url to your friends to " +
                         "join you: http://"+ ctx.host()+"/travel/"+roomId;
@@ -192,10 +198,10 @@ public class Main {
 
     private static void broadcastRouteFinder(WsContext ctx, Room room){
         if (room.findRoute(ctx)) {
-            broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getFinalRoute(), room.getExplored()));
+            broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getFinalRoute(), room.getExplored()), room);
         }
         else {
-            broadcastMessage(new DrawMessageModel(room.getIntersections()));
+            broadcastMessage(new DrawMessageModel(room.getIntersections()), room);
         }
     }
 
@@ -203,6 +209,9 @@ public class Main {
         var message = ctx.message(EmptyMessageModel.class);
 
         switch (message.getType()) {
+            case "PULSE": {
+                broadcastMessageTo(ctx, new EmptyMessageModel("CHECK"));
+            }
             case "START":
                 var setStartPointMessage = ctx.message(SetIntersectionMessageModel.class);
                 room.setUserStartPoint(ctx, setStartPointMessage.getIntersectionId());
@@ -240,7 +249,7 @@ public class Main {
         );
     }
 
-    private static void broadcastMessage(MessageModel message, Room room) {
+    private static void broadcastMessage(EmptyMessageModel message, Room room) {
         room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
                         ctx.send(message);

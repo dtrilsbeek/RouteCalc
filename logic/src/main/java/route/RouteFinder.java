@@ -73,6 +73,7 @@ public class RouteFinder {
                     continue;
                 }
 
+
                 current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
 
                 queue.remove(current);
