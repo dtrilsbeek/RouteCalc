@@ -100,8 +100,8 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_5000()
     {
         //Arrange
-        routeMap.generateRandomIntersections(500);
-        routeMap.generateRandomConnections(750);
+        routeMap.generateRandomIntersections(300);
+        routeMap.generateRandomConnections(600);
 
         //Act
         var result = false;
@@ -123,7 +123,7 @@ public class RouteFinderTest {
 
         long elapsedTime = System.nanoTime() - startTime;
         long milli = (elapsedTime/1000000);
-        long avg = milli/2000;
+        double avg = (double) milli/200000;
 
         System.out.println("Average execution time in millis: "+ avg );
 
