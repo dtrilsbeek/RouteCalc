@@ -2,10 +2,10 @@ package presentation.handlers;
 
 import io.javalin.http.Context;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 import static presentation.handlers.ExceptionHandler.wrapException;
-import static presentation.handlers.ResourceHandler.*;
+import static presentation.handlers.ResourceHandler.getErrorHtml;
+import static presentation.handlers.ResourceHandler.getTravelHtml;
 import static presentation.handlers.RoomHandler.getRoom;
 
 public class TravelHandler {

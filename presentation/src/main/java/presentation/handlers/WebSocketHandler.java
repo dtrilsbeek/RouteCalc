@@ -1,5 +1,6 @@
 package presentation.handlers;
 
+import org.eclipse.jetty.server.session.SessionHandler;
 import io.javalin.websocket.WsCloseContext;
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsMessageContext;
@@ -7,6 +8,7 @@ import presentation.models.Room;
 import presentation.models.view.UserViewModel;
 import presentation.models.messages.*;
 
+import static presentation.Main.getSessionHandler;
 import static presentation.handlers.ClientMessageHandler.chatMessage;
 import static presentation.handlers.ExceptionHandler.wrapException;
 import static presentation.handlers.MessageHandler.*;
@@ -16,9 +18,29 @@ import static presentation.handlers.RoomHandler.*;
 public class WebSocketHandler {
 
     private static int userCount = 1;
+    private static SessionHandler sessionHandler = getSessionHandler();
+
+    private static String getUsernameSession(WsConnectContext ctx) {
+        var session = sessionHandler.getHttpSession(ctx.getSessionId());
+
+        return (String) session.getAttribute("username");
+    }
+
+    private static String getUsername(WsConnectContext ctx, String userId) {
+        var user = UserHandler.getUser(Integer.parseInt(userId));
+        return user.getName();
+    }
+
+    private static String getGuestUsername() {
+        var username = "User " + userCount;
+        userCount++;
+        return username;
+    }
+
 
     public static void onConnect(WsConnectContext ctx) {
         String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
+        String userId = wrapException(() -> ctx.pathParam("userId", String.class).getOrNull());
 
         var room = getRoom(roomId);
         if (room == null) {
@@ -27,24 +49,28 @@ public class WebSocketHandler {
             return;
         }
 
-        var username = "User " + userCount;
+        String username;
+        if (userId == null) {
+            username = getGuestUsername();
+        }
+        else {
+            username = getUsername(ctx, userId);
+        }
+
         var user = new UserViewModel(userCount, username);
-        userCount++;
         System.out.println(username);
 
         room.join(ctx, user);
-
-        if(room.getFinalRoute() == null) {
+        if (room.getFinalRoute() == null) {
             broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
-        }
-        else {
+        } else {
             broadcastRouteFinder(ctx, room);
         }
 
-        var message = "Welcome "+username+". Send the following url to your friends to " +
-                "join you: http://"+ ctx.host()+"/travel/"+roomId;
+        var message = "Welcome " + username + ". Send the following url to your friends to " +
+                "join you: http://" + ctx.host() + "/travel/" + roomId;
         broadcastMessageTo(ctx, new SystemMessageModel(message));
-        broadcastMessageExcept(ctx, new SystemMessageModel(username+" joined the room"), room);
+        broadcastMessageExcept(ctx, new SystemMessageModel(username + " joined the room"), room);
     }
 
     public static void onMessage(WsMessageContext ctx) {

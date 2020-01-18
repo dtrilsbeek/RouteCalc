@@ -5,17 +5,12 @@ import io.javalin.http.Context;
 import model.User;
 import presentation.UserModule;
 import presentation.models.view.UserViewModel;
-
 import java.util.HashMap;
-import java.util.Objects;
-
-import static presentation.handlers.ResourceHandler.getErrorHtml;
 
 public class UserHandler {
 
     private static UserModule userModule = new UserModule();
-    private static HashMap<Integer, User> users;
-    private static int roomCount = 1;
+    private static HashMap<Integer, User> users = new HashMap<>();
 
     private static String getValidFormParam(Context ctx, String key) {
         var param = ctx.formParam(key);
@@ -26,6 +21,10 @@ public class UserHandler {
         }
 
         throw new BadRequestResponse("Missing parameter");
+    }
+
+    public static User getUser(Integer id) {
+        return users.get(id);
     }
 
     public static void register(Context ctx) {
@@ -47,18 +46,18 @@ public class UserHandler {
         if (user == null) {
             throw new BadRequestResponse("Invalid Request");
         }
+
+        users.put(user.getId(), user);
         ctx.sessionAttribute("username", user.getName());
         ctx.sessionAttribute("userId", user.getId());
         ctx.redirect("/lobby.html");
     }
 
     public static boolean isLoggedIn(Context ctx) {
-        String username = ctx.attribute("username");
+        String username = ctx.sessionAttribute("username");
 
         if (username != null) {
-            if (!username.isEmpty()) {
-                return true;
-            }
+            return !username.isEmpty();
         }
 
         return false;

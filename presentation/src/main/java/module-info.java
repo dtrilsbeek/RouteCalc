@@ -8,6 +8,8 @@ module presentation {
     requires logic;
     requires shared;
     requires java.net.http;
+    requires org.eclipse.jetty.server;
+    requires javax.servlet.api;
 
     opens presentation.models to com.fasterxml.jackson.databind;
     opens presentation.models.messages to com.fasterxml.jackson.databind;
