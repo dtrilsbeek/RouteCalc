@@ -1,4 +1,4 @@
-package presentation.models;
+package presentation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -117,18 +117,12 @@ public class UserModule {
                 Type type = new TypeToken<UserResponse>() {}.getType();
                 UserResponse userResponse = gson.fromJson(String.valueOf(response.body()), type);
 
-                if (userResponse != null) {
-                    return userResponse.getUser();
-                }
+                return userResponse.getUser();
             }
             else {
                 System.out.println(response.statusCode());
+                System.out.println(response);
             }
-
-            System.out.println(response);
-
-            throw new Exception("User API Unavailable");
-
 
         } catch (Exception e) {
             e.printStackTrace();

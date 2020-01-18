@@ -74,9 +74,6 @@ nav h2 {
 .submit-button:active {
     background-color: rgba(238, 249, 255, 0.2);
 }
-#btnViewRooms {
-
-}
 
 .alert {
     position: relative;
