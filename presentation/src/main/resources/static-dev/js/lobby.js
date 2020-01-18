@@ -11,9 +11,8 @@ const makeCard = card => `
         `;
 
 const load = async () => {
-
+    await getUsername();
     const rooms = await (await fetch(window.location.origin + "/rooms")).json();
-    console.log(rooms);
     const content = document.querySelector("#content");
     content.innerHTML = "";
 
@@ -22,11 +21,6 @@ const load = async () => {
                 let room = rooms[key];
 
                 content.innerHTML += makeCard(room);
-
-                console.log(room);
-
-                // document.querySelector(`#room${room.id} .roomTitle`).textContent = name;
-                // document.querySelector(`#room${room.id} .users`).textContent = users;
             }
         }
 };
@@ -41,5 +35,33 @@ function createRoom() {
         method: "post"
     }).then(res => {
         window.location.replace(res.url);
+    });
+}
+
+async function setUsername(res) {
+    let body = await res.text();
+    const elem = document.getElementById("username");
+
+    console.log(body);
+    if (body.length > 0) {
+        const user = JSON.parse(body);
+        elem.innerText = "Welcome, " + user.name;
+    }
+}
+
+async function getUsername() {
+    fetch("/getUser", {
+        method: 'get'
+    }).then(res => {
+        console.log(res);
+        if(res.status === 200) {
+            setUsername(res);
+        }
+        else if(res.status === 400) {
+            showError("Username Already Exists");
+        }
+        else {
+            showError("Connection Error");
+        }
     });
 }

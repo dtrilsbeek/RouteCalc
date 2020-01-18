@@ -28,6 +28,7 @@ public class Main {
         app.get("/rooms", RoomHandler::getAllRooms);
         app.post("/create-room", RoomHandler::createRoom);
         app.get("/travel/:id", TravelHandler::getTravel);
+        app.get("/getUser", UserHandler::getUsername);
         app.post("/register", UserHandler::register);
         app.post("/login", UserHandler::login);
     }

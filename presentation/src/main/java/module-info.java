@@ -11,4 +11,5 @@ module presentation {
 
     opens presentation.models to com.fasterxml.jackson.databind;
     opens presentation.models.messages to com.fasterxml.jackson.databind;
+    opens presentation.models.view to com.fasterxml.jackson.databind;
 }

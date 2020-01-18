@@ -7,6 +7,10 @@ public class UserViewModel {
     private String name;
     private Intersection startPoint;
 
+    public UserViewModel() {
+
+    }
+
     public UserViewModel(int id, String name) {
         this.id = id;
         this.name = name;

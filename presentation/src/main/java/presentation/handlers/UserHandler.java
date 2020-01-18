@@ -4,8 +4,12 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import model.User;
 import presentation.UserModule;
+import presentation.models.view.UserViewModel;
 
 import java.util.HashMap;
+import java.util.Objects;
+
+import static presentation.handlers.ResourceHandler.getErrorHtml;
 
 public class UserHandler {
 
@@ -26,7 +30,7 @@ public class UserHandler {
 
     public static void register(Context ctx) {
         var username = getValidFormParam(ctx, "username");
-        var password = getValidFormParam(ctx,"password");
+        var password = getValidFormParam(ctx, "password");
         var user = userModule.registerUser(username, password);
 
         if (user == null) {
@@ -37,12 +41,37 @@ public class UserHandler {
 
     public static void login(Context ctx) {
         var username = getValidFormParam(ctx, "username");
-        var password = getValidFormParam(ctx,"password");
+        var password = getValidFormParam(ctx, "password");
         var user = userModule.loginUser(username, password);
 
         if (user == null) {
             throw new BadRequestResponse("Invalid Request");
         }
+        ctx.sessionAttribute("username", user.getName());
+        ctx.sessionAttribute("userId", user.getId());
         ctx.redirect("/lobby.html");
+    }
+
+    public static boolean isLoggedIn(Context ctx) {
+        String username = ctx.attribute("username");
+
+        if (username != null) {
+            if (!username.isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void getUsername(Context ctx) {
+        String username = ctx.sessionAttribute("username");
+        Integer userId = ctx.sessionAttribute("userId");
+
+        if (userId == null) {
+            ctx.json(new UserViewModel());
+        } else {
+            ctx.json(new UserViewModel(userId, username));
+        }
     }
 }
