@@ -11,8 +11,10 @@
 
 <div class="landing-header">
 
-    <form id="login" class="auth" onsubmit="return false">
+    <form id="login" class="auth" onsubmit="loginUser(); return false">
         <h2>Login</h2>
+
+        <div id="error"></div>
 
         <div class="input-group">
             <div class="label-group">

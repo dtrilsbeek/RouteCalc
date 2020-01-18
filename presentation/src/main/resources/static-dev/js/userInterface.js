@@ -28,10 +28,20 @@ async function loginUser() {
         data.append(pair[0], pair[1]);
     }
 
-    const response = await fetch("/login", {
+    fetch("/login", {
         method: 'post',
         body: data,
-    }).then(value => console.log(value));
+    }).then(res => {
+        if(res.status === 200) {
+            window.location.replace(res.url);
+        }
+        else if(res.status === 400) {
+            showError("Username or Password Incorrect");
+        }
+        else {
+            showError("Connection Error");
+        }
+    });
 }
 
 async function registerUser() {
@@ -44,7 +54,6 @@ async function registerUser() {
         method: 'post',
         body: data,
     }).then(res => {
-        console.log(res);
         if(res.status === 200) {
             window.location.replace(res.url);
         }

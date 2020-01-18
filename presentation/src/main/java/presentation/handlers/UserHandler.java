@@ -32,6 +32,13 @@ public class UserHandler {
     }
 
     public static void login(Context ctx) {
+        var username = getValidFormParam(ctx, "username");
+        var password = getValidFormParam(ctx,"password");
+        var user = userModule.loginUser(username, password);
 
+        if (user == null) {
+            throw new BadRequestResponse("Invalid Request");
+        }
+        ctx.redirect("/lobby.html");
     }
 }

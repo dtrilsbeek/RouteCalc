@@ -140,7 +140,7 @@ public class Database {
                 Connection conn = this.getConnection();
                 Statement stmt = conn.createStatement();
         ) {
-            String strSelect = String.format("select * from user WHERE name = %s AND password=%s;", name, password);
+            String strSelect = String.format("select * from user WHERE name = '%s' AND password= '%s';", name, password);
             rset = stmt.executeQuery(strSelect);
 
             if(rset.next()) {
