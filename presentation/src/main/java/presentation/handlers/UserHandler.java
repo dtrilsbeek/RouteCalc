@@ -15,9 +15,13 @@ public class UserHandler {
 
     private static String getValidFormParam(Context ctx, String key) {
         var param = ctx.formParam(key);
-        if (param == null) throw new BadRequestResponse("Missing parameter");
+        if (param != null) {
+            if (!param.isEmpty()) {
+                return param;
+            }
+        }
 
-        return param;
+        throw new BadRequestResponse("Missing parameter");
     }
 
     public static void register(Context ctx) {

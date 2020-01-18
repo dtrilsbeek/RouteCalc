@@ -23,7 +23,6 @@ public class UserService {
         this.database = new Database();
     }
 
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
