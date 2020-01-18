@@ -3,6 +3,7 @@ package presentation.models;
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
 
+import presentation.models.view.UserViewModel;
 import route.RouteFinder;
 import route.model.Intersection;
 import route.RouteMap;

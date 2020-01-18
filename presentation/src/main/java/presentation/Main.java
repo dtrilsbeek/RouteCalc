@@ -26,8 +26,9 @@ public class Main {
         });
 
         app.get("/rooms", RoomHandler::getAllRooms);
-        app.get("/travel/:id", TravelHandler::getTravel);
         app.post("/create-room", RoomHandler::createRoom);
+        app.get("/travel/:id", TravelHandler::getTravel);
         app.post("/register", UserHandler::register);
+        app.post("/login", UserHandler::login);
     }
 }

@@ -13,20 +13,25 @@ public class UserHandler {
     private static HashMap<Integer, User> users;
     private static int roomCount = 1;
 
+    private static String getValidFormParam(Context ctx, String key) {
+        var param = ctx.formParam(key);
+        if (param == null) throw new BadRequestResponse("Missing parameter");
+
+        return param;
+    }
+
     public static void register(Context ctx) {
-        var username = ctx.formParam("username");
-        var password = ctx.formParam("password");
-        if (username == null) throw new BadRequestResponse("Missing parameter");
-        if (password == null) throw new BadRequestResponse("Missing parameter");
-
+        var username = getValidFormParam(ctx, "username");
+        var password = getValidFormParam(ctx,"password");
         var user = userModule.registerUser(username, password);
-
-        System.out.println(user.getName());
-        System.out.println(user.getPassword());
 
         if (user == null) {
             throw new BadRequestResponse("Invalid Request");
         }
         ctx.redirect("/login.html");
+    }
+
+    public static void login(Context ctx) {
+
     }
 }

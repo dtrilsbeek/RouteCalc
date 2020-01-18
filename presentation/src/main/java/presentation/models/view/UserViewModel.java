@@ -1,4 +1,4 @@
-package presentation.models;
+package presentation.models.view;
 
 import route.model.Intersection;
 

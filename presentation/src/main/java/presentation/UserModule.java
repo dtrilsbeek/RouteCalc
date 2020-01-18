@@ -117,7 +117,9 @@ public class UserModule {
                 Type type = new TypeToken<UserResponse>() {}.getType();
                 UserResponse userResponse = gson.fromJson(String.valueOf(response.body()), type);
 
-                return userResponse.getUser();
+                var user = userResponse.getUser();
+
+                return user;
             }
             else {
                 System.out.println(response.statusCode());

@@ -48,8 +48,11 @@ async function registerUser() {
         if(res.status === 200) {
             window.location.replace(res.url);
         }
-        else {
+        else if(res.status === 400) {
             showError("Username Already Exists");
+        }
+        else {
+            showError("Connection Error");
         }
     });
 }

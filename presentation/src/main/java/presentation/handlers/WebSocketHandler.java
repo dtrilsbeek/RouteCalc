@@ -3,13 +3,9 @@ package presentation.handlers;
 import io.javalin.websocket.WsCloseContext;
 import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsMessageContext;
-import model.User;
-import presentation.UserModule;
 import presentation.models.Room;
-import presentation.models.UserViewModel;
+import presentation.models.view.UserViewModel;
 import presentation.models.messages.*;
-
-import java.util.HashMap;
 
 import static presentation.handlers.ClientMessageHandler.chatMessage;
 import static presentation.handlers.ExceptionHandler.wrapException;

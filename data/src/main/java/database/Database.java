@@ -116,12 +116,17 @@ public class Database {
                 Connection conn = this.getConnection();
                 Statement stmt = conn.createStatement();
         ) {
-            var result = stmt.executeUpdate(String.format("INSERT INTO user (name, password) VALUES ('%s', '%s')", user.getName(), user.getPassword()));
-            LOGGER.log( Level.FINE, "Affected rows: {0}", stmt.getUpdateCount());
+            try {
+                var result = stmt.executeUpdate(String.format("INSERT INTO user (name, password) VALUES ('%s', '%s')", user.getName(), user.getPassword()));
+                LOGGER.log( Level.FINE, "Affected rows: {0}", stmt.getUpdateCount());
 
-            if (result == 1) return true;
+                if (result == 1) return true;
 
-        } catch (SQLException ex) {
+            } catch (SQLIntegrityConstraintViolationException duplicate) {
+                return false;
+            }
+
+        } catch (Exception ex) {
             LOGGER.log( Level.SEVERE, ex.toString(), ex );
         }
 
@@ -161,9 +166,5 @@ public class Database {
         }
 
         return user;
-    }
-
-    public void getUserByName(String name) {
-
     }
 }

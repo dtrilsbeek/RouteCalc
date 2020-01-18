@@ -2,11 +2,10 @@ package presentation.handlers;
 
 import io.javalin.websocket.WsMessageContext;
 import presentation.models.Room;
-import presentation.models.UserViewModel;
+import presentation.models.view.UserViewModel;
 import presentation.models.messages.EmptyMessageModel;
 import presentation.models.messages.SetIntersectionMessageModel;
 import presentation.models.messages.UserMessageModel;
-
 import static presentation.handlers.MessageHandler.*;
 
 public class ClientMessageHandler {

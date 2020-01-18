@@ -112,12 +112,12 @@ public class UserService {
             var user = new User(requestName, requestPassword);
 
             if (!database.insertUser(user)) {
-                response.setResult("invalid request");
-                return Response.status(400).entity(response).build();
+                response.setResult("false");
             }
-
-            response.setResult("success");
-            response.setUser(user);
+            else {
+                response.setResult("success");
+                response.setUser(user);
+            }
 
         } catch (NumberFormatException nfe) {
             response.setResult("invalid value");
