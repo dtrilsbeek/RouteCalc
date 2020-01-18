@@ -40,8 +40,22 @@ async function registerUser() {
         data.append(pair[0], pair[1]);
     }
 
-    const response = await fetch("/register", {
+    fetch("/register", {
         method: 'post',
         body: data,
-    }).then(value => console.log(value));
+    }).then(res => {
+        console.log(res);
+        if(res.status === 200) {
+            window.location.replace(res.url);
+        }
+        else {
+            showError("Username Already Exists");
+        }
+    });
+}
+
+function showError(message) {
+    const errorElem = document.getElementById("error");
+    errorElem.classList.add("alert", "alert-danger");
+    errorElem.innerText = message;
 }
