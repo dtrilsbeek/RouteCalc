@@ -12,7 +12,7 @@ public class TravelHandler {
 
     public static void getTravel(Context ctx) {
         String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
-        var room = getRoom(roomId);
+        var room = RoomHandler.getRoom(roomId);
 
         ctx.contentType("text/html");
         if (room == null) {

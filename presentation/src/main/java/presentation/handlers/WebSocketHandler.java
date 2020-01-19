@@ -42,7 +42,7 @@ public class WebSocketHandler {
         String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
         String userId = wrapException(() -> ctx.pathParam("userId", String.class).getOrNull());
 
-        var room = getRoom(roomId);
+        var room = RoomHandler.getRoom(roomId);
         if (room == null) {
             ctx.send(new EmptyMessageModel("no_room"));
             ctx.session.close(4000, "No room found");
@@ -62,9 +62,9 @@ public class WebSocketHandler {
 
         room.join(ctx, user);
         if (room.getFinalRoute() == null) {
-            broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
+            MessageHandler.broadcastMessageTo(ctx, new DrawMessageModel(room.getIntersections()));
         } else {
-            broadcastRouteFinder(ctx, room);
+            MessageHandler.broadcastRouteFinder(ctx, room);
         }
 
         var message = "Welcome " + username + ". Send the following url to your friends to " +
@@ -88,11 +88,11 @@ public class WebSocketHandler {
         var user = room.getUser(ctx);
         if (user == null) return;
 
-        broadcastMessage(new SystemMessageModel(user.getName() + " left the chat"), room);
+        MessageHandler.broadcastMessage(new SystemMessageModel(user.getName() + " left the chat"), room);
         room.leave(ctx);
 
         if (room.getUserMap().size() < 1) {
-            deleteRoom(roomId);
+            RoomHandler.deleteRoom(roomId);
         }
     }
 

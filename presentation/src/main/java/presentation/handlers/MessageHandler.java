@@ -9,7 +9,7 @@ import static presentation.handlers.RoomHandler.getRooms;
 public class MessageHandler {
 
     public static void broadcastMessage(EmptyMessageModel message) {
-        getRooms().forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
+        RoomHandler.getRooms().forEach((key, room) -> room.getUserMap().forEach((ctx, user) -> {
                     if (ctx.session.isOpen()) {
                         ctx.send(message);
                     }
@@ -41,10 +41,10 @@ public class MessageHandler {
 
     public static void broadcastRouteFinder(WsContext ctx, Room room){
         if (room.findRoute(ctx)) {
-            broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getFinalRoute(), room.getExplored()), room);
+            MessageHandler.broadcastMessage(new DrawMessageModel(room.getIntersections(), room.getFinalRoute(), room.getExplored()), room);
         }
         else {
-            broadcastMessage(new DrawMessageModel(room.getIntersections()), room);
+            MessageHandler.broadcastMessage(new DrawMessageModel(room.getIntersections()), room);
         }
     }
 

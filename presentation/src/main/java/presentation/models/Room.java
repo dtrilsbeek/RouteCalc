@@ -28,6 +28,16 @@ public class Room {
         this.routeMap = new RouteMapExample().getRouteMap();
     }
 
+    public boolean findRoute(WsContext ctx) {
+        if (destination == null) return false;
+        if (startPoint == null) return false;
+
+        var finder = new RouteFinder(routeMap, startPoint, destination);
+        finalRoute = finder.getFinalRoute();
+        explored = finder.getExplored();
+        return true;
+    }
+
     public Intersection getUserStartPoint(WsContext ctx) {
         return getUser(ctx).getStartPoint();
     }
@@ -83,16 +93,6 @@ public class Room {
 
     public UserViewModel getUser(WsContext ctx) {
         return userMap.get(ctx);
-    }
-
-    public boolean findRoute(WsContext ctx) {
-        if (destination == null) return false;
-        if (startPoint == null) return false;
-
-        var finder = new RouteFinder(routeMap, startPoint, destination);
-        finalRoute = finder.getFinalRoute();
-        explored = finder.getExplored();
-        return true;
     }
 
     public Map<Integer, Intersection> getFinalRoute() {
