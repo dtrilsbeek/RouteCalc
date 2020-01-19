@@ -1,34 +1,23 @@
 package route;
 
+import route.interfaces.IRouteFinder;
+import route.interfaces.IRouteMap;
 import route.model.Intersection;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class RouteFinder {
-    private final RouteMap routeMap;
+public class RouteFinder implements IRouteFinder {
+    private final IRouteMap routeMapInterface;
     private final Intersection from;
     private final Intersection destination;
     private Map<Integer, Intersection> finalRoute;
     Set<Intersection> explored = new HashSet<>();
-
     PriorityQueue<Intersection> queue = new PriorityQueue<>(20,
-            new Comparator<Intersection>() {
-                //override compare method
-                public int compare(Intersection i, Intersection j) {
-                    if (i.getScore(j) > j.getScore(i)) {
-                        return 1;
-                    } else if (i.getScore(j) < j.getScore(i)) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-
-            }
+            (i, j) -> Double.compare(i.getScore(j), j.getScore(i))
     );
 
-    public RouteFinder(RouteMap routeMap, Intersection from, Intersection destination) {
-        this.routeMap = routeMap;
+    public RouteFinder(IRouteMap routeMapInterface, Intersection from, Intersection destination) {
+        this.routeMapInterface = routeMapInterface;
         this.from = from;
         this.destination = destination;
         this.finalRoute = new HashMap<>();
@@ -37,12 +26,13 @@ public class RouteFinder {
     }
 
     private void generateScores() {
-        for (Map.Entry<Integer, Intersection> pair : routeMap.getIntersections().entrySet()) {
+        for (Map.Entry<Integer, Intersection> pair : routeMapInterface.getIntersections().entrySet()) {
             var currentIntersection = pair.getValue();
             currentIntersection.setLengthToDest(destination);
         }
     }
 
+    @Override
     public void findRoute() {
         from.setTotalScore(0);
         queue.add(from);
@@ -67,7 +57,7 @@ public class RouteFinder {
 
             for (Integer id : current.getConnections()) {
 
-                Intersection adjacent = routeMap.getIntersection(id);
+                Intersection adjacent = routeMapInterface.getIntersection(id);
 
                 if (explored.contains(adjacent)) {
                     continue;
@@ -84,10 +74,12 @@ public class RouteFinder {
         }
     }
 
+    @Override
     public Map<Integer, Intersection> getExplored() {
         return explored.stream().collect(Collectors.toMap(Intersection::getNth, e -> e));
     }
 
+    @Override
     public Map<Integer, Intersection> getFinalRoute() {
         var i = 0;
         var current = destination;
@@ -97,7 +89,7 @@ public class RouteFinder {
             finalRoute.put(i, current);
             var parentId = current.getParent();
 
-            current = routeMap.getIntersection(parentId);
+            current = routeMapInterface.getIntersection(parentId);
             i++;
         }
         finalRoute.put(i, from);

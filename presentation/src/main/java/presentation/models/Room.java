@@ -5,8 +5,8 @@ import io.javalin.websocket.WsContext;
 
 import presentation.models.view.UserViewModel;
 import route.RouteFinder;
+import route.interfaces.IRouteMap;
 import route.model.Intersection;
-import route.RouteMap;
 import route.RouteMapExample;
 
 import java.util.Map;
@@ -16,7 +16,7 @@ public class Room {
 
     private String id;
     private Map<WsContext, UserViewModel> userMap;
-    private RouteMap routeMap;
+    private IRouteMap routeMap;
     private Intersection destination;
     private Map<Integer, Intersection> finalRoute;
     private Map<Integer, Intersection> explored;

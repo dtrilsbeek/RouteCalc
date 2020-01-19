@@ -1,11 +1,10 @@
 package route.model;
 
 import org.jetbrains.annotations.NotNull;
+import route.Scorer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static route.Scorer.calcScore;
 
 public class Intersection implements Comparable<Intersection>  {
 
@@ -15,8 +14,8 @@ public class Intersection implements Comparable<Intersection>  {
     private List<Integer> connections;
     private int x;
     private int y;
-    private Integer totalScore;
-    private int lengthToDest;
+    private double totalScore;
+    private double lengthToDest;
     private int score;
     private Integer nth;
     private int parent;
@@ -49,20 +48,20 @@ public class Intersection implements Comparable<Intersection>  {
         this.nth = nth;
     }
 
-    public int getTotalScore() {
+    public double getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(int totalScore) {
+    public void setTotalScore(double totalScore) {
         this.totalScore = totalScore;
     }
 
     public void setLengthToDest(Intersection dest) {
-        this.lengthToDest = calcScore(this, dest);
+        this.lengthToDest = Scorer.computeCost(this, dest);
     }
 
-    public int getScore(Intersection o) {
-        var length = calcScore(this, o);
+    public double getScore(Intersection o) {
+        var length = Scorer.computeCost(this, o);
         return length + lengthToDest;
     }
 
@@ -102,11 +101,11 @@ public class Intersection implements Comparable<Intersection>  {
         return id;
     }
 
-    public int getLength(Intersection o) {
-        return calcScore(this, o);
+    public double getLength(Intersection o) {
+        return Scorer.computeCost(this, o);
     }
 
-    public int getLengthToDest() {
+    public double getLengthToDest() {
         return lengthToDest;
     }
 

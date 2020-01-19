@@ -1,11 +1,12 @@
 package route;
 
+import route.interfaces.IRouteMap;
 import route.model.Intersection;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RouteMap {
+public class RouteMap implements IRouteMap {
 
     private final int radius;
     private final int boundX;
@@ -21,10 +22,12 @@ public class RouteMap {
         this.random = ThreadLocalRandom.current();
     }
 
+    @Override
     public Intersection getIntersection(int id) {
         return intersections.get(id);
     }
 
+    @Override
     public void generateRandomIntersections(int amount) {
         for (int i = 0; i < amount; i++) {
             int random1 = random.nextInt(radius, boundX - radius);
@@ -33,6 +36,7 @@ public class RouteMap {
         }
     }
 
+    @Override
     public void generateRandomConnections(int amount) {
         for (int i = 0; i < amount; i++) {
             if(i > intersections.size()-1) {
@@ -45,6 +49,7 @@ public class RouteMap {
         }
     }
 
+    @Override
     public int getRandomIntersection(int intersectionId) {
         int number = random.nextInt(0, intersections.size() -1);
         while (number == intersectionId) {
@@ -53,15 +58,18 @@ public class RouteMap {
         return number;
     }
 
+    @Override
     public Map<Integer, Intersection> getIntersections() {
         return intersections;
     }
 
+    @Override
     public void addIntersection(int x, int y) {
         var intersection = getNewIntersection(x, y);
         this.intersections.put(intersection.getId(), intersection);
     }
 
+    @Override
     public void addConnection(int id1, int id2) {
         try {
             var intersection1 = getIntersection(id1);
