@@ -32,8 +32,7 @@ public class RouteFinder implements IRouteFinder {
         }
     }
 
-    @Override
-    public void findRoute() {
+    private void findRoute() {
         from.setTotalScore(0);
         queue.add(from);
 

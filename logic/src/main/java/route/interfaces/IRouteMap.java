@@ -5,6 +5,12 @@ import route.model.Intersection;
 import java.util.Map;
 
 public interface IRouteMap {
+    /**
+     * Get a specific Intersection based on provided id
+     *
+     * @param id Id of the intersection
+     * @return The intersection
+     */
     Intersection getIntersection(int id);
 
     /**
@@ -22,7 +28,6 @@ public interface IRouteMap {
      * @param amount The amount of connections to be generated
      */
     void generateRandomConnections(int amount);
-
 
     /**
      * @param intersectionId provide an intersection id so the returned id will not be the same as the given.
@@ -45,8 +50,8 @@ public interface IRouteMap {
     void addIntersection(int x, int y);
 
     /**
-     * @param id1 The id of the first intersection
-     * @param id2 The id of the second intersection
+     * @param from The id of the first intersection
+     * @param to The id of the second intersection
      */
-    void addConnection(int id1, int id2);
+    void addConnection(int from, int to);
 }
