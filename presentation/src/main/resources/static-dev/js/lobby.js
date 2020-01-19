@@ -42,10 +42,13 @@ async function setUsername(res) {
     let body = await res.text();
     const elem = document.getElementById("username");
 
-    console.log(body);
     if (body.length > 0) {
         const user = JSON.parse(body);
-        elem.innerText = "Welcome, " + user.name;
+        if (user.hasOwnProperty("name")) {
+            if(user.name) {
+                elem.innerText = "Welcome, " + user.name;
+            }
+        }
     }
 }
 
@@ -53,7 +56,6 @@ async function getUsername() {
     fetch("/getUser", {
         method: 'get'
     }).then(res => {
-        console.log(res);
         if(res.status === 200) {
             setUsername(res);
         }

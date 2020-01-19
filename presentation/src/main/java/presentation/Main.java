@@ -22,7 +22,7 @@ public class Main {
             config.addStaticFiles("static-dev");
         }).start(80);
 
-        app.ws("/travel/:id/:userId", ws -> {
+        app.ws("/travel/:id", ws -> {
             ws.onConnect(WebSocketHandler::onConnect);
             ws.onClose(WebSocketHandler::onClose);
             ws.onMessage(WebSocketHandler::onMessage);
