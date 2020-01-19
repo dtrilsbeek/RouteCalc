@@ -48,6 +48,7 @@ public class UserHandler {
         }
 
         users.put(user.getId(), user);
+        ctx.cookie("userId", String.valueOf(user.getId()));
         ctx.sessionAttribute("username", user.getName());
         ctx.sessionAttribute("userId", user.getId());
         ctx.redirect("/lobby.html");
@@ -61,6 +62,10 @@ public class UserHandler {
         }
 
         return false;
+    }
+
+    public static User getUserById(Integer id) {
+        return users.get(id);
     }
 
     public static void getUsername(Context ctx) {
