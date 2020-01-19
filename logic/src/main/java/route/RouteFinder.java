@@ -3,35 +3,46 @@ package route;
 import route.interfaces.IRouteFinder;
 import route.interfaces.IRouteMap;
 import route.model.Intersection;
+import route.timeutil.TimeStamp;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class RouteFinder implements IRouteFinder {
-    private final IRouteMap routeMapInterface;
+
+    private final IRouteMap routeMap;
     private final Intersection from;
     private final Intersection destination;
+    private TimeStamp tsCalc;
     private Map<Integer, Intersection> finalRoute;
-    Set<Intersection> explored = new HashSet<>();
-    PriorityQueue<Intersection> queue = new PriorityQueue<>(20,
-            (i, j) -> Double.compare(i.getScore(j), j.getScore(i))
-    );
+    private Set<Intersection> explored;
+    private PriorityQueue<Intersection> queue;
+    private ExecutorService threadPool;
+    private List<RouteRunner> runners;
 
-    public RouteFinder(IRouteMap routeMapInterface, Intersection from, Intersection destination) {
-        this.routeMapInterface = routeMapInterface;
+    public RouteFinder(IRouteMap routeMap, Intersection from, Intersection destination) {
+        this.routeMap = routeMap;
         this.from = from;
         this.destination = destination;
+        this.tsCalc = new TimeStamp();
         this.finalRoute = new HashMap<>();
+        this.explored = new HashSet<>();
+        this.queue = new PriorityQueue<>(20,
+            (i, j) -> Double.compare(i.getScore(j), j.getScore(i))
+        );
+
+        this.threadPool = Executors.newCachedThreadPool();
+        this.runners = new ArrayList<>();
+        init();
         generateScores();
         findRoute();
     }
 
-    private void generateScores() {
-        for (Map.Entry<Integer, Intersection> pair : routeMapInterface.getIntersections().entrySet()) {
-            var currentIntersection = pair.getValue();
-            currentIntersection.setLengthToDest(destination);
-        }
+    private void init() {
+        tsCalc.init();
+        tsCalc.setBegin("Begin calculating");
     }
-
     private void findRoute() {
         from.setTotalScore(0);
         queue.add(from);
@@ -50,26 +61,17 @@ public class RouteFinder implements IRouteFinder {
             current.setNth(i);
             i++;
 
-
             from.setTotalScore(from.getTotalScore() + current.getScore(destination));
             current.setTotalScore(from.getTotalScore());
 
-            for (Integer id : current.getConnections()) {
+            runners.add(new RouteRunner(this, current));
+        }
+    }
 
-                Intersection adjacent = routeMapInterface.getIntersection(id);
-
-                if (explored.contains(adjacent)) {
-                    continue;
-                }
-
-
-                current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
-
-                queue.remove(current);
-                adjacent.setParent(current.getId());
-                queue.add(adjacent);
-            }
-
+    private void generateScores() {
+        for (Map.Entry<Integer, Intersection> pair : routeMap.getIntersections().entrySet()) {
+            var currentIntersection = pair.getValue();
+            currentIntersection.setLengthToDest(destination);
         }
     }
 
@@ -88,7 +90,7 @@ public class RouteFinder implements IRouteFinder {
             finalRoute.put(i, current);
             var parentId = current.getParent();
 
-            current = routeMapInterface.getIntersection(parentId);
+            current = routeMap.getIntersection(parentId);
             i++;
         }
         finalRoute.put(i, from);
