@@ -119,7 +119,11 @@ public class WebSocketHandler {
     private static String getUsername(Integer userId) {
         var user = UserHandler.getUser(userId);
 
-        return user.getName();
+        if (user != null) {
+            return user.getName();
+        }
+
+        return getGuestUsername();
     }
 
     private static String getGuestUsername() {

@@ -23,7 +23,7 @@ socket.onmessage = function (event) {
             drawMap(intersections, route, explored);
             break;
 
-        case "chat":
+        case "CHAT":
             showChat(received.sender + ": " + received.message);
             break;
     }

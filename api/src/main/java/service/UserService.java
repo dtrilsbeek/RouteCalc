@@ -42,7 +42,6 @@ public class UserService {
             var requestName = request.getUsername();
             var requestPassword = request.getPassword();
             var user = new User(requestName, requestPassword);
-
             var userResult = database.checkPassword(user.getName(), user.getPassword());
 
             if (userResult == null) {
