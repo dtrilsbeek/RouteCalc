@@ -10,17 +10,20 @@ public class RouteFinder implements IRouteFinder {
     private final IRouteMap routeMapInterface;
     private final Intersection from;
     private final Intersection destination;
+    private int nth;
     private Map<Integer, Intersection> finalRoute;
     Set<Intersection> explored = new HashSet<>();
     PriorityQueue<Intersection> queue = new PriorityQueue<>(20,
             (i, j) -> Double.compare(i.getScore(j), j.getScore(i))
     );
 
+
     public RouteFinder(IRouteMap routeMapInterface, Intersection from, Intersection destination) {
         this.routeMapInterface = routeMapInterface;
         this.from = from;
         this.destination = destination;
         this.finalRoute = new HashMap<>();
+        this.nth = 0;
         generateScores();
         findRoute();
     }
@@ -36,23 +39,15 @@ public class RouteFinder implements IRouteFinder {
         from.setTotalScore(0);
         queue.add(from);
 
-        int i = 0;
         boolean found = false;
         while ((!queue.isEmpty()) && (!found)) {
 
-            Intersection current = queue.poll();
-            explored.add(current);
-
-            if (current.getId() == destination.getId()) {
+            var current = getNextFromQueue();
+            if (isDestination(current)) {
                 found = true;
             }
 
-            current.setNth(i);
-            i++;
-
-
-            from.setTotalScore(from.getTotalScore() + current.getScore(destination));
-            current.setTotalScore(from.getTotalScore());
+            setTotalScore(current);
 
             for (Integer id : current.getConnections()) {
 
@@ -62,7 +57,6 @@ public class RouteFinder implements IRouteFinder {
                     continue;
                 }
 
-
                 current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
 
                 queue.remove(current);
@@ -71,6 +65,27 @@ public class RouteFinder implements IRouteFinder {
             }
 
         }
+    }
+
+    private void setTotalScore(Intersection current) {
+        from.setTotalScore(from.getTotalScore() + current.getScore(destination));
+        current.setTotalScore(from.getTotalScore());
+    }
+
+    private Intersection getNextFromQueue() {
+        Intersection current = queue.poll();
+        explored.add(current);
+
+        if (current != null) {
+            current.setNth(nth);
+            nth++;
+        }
+
+        return current;
+    }
+
+    private boolean isDestination(Intersection current){
+        return current.getId() == destination.getId();
     }
 
     @Override
