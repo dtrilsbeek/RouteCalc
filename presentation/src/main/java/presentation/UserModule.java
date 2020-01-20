@@ -24,39 +24,6 @@ public class UserModule {
 
     private Gson gson = new Gson();
 
-    public List<User> getAllUsers() {
-
-        URL url = null;
-        try {
-            url = new URL(host + "/user");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer result = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                result.append(inputLine);
-            }
-            in.close();
-
-            Type type = new TypeToken<UserResponseList>() {}.getType();
-            UserResponseList userResponseList = gson.fromJson(String.valueOf(result), type);
-
-            if (userResponseList != null) {
-                return userResponseList.getUserList();
-            }
-
-            return new ArrayList<>();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
-    }
-
     public User loginUser(String username, String password) {
         try {
             var json = new JsonObject();

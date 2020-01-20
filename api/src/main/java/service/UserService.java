@@ -23,34 +23,6 @@ public class UserService {
         this.database = new Database();
     }
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") String id) {
-
-        UserResponse response = new UserResponse();
-        response.setOperation("getUser");
-        response.setExpression("/" + id);
-
-        try {
-            var userId = Integer.parseInt(id);
-            var user = database.getUserById(userId);
-
-            if (user == null) {
-                response.setResult("User not found");
-            } else {
-                response.setResult("User found");
-                response.setUser(user);
-            }
-
-        } catch (NumberFormatException nfe) {
-            response.setResult("invalid value");
-        }
-
-        String output = gson.toJson(response);
-        return Response.status(200).entity(output).header("Access-Control-Allow-Origin", "*").build();
-    }
-
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
