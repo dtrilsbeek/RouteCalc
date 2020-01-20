@@ -10,10 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>logic</artifactId>
-    <properties>
-        <sonar.tests>src/test</sonar.tests>
-        <aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-    </properties>
 
     <dependencies>
         <dependency>

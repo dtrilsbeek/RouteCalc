@@ -12,7 +12,7 @@
     <artifactId>api</artifactId>
 
     <properties>
-        <sonar.skip>true</sonar.skip>
+        <sonar.skip>false</sonar.skip>
     </properties>
 
     <dependencies>

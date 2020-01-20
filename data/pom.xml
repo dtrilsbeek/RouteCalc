@@ -12,7 +12,7 @@
     <artifactId>data</artifactId>
 
     <properties>
-        <sonar.skip>true</sonar.skip>
+        <sonar.skip>false</sonar.skip>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->

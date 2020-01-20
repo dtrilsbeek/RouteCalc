@@ -107,7 +107,7 @@ public class RouteFinderTest {
         long startTime = System.nanoTime();
         System.out.println(startTime);
 
-        for (int i = 0; i < 200000; i++) {
+        for (int i = 0; i < 200; i++) {
             var from = routeMapInterface.getIntersection(0);
             var to = routeMapInterface.getIntersection(routeMapInterface.getRandomIntersection(0));
             var routeFinder = new RouteFinder(routeMapInterface, from, to);
