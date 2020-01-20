@@ -5,8 +5,11 @@ import route.interfaces.IRouteMap;
 import route.model.Intersection;
 import route.timeutil.TimeStamp;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class RouteFinder implements IRouteFinder {
@@ -20,6 +23,8 @@ public class RouteFinder implements IRouteFinder {
     private PriorityQueue<Intersection> queue;
     private ExecutorService threadPool;
     private List<RouteRunner> runners;
+    private int runnerCount;
+    private AtomicInteger finishCount;
 
     public RouteFinder(IRouteMap routeMap, Intersection from, Intersection destination) {
         this.routeMap = routeMap;
@@ -34,6 +39,8 @@ public class RouteFinder implements IRouteFinder {
 
         this.threadPool = Executors.newCachedThreadPool();
         this.runners = new ArrayList<>();
+        this.runnerCount = 0;
+        this.finishCount = new AtomicInteger();
         init();
         generateScores();
         findRoute();
@@ -64,7 +71,25 @@ public class RouteFinder implements IRouteFinder {
             from.setTotalScore(from.getTotalScore() + current.getScore(destination));
             current.setTotalScore(from.getTotalScore());
 
-            runners.add(new RouteRunner(this, current));
+            runnerCount++;
+
+            var runner = new RouteRunner(this, routeMap, current, explored);
+            Future<Set<Intersection>> connections = this.threadPool.submit(runner);
+
+            try {
+                queue.addAll(connections.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void mergeLists() {
+    }
+
+    public void runnerFinished() {
+        if(finishCount.incrementAndGet() == runnerCount) {
+            mergeLists();
         }
     }
 
