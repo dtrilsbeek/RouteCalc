@@ -20,9 +20,18 @@ public class WebSocketHandler {
     private static int userCount = 1;
     private static SessionHandler sessionHandler = getSessionHandler();
 
+    private static Integer getUserId(WsConnectContext ctx) {
+        var userIdString = ctx.cookie("userId");
+        if ( userIdString != null ) {
+            return Integer.parseInt(userIdString);
+        }
+
+        return null;
+    }
+
     public static void onConnect(WsConnectContext ctx) {
         String roomId = wrapException(() -> ctx.pathParam("id", String.class).getOrNull());
-        String userId = wrapException(() -> ctx.pathParam("userId", String.class).getOrNull());
+        Integer userId = getUserId(ctx);
 
         var room = RoomHandler.getRoom(roomId);
         if (room == null) {
@@ -36,7 +45,7 @@ public class WebSocketHandler {
             username = getGuestUsername();
         }
         else {
-            username = getUsername(ctx, userId);
+            username = getUsername(userId);
         }
 
         var user = new UserViewModel(userCount, username);
@@ -107,14 +116,16 @@ public class WebSocketHandler {
         return (String) session.getAttribute("username");
     }
 
-    private static String getUsername(WsConnectContext ctx, String userId) {
-        var user = UserHandler.getUser(Integer.parseInt(userId));
+    private static String getUsername(Integer userId) {
+        var user = UserHandler.getUser(userId);
+
         return user.getName();
     }
 
     private static String getGuestUsername() {
         var username = "User " + userCount;
         userCount++;
+
         return username;
     }
 }
