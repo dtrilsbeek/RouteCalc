@@ -30,8 +30,8 @@ public class RouteMap implements IRouteMap {
     @Override
     public void generateSquareMap(int size) {
         var steps = radius + 10;
-        var x = 20;
-        var y = 20;
+        var x = 100;
+        var y = 80;
 
         for (int i = 0; i < size; i++) {
 
@@ -40,6 +40,7 @@ public class RouteMap implements IRouteMap {
 
                 x = x + steps;
             }
+            x = 100;
 
             y = y + steps;
         }
@@ -47,36 +48,37 @@ public class RouteMap implements IRouteMap {
         setSquareMapConnections(size);
     }
 
-    private void setSquareMapConnections(int size){
-        var x = 1;
-        var y = 1;
+    private void setSquareMapConnections(int size) {
+        var x = 0;
+        var y = 0;
 
         for (int i = 0; i < size; i++) {
             boolean isBottom = i == size - 1;
 
             for (int j = 0; j < size; j++) {
                 boolean isRightEdge = j == size - 1;
-                int from = x * y;
+                int from = x + (y * size);
 
                 Integer toRight = null;
-                if(!isRightEdge) {
-                    toRight = (x +1) * y;
+                if (!isRightEdge) {
+                    toRight = (x + 1) + (y * size);
                 }
 
                 Integer toBottom = null;
                 if (!isBottom) {
-                    toBottom = x * (y + 1);
+                    toBottom = x + ((y + 1) * size);
                 }
 
-                if(toRight != null) {
+                if (toRight != null) {
                     addConnection(from, toRight);
                 }
-                if(toBottom != null) {
+                if (toBottom != null) {
                     addConnection(from, toBottom);
                 }
 
                 x++;
             }
+            x = 0;
             y++;
         }
     }
@@ -94,11 +96,10 @@ public class RouteMap implements IRouteMap {
     @Override
     public void generateRandomConnections(int amount) {
         for (int i = 0; i < amount; i++) {
-            if(i > intersections.size()-1) {
-                var randomNumber = getRandomIntersection(random.nextInt(0, intersections.size() -1));
+            if (i > intersections.size() - 1) {
+                var randomNumber = getRandomIntersection(random.nextInt(0, intersections.size() - 1));
                 addConnection(randomNumber, getRandomIntersection(i));
-            }
-            else {
+            } else {
                 addConnection(i, getRandomIntersection(i));
             }
         }
@@ -106,9 +107,9 @@ public class RouteMap implements IRouteMap {
 
     @Override
     public int getRandomIntersection(int intersectionId) {
-        int number = random.nextInt(0, intersections.size() -1);
+        int number = random.nextInt(0, intersections.size() - 1);
         while (number == intersectionId) {
-            number = random.nextInt(0, intersections.size() -1);
+            number = random.nextInt(0, intersections.size() - 1);
         }
         return number;
     }

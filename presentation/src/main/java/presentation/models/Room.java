@@ -4,16 +4,19 @@ import io.javalin.websocket.WsConnectContext;
 import io.javalin.websocket.WsContext;
 
 import presentation.models.view.UserViewModel;
+import route.ExampleMapSquare;
 import route.RouteFinder;
 import route.interfaces.IRouteMap;
+import route.interfaces.IRouteMapExample;
 import route.model.Intersection;
-import route.RouteMapExample;
+import route.ExampleMapReal;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
 
+    private final IRouteMapExample exampleMap;
     private String id;
     private Map<WsContext, UserViewModel> userMap;
     private IRouteMap routeMap;
@@ -25,7 +28,10 @@ public class Room {
     public Room(String id) {
         this.id = id;
         this.userMap = new ConcurrentHashMap<>();
-        this.routeMap = new RouteMapExample().getRouteMap();
+//        this.exampleMap = new ExampleMapReal();
+        this.exampleMap = new ExampleMapSquare();
+
+        this.routeMap = exampleMap.getRouteMap();
     }
 
     public boolean findRoute(WsContext ctx) {

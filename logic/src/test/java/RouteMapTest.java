@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 import route.RouteMap;
-import route.RouteMapExample;
+import route.ExampleMapReal;
 import route.interfaces.IRouteMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +54,7 @@ public class RouteMapTest {
     @Test
     void shouldCreateIntersection_WhenUsingRouteMapExample() {
         //Arrange
-        var example = new RouteMapExample(routeMapInterface);
+        var example = new ExampleMapReal(routeMapInterface);
 
         //Act
         var test = example.getRouteMap().getIntersection(0);

@@ -1,26 +1,28 @@
 import org.junit.jupiter.api.Test;
 import route.RouteFinder;
 import route.RouteMap;
-import route.RouteMapExample;
+import route.ExampleMapReal;
 import route.interfaces.IRouteMap;
+import route.interfaces.IRouteMapExample;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RouteFinderTest {
 
-    private IRouteMap routeMapInterface = new RouteMap(800, 800, 20);
+    private IRouteMap routeMap = new RouteMap(800, 800, 20);
+    private IRouteMapExample routeMapExample;
 
     @Test
     void shouldFindRoute_BetweenStartAndDest_ExampleMap()
     {
         //Arrange
-        routeMapInterface = new RouteMapExample(routeMapInterface).getRouteMap();
-        var from = routeMapInterface.getIntersection(29);
-        var to = routeMapInterface.getIntersection(48);
+        routeMap = new ExampleMapReal(routeMap).getRouteMap();
+        var from = routeMap.getIntersection(29);
+        var to = routeMap.getIntersection(48);
 
         //Act
-        var routeFinder = new RouteFinder(routeMapInterface, from, to);
+        var routeFinder = new RouteFinder(routeMap, from, to);
 
         //Assert
         var route = routeFinder.getFinalRoute();
@@ -31,13 +33,13 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_25()
     {
         //Arrange
-        routeMapInterface.generateRandomIntersections(25);
-        routeMapInterface.generateRandomConnections(25);
-        var from = routeMapInterface.getIntersection(0);
-        var to = routeMapInterface.getIntersection(19);
+        routeMap.generateRandomIntersections(25);
+        routeMap.generateRandomConnections(25);
+        var from = routeMap.getIntersection(0);
+        var to = routeMap.getIntersection(19);
 
         //Act
-        var routeFinder = new RouteFinder(routeMapInterface, from, to);
+        var routeFinder = new RouteFinder(routeMap, from, to);
         //Assert
 
         var route = routeFinder.getFinalRoute();
@@ -48,13 +50,13 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_250()
     {
         //Arrange
-        routeMapInterface.generateRandomIntersections(200);
-        routeMapInterface.generateRandomConnections(200);
-        var from = routeMapInterface.getIntersection(0);
-        var to = routeMapInterface.getIntersection(19);
+        routeMap.generateRandomIntersections(200);
+        routeMap.generateRandomConnections(200);
+        var from = routeMap.getIntersection(0);
+        var to = routeMap.getIntersection(19);
 
         //Act
-        var routeFinder = new RouteFinder(routeMapInterface, from, to);
+        var routeFinder = new RouteFinder(routeMap, from, to);
         //Assert
 
         var route = routeFinder.getFinalRoute();
@@ -65,13 +67,13 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_500()
     {
         //Arrange
-        routeMapInterface.generateRandomIntersections(500);
-        routeMapInterface.generateRandomConnections(500);
-        var from = routeMapInterface.getIntersection(0);
-        var to = routeMapInterface.getIntersection(19);
+        routeMap.generateRandomIntersections(500);
+        routeMap.generateRandomConnections(500);
+        var from = routeMap.getIntersection(0);
+        var to = routeMap.getIntersection(19);
 
         //Act
-        var routeFinder = new RouteFinder(routeMapInterface, from, to);
+        var routeFinder = new RouteFinder(routeMap, from, to);
         //Assert
 
         var route = routeFinder.getFinalRoute();
@@ -82,13 +84,13 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_1000()
     {
         //Arrange
-        routeMapInterface.generateRandomIntersections(1000);
-        routeMapInterface.generateRandomConnections(1000);
-        var from = routeMapInterface.getIntersection(0);
-        var to = routeMapInterface.getIntersection(19);
+        routeMap.generateRandomIntersections(1000);
+        routeMap.generateRandomConnections(1000);
+        var from = routeMap.getIntersection(0);
+        var to = routeMap.getIntersection(19);
 
         //Act
-        var routeFinder = new RouteFinder(routeMapInterface, from, to);
+        var routeFinder = new RouteFinder(routeMap, from, to);
         //Assert
 
         var route = routeFinder.getFinalRoute();
@@ -99,8 +101,8 @@ public class RouteFinderTest {
     void shouldFindRoute_BetweenStartAndDest_GeneratedMap_5000()
     {
         //Arrange
-        routeMapInterface.generateRandomIntersections(300);
-        routeMapInterface.generateRandomConnections(600);
+        routeMap.generateRandomIntersections(300);
+        routeMap.generateRandomConnections(600);
 
         //Act
         var result = false;
@@ -108,9 +110,9 @@ public class RouteFinderTest {
         System.out.println(startTime);
 
         for (int i = 0; i < 200; i++) {
-            var from = routeMapInterface.getIntersection(0);
-            var to = routeMapInterface.getIntersection(routeMapInterface.getRandomIntersection(0));
-            var routeFinder = new RouteFinder(routeMapInterface, from, to);
+            var from = routeMap.getIntersection(0);
+            var to = routeMap.getIntersection(routeMap.getRandomIntersection(0));
+            var routeFinder = new RouteFinder(routeMap, from, to);
 
             var route = routeFinder.getFinalRoute();
 
