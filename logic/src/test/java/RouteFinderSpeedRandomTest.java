@@ -17,7 +17,7 @@ public class RouteFinderSpeedRandomTest {
     void shouldFindRoute_BetweenStartAndDest_ExampleMap()
     {
         //Arrange
-        routeMap = new ExampleMapReal(routeMap).getRouteMap();
+        routeMapExample = new ExampleMapReal(routeMap);
         var from = routeMap.getIntersection(29);
         var to = routeMap.getIntersection(48);
 

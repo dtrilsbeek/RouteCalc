@@ -18,7 +18,8 @@ public class RouteFinderSpeedGridTest {
     void shouldFindRoute_BetweenStartAndDest_ExampleMapSquare_10()
     {
         //Arrange
-        routeMap = new ExampleMapSquare(routeMap, 10).getRouteMap();
+        routeMapExample = new ExampleMapSquare(routeMap, 10);
+
         var from = routeMap.getIntersection(0);
         var to = routeMap.getIntersection(99);
 
@@ -34,8 +35,7 @@ public class RouteFinderSpeedGridTest {
     void shouldFindRoute_BetweenStartAndDest_ExampleMapSquare_100()
     {
         //Arrange
-        routeMap.generateRandomIntersections(25);
-        routeMap.generateRandomConnections(25);
+        routeMapExample = new ExampleMapSquare(routeMap, 10);
         var from = routeMap.getIntersection(0);
         var to = routeMap.getIntersection(19);
 
