@@ -16,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
 
-    private final IRouteMapExample exampleMap;
     private String id;
     private Map<WsContext, UserViewModel> userMap;
     private IRouteMap routeMap;
@@ -28,9 +27,8 @@ public class Room {
     public Room(String id) {
         this.id = id;
         this.userMap = new ConcurrentHashMap<>();
-//        this.exampleMap = new ExampleMapReal();
-        this.exampleMap = new ExampleMapSquare();
 
+        IRouteMapExample exampleMap = new ExampleMapReal();
         this.routeMap = exampleMap.getRouteMap();
     }
 
