@@ -27,6 +27,28 @@ public class RouteMap implements IRouteMap {
         return intersections.get(id);
     }
 
+    public void generateSquareMap(int size) {
+        var steps = radius + 10;
+        var x = 20;
+        var y = 20;
+
+        for (int i = 0; i < size; i++) {
+
+            for (int j = 0; j < size; j++) {
+                addIntersection(x, y);
+
+                x = x + steps;
+            }
+
+            y = y + steps;
+        }
+    }
+
+    private void setSquareMapConnection(){
+
+    }
+
+
     @Override
     public void generateRandomIntersections(int amount) {
         for (int i = 0; i < amount; i++) {
