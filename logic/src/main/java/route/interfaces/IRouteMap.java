@@ -13,6 +13,14 @@ public interface IRouteMap {
      */
     Intersection getIntersection(int id);
 
+
+    /**
+     * Generate a square route map, useful when testing the speed of the algorithm
+     *
+     * @param size How many intersections in width and height
+     */
+    void generateSquareMap(int size);
+
     /**
      * This function can be used to easily generate a lot of intersections. This is useful when testing the speed of
      * path finding algorithm

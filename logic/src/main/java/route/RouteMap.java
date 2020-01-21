@@ -27,6 +27,7 @@ public class RouteMap implements IRouteMap {
         return intersections.get(id);
     }
 
+    @Override
     public void generateSquareMap(int size) {
         var steps = radius + 10;
         var x = 20;
@@ -42,10 +43,42 @@ public class RouteMap implements IRouteMap {
 
             y = y + steps;
         }
+
+        setSquareMapConnections(size);
     }
 
-    private void setSquareMapConnection(){
+    private void setSquareMapConnections(int size){
+        var x = 1;
+        var y = 1;
 
+        for (int i = 0; i < size; i++) {
+            boolean isBottom = i == size - 1;
+
+            for (int j = 0; j < size; j++) {
+                boolean isRightEdge = j == size - 1;
+                int from = x * y;
+
+                Integer toRight = null;
+                if(!isRightEdge) {
+                    toRight = (x +1) * y;
+                }
+
+                Integer toBottom = null;
+                if (!isBottom) {
+                    toBottom = x * (y + 1);
+                }
+
+                if(toRight != null) {
+                    addConnection(from, toRight);
+                }
+                if(toBottom != null) {
+                    addConnection(from, toBottom);
+                }
+
+                x++;
+            }
+            y++;
+        }
     }
 
 
