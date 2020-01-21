@@ -41,7 +41,7 @@ public class RouteFinderSpeedGridTest {
         assertFalse(route.isEmpty());
     }
 
-    @Test
+/*    @Test
     void shouldFindRoute_BetweenStartAndDest_ExampleMapSquare_100()
     {
         //Arrange
@@ -131,5 +131,5 @@ public class RouteFinderSpeedGridTest {
         System.out.println(timeStamp);
 
         assertFalse(route.isEmpty());
-    }
+    }*/
 }
