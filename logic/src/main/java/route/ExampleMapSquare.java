@@ -11,9 +11,9 @@ public class ExampleMapSquare implements IRouteMapExample {
         this.routeMap.generateSquareMap(10);
     }
 
-    public ExampleMapSquare(IRouteMap routeMap) {
+    public ExampleMapSquare(IRouteMap routeMap, int size) {
         this.routeMap = routeMap;
-        this.routeMap.generateSquareMap(10);
+        this.routeMap.generateSquareMap(size);
     }
 
 

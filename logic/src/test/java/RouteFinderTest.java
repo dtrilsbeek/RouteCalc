@@ -30,106 +30,17 @@ public class RouteFinderTest {
     }
 
     @Test
-    void shouldFindRoute_BetweenStartAndDest_GeneratedMap_25()
-    {
-        //Arrange
-        routeMap.generateRandomIntersections(25);
-        routeMap.generateRandomConnections(25);
-        var from = routeMap.getIntersection(0);
-        var to = routeMap.getIntersection(19);
+    void shouldReturnExplored_WhenRoute_isFound() {
 
-        //Act
-        var routeFinder = new RouteFinder(routeMap, from, to);
-        //Assert
-
-        var route = routeFinder.getFinalRoute();
-        assertFalse(route.isEmpty());
     }
 
     @Test
-    void shouldFindRoute_BetweenStartAndDest_GeneratedMap_250()
-    {
-        //Arrange
-        routeMap.generateRandomIntersections(200);
-        routeMap.generateRandomConnections(200);
-        var from = routeMap.getIntersection(0);
-        var to = routeMap.getIntersection(19);
+    void shouldReturnEmpty_When_StartIsSameAsDest() {
 
-        //Act
-        var routeFinder = new RouteFinder(routeMap, from, to);
-        //Assert
-
-        var route = routeFinder.getFinalRoute();
-        assertFalse(route.isEmpty());
     }
 
     @Test
-    void shouldFindRoute_BetweenStartAndDest_GeneratedMap_500()
-    {
-        //Arrange
-        routeMap.generateRandomIntersections(500);
-        routeMap.generateRandomConnections(500);
-        var from = routeMap.getIntersection(0);
-        var to = routeMap.getIntersection(19);
+    void shouldReturnFastestRoute_FromExplored_WhenRouteIsFound() {
 
-        //Act
-        var routeFinder = new RouteFinder(routeMap, from, to);
-        //Assert
-
-        var route = routeFinder.getFinalRoute();
-        assertFalse(route.isEmpty());
-    }
-
-    @Test
-    void shouldFindRoute_BetweenStartAndDest_GeneratedMap_1000()
-    {
-        //Arrange
-        routeMap.generateRandomIntersections(1000);
-        routeMap.generateRandomConnections(1000);
-        var from = routeMap.getIntersection(0);
-        var to = routeMap.getIntersection(19);
-
-        //Act
-        var routeFinder = new RouteFinder(routeMap, from, to);
-        //Assert
-
-        var route = routeFinder.getFinalRoute();
-        assertFalse(route.isEmpty());
-    }
-
-    @Test
-    void shouldFindRoute_BetweenStartAndDest_GeneratedMap_5000()
-    {
-        //Arrange
-        routeMap.generateRandomIntersections(300);
-        routeMap.generateRandomConnections(600);
-
-        //Act
-        var result = false;
-        long startTime = System.nanoTime();
-        System.out.println(startTime);
-
-        for (int i = 0; i < 200; i++) {
-            var from = routeMap.getIntersection(0);
-            var to = routeMap.getIntersection(routeMap.getRandomIntersection(0));
-            var routeFinder = new RouteFinder(routeMap, from, to);
-
-            var route = routeFinder.getFinalRoute();
-
-            if (!route.isEmpty()) {
-                result = true;
-            }
-
-        }
-
-        long elapsedTime = System.nanoTime() - startTime;
-        long milli = (elapsedTime/1000000);
-        double avg = (double) milli/200000;
-
-        System.out.println("Average execution time in millis: "+ avg );
-
-
-        //Assert
-        assertTrue(result);
     }
 }
