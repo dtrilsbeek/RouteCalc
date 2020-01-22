@@ -43,25 +43,29 @@ public class RouteFinder implements IRouteFinder {
         while ((!queue.isEmpty()) && (!found)) {
 
             var current = getNextFromQueue();
-            if (isDestination(current)) {
-                found = true;
-            }
 
-            setTotalScore(current);
-
-            for (Integer id : current.getConnections()) {
-
-                Intersection adjacent = routeMapInterface.getIntersection(id);
-
-                if (explored.contains(adjacent)) {
-                    continue;
+            if (current != null) {
+                if (isDestination(current)) {
+                    found = true;
                 }
 
-                current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
+                setTotalScore(current);
 
-                queue.remove(current);
-                adjacent.setParent(current.getId());
-                queue.add(adjacent);
+
+                for (Integer id : current.getConnections()) {
+
+                    Intersection adjacent = routeMapInterface.getIntersection(id);
+
+                    if (explored.contains(adjacent)) {
+                        continue;
+                    }
+
+                    current.setTotalScore(current.getTotalScore() + adjacent.getScore(current));
+
+                    queue.remove(current);
+                    adjacent.setParent(current.getId());
+                    queue.add(adjacent);
+                }
             }
 
         }
